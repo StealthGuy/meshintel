@@ -35,7 +35,7 @@ const fmtDate = (iso: string | undefined): string => {
 export const NodeDetails: React.FC = () => {
   const navigate = useNavigate();
   const { nodeId } = useParams<{ nodeId: string }>();
-  const { selectedNodeDetails, fetchNodeDetails, isSidebarOpen, setSelectedNodeDetails, nodeError } = useAppStore();
+  const { selectedNodeDetails, fetchNodeDetails, isSidebarOpen, nodeError } = useAppStore();
 
   useEffect(() => {
     if (nodeId) {
@@ -89,7 +89,7 @@ export const NodeDetails: React.FC = () => {
   const airTxStr = fmtFloat(airTx, 2, '%');
   const airTxBar = airTx != null ? `${Math.min(airTx, 100).toFixed(1)}%` : '0%';
 
-  const uptimeStr = fmtUptime(dm?.uptime_seconds);
+  // const uptimeStr = fmtUptime(dm?.uptime_seconds);
 
   const lat = last_position?.latitude;
   const lon = last_position?.longitude;
