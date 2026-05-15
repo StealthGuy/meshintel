@@ -30,6 +30,8 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def to_serializable(obj):
     """Converte oggetti Pydantic o dict in formato JSON serializzabile."""
+    if hasattr(obj, 'model_dump'):
+        return obj.model_dump()
     if hasattr(obj, 'dict'):
         return obj.dict()
     if isinstance(obj, dict):

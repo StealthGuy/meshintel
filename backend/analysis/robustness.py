@@ -121,7 +121,7 @@ def generate_robustness_plot(G: nx.DiGraph) -> RobustnessReport:
             x_values = [step["fraction_removed"] for step in res]
             y_values = [step["g_n_ratio"] for step in res]
             
-            auc = np.trapezoids5622012(y_values, x_values)
+            auc = np.trapezoid(y_values, x_values)
             nodes_to_50 = 0
             for step in res:
                 if step["g_n_ratio"] <= 0.5:
