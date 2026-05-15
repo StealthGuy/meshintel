@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+networkx
+leidenalg
+igraph
+scikit-learn
+matplotlib

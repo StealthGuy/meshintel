@@ -1,0 +1,138 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-secondary: #515f74;
+  --color-inverse-on-surface: #eff1f3;
+  --color-inverse-primary: #b8c4ff;
+  --color-surface-container: #eceef0;
+  --color-on-background: #191c1e;
+  --color-on-primary: #ffffff;
+  --color-on-tertiary-fixed-variant: #3f465c;
+  --color-on-error: #ffffff;
+  --color-on-secondary-fixed: #0d1c2e;
+  --color-inverse-surface: #2d3133;
+  --color-surface-container-low: #f2f4f6;
+  --color-on-tertiary: #ffffff;
+  --color-surface-container-high: #e6e8ea;
+  --color-on-tertiary-fixed: #131b2e;
+  --color-on-surface-variant: #444653;
+  --color-on-error-container: #93000a;
+  --color-error-container: #ffdad6;
+  --color-on-primary-container: #a8b8ff;
+  --color-surface: #f7f9fb;
+  --color-background: #f7f9fb;
+  --color-tertiary-fixed: #dae2fd;
+  --color-on-secondary-container: #57657a;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-dim: #d8dadc;
+  --color-on-secondary: #ffffff;
+  --color-error: #ba1a1a;
+  --color-tertiary-container: #434b60;
+  --color-surface-variant: #e0e3e5;
+  --color-on-tertiary-container: #b4bbd5;
+  --color-on-secondary-fixed-variant: #3a485b;
+  --color-primary-fixed-dim: #b8c4ff;
+  --color-on-primary-fixed: #001453;
+  --color-primary: #00288e;
+  --color-surface-container-highest: #e0e3e5;
+  --color-primary-container: #1e40af;
+  --color-secondary-container: #d5e3fc;
+  --color-primary-fixed: #dde1ff;
+  --color-surface-bright: #f7f9fb;
+  --color-tertiary-fixed-dim: #bec6e0;
+  --color-secondary-fixed-dim: #b9c7df;
+  --color-on-surface: #191c1e;
+  --color-surface-tint: #3755c3;
+  --color-on-primary-fixed-variant: #173bab;
+  --color-outline-variant: #c4c5d5;
+  --color-outline: #757684;
+  --color-tertiary: #2d3449;
+  --color-secondary-fixed: #d5e3fc;
+
+  --font-headline-md: Inter, sans-serif;
+  --font-headline-lg: Inter, sans-serif;
+  --font-body-sm: Inter, sans-serif;
+  --font-body-md: Inter, sans-serif;
+  --font-label-mono: "Space Grotesk", monospace;
+  --font-data-tabular: "Space Grotesk", monospace;
+}
+
+@utility text-headline-md {
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+@utility text-headline-lg {
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+@utility text-body-sm {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+}
+@utility text-body-md {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+@utility text-label-mono {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+@utility text-data-tabular {
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+:root {
+  /* Variabili globali per l'app */
+}
+
+/* Stili Legacy per Map Nodes */
+.node-icon-container {
+  background: none;
+  border: none;
+}
+
+.node-circle {
+  border-radius: 50%;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  font-size: 7px;
+  font-weight: bold;
+  text-shadow: 0px 0px 2px rgba(0,0,0,1); 
+  box-sizing: border-box;
+  opacity: 0.95;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.node-circle:hover {
+  transform: scale(2.5);
+  z-index: 2000 !important;
+  opacity: 1;
+  border-width: 0.5px;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 1cm;
+  }
+  
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Network Intelligence Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&amp;family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "primary-fixed": "#dde1ff",
+                "surface-tint": "#3755c3",
+                "on-surface-variant": "#444653",
+                "tertiary-fixed-dim": "#bec6e0",
+                "tertiary-container": "#434b60",
+                "primary-container": "#1e40af",
+                "error": "#ba1a1a",
+                "on-surface": "#191c1e",
+                "on-primary-fixed": "#001453",
+                "outline-variant": "#c4c5d5",
+                "on-secondary": "#ffffff",
+                "inverse-on-surface": "#eff1f3",
+                "on-error-container": "#93000a",
+                "inverse-surface": "#2d3133",
+                "primary-fixed-dim": "#b8c4ff",
+                "on-primary-fixed-variant": "#173bab",
+                "on-primary-container": "#a8b8ff",
+                "on-background": "#191c1e",
+                "on-error": "#ffffff",
+                "surface-dim": "#d8dadc",
+                "surface-container": "#eceef0",
+                "tertiary": "#2d3449",
+                "secondary-fixed-dim": "#b9c7df",
+                "secondary-fixed": "#d5e3fc",
+                "primary": "#00288e",
+                "surface-container-lowest": "#ffffff",
+                "surface-variant": "#e0e3e5",
+                "surface-container-high": "#e6e8ea",
+                "on-tertiary": "#ffffff",
+                "secondary": "#515f74",
+                "on-secondary-container": "#57657a",
+                "error-container": "#ffdad6",
+                "outline": "#757684",
+                "background": "#f7f9fb",
+                "surface-container-low": "#f2f4f6",
+                "on-primary": "#ffffff",
+                "surface-container-highest": "#e0e3e5",
+                "on-secondary-fixed": "#0d1c2e",
+                "secondary-container": "#d5e3fc",
+                "surface-bright": "#f7f9fb",
+                "on-tertiary-fixed": "#131b2e",
+                "on-tertiary-container": "#b4bbd5",
+                "on-secondary-fixed-variant": "#3a485b",
+                "inverse-primary": "#b8c4ff",
+                "surface": "#f7f9fb",
+                "tertiary-fixed": "#dae2fd",
+                "on-tertiary-fixed-variant": "#3f465c"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "density": "compact",
+                "margin": "1.5rem",
+                "gutter": "1rem",
+                "unit": "4px",
+                "container-max": "1440px"
+        },
+        "fontFamily": {
+                "label-mono": [
+                        "Space Grotesk"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Inter"
+                ],
+                "body-sm": [
+                        "Inter"
+                ],
+                "data-tabular": [
+                        "Space Grotesk"
+                ]
+        },
+        "fontSize": {
+                "label-mono": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-md": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-sm": [
+                        "13px",
+                        {
+                                "lineHeight": "18px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "data-tabular": [
+                        "13px",
+                        {
+                                "lineHeight": "16px",
+                                "fontWeight": "400"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed overflow-x-hidden">
+<!-- TopAppBar -->
+<!-- SideNavBar -->
+<nav class="w-64 h-full border-r fixed left-0 top-0 z-40 border-slate-200 dark:border-slate-800 flat no-shadows flex flex-col bg-slate-50 dark:bg-slate-950 hidden md:flex">
+<div class="px-4 py-4 border-b border-outline-variant mb-2">
+<h2 class="font-label-mono text-label-mono font-bold text-primary-container uppercase tracking-wider">INTEL_REPORT</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant mt-1">ID: #NET-992-ALPHA</p>
+</div>
+<div class="flex flex-col flex-1">
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 font-inter text-xs font-medium uppercase tracking-wider hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 active:bg-slate-200 dark:active:bg-slate-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="hub">hub</span>
+<span>Network Topology</span>
+</a>
+<a class="bg-white dark:bg-slate-900 text-blue-800 dark:text-blue-400 border-l-4 border-blue-800 font-bold px-4 py-3 flex items-center gap-3 font-inter text-xs uppercase tracking-wider active:bg-slate-200 dark:active:bg-slate-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="assignment">assignment</span>
+<span>Executive Summary</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 font-inter text-xs font-medium uppercase tracking-wider hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 active:bg-slate-200 dark:active:bg-slate-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="monitoring">monitoring</span>
+<span>Traffic Analysis</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 font-inter text-xs font-medium uppercase tracking-wider hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 active:bg-slate-200 dark:active:bg-slate-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="security_update_warning">security_update_warning</span>
+<span>Anomaly Detection</span>
+</a>
+<a class="text-slate-600 dark:text-slate-400 px-4 py-3 flex items-center gap-3 font-inter text-xs font-medium uppercase tracking-wider hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 active:bg-slate-200 dark:active:bg-slate-700 transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="assessment">assessment</span>
+<span>Risk Profiles</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 p-6 min-h-screen">
+<div class="max-w-container-max mx-auto space-y-8">
+<!-- Page Header -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Network Intelligence Summary</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Comprehensive analysis of topology, centrality, and connectivity metrics.</p>
+</div>
+<button class="bg-primary-container text-on-primary border-none rounded-DEFAULT px-4 py-2 flex items-center gap-2 font-label-mono text-label-mono hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                    EXPORT PDF
+                </button>
+</div>
+<!-- Executive Summary KPIs (Bento-style Grid) -->
+<section aria-label="Executive Summary KPIs">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between relative overflow-hidden group hover:border-primary-container transition-colors">
+<div class="absolute top-0 right-0 w-16 h-16 bg-primary-fixed-dim/20 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase">Total Nodes</h3>
+<div class="mt-4 flex items-baseline gap-2">
+<span class="font-headline-lg text-3xl font-black tracking-tight text-on-surface">1,842</span>
+<span class="font-label-mono text-[10px] text-surface-tint">+12%</span>
+</div>
+</div>
+<!-- KPI Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between relative overflow-hidden group hover:border-primary-container transition-colors">
+<div class="absolute top-0 right-0 w-16 h-16 bg-secondary-fixed-dim/20 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase">Total Edges</h3>
+<div class="mt-4 flex items-baseline gap-2">
+<span class="font-headline-lg text-3xl font-black tracking-tight text-on-surface">3,145</span>
+</div>
+</div>
+<!-- KPI Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between relative overflow-hidden group hover:border-primary-container transition-colors">
+<div class="absolute top-0 right-0 w-16 h-16 bg-tertiary-fixed-dim/20 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase">Network Diameter</h3>
+<div class="mt-4 flex items-baseline gap-2">
+<span class="font-headline-lg text-3xl font-black tracking-tight text-on-surface">14</span>
+<span class="font-label-mono text-[10px] text-outline">hops</span>
+</div>
+</div>
+<!-- KPI Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between relative overflow-hidden group hover:border-primary-container transition-colors">
+<div class="absolute top-0 right-0 w-16 h-16 bg-error-container/40 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase">LWCC Coverage</h3>
+<div class="mt-4 flex items-baseline gap-2">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-3xl font-black tracking-tight text-on-surface">49.4%</span>
+<span class="font-label-mono text-[10px] text-error font-bold block bg-error-container px-1 py-0.5 rounded-sm">CRITICAL</span>
+</div>
+<span class="font-label-mono text-[10px] text-outline mt-1">910 NODES</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Assortativity Insight -->
+<section aria-label="Network Assortativity">
+<div class="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col md:flex-row items-start md:items-center gap-4 border-l-4 border-l-tertiary-container">
+<div class="flex items-center gap-4 md:border-r border-outline-variant md:pr-6 md:min-w-fit">
+<span class="material-symbols-outlined text-tertiary-container text-3xl" data-icon="insights">insights</span>
+<div>
+<h3 class="font-label-mono text-label-mono text-on-surface-variant uppercase">Assortativity</h3>
+<div class="font-headline-lg text-2xl font-black tracking-tight text-on-surface mt-1">-0.063</div>
+</div>
+</div>
+<div class="flex-1">
+<p class="font-body-sm text-body-sm text-on-surface"><span class="font-semibold text-tertiary-container">Network is disassortative.</span> High degree nodes are less connected to one another and the failure of a high degree node would have more impact on the connectedness of the network.</p>
+</div>
+</div>
+</section>
+<!-- Degree Distribution -->
+<section aria-label="Degree Distribution">
+<div class="bg-surface-container-lowest border border-outline-variant">
+<div class="px-4 py-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-surface-tint text-sm" data-icon="bar_chart">bar_chart</span>
+                                Degree Distribution
+                            </h3>
+<span class="font-label-mono text-[10px] text-on-surface-variant border border-outline-variant px-2 py-0.5">POWER LAW</span>
+</div>
+<div class="p-6 h-48 flex items-end gap-1 relative">
+<div class="absolute left-0 bottom-6 top-6 w-full flex flex-col justify-between pointer-events-none px-6">
+<div class="border-b border-outline-variant/30 w-full h-0"></div>
+<div class="border-b border-outline-variant/30 w-full h-0"></div>
+<div class="border-b border-outline-variant/30 w-full h-0"></div>
+<div class="border-b border-outline-variant/30 w-full h-0"></div>
+</div>
+<!-- Bars -->
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 95%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">951</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">0</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 35%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">350</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">1</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 17%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">173</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">2</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 9%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">85</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">3</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 4%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">42</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">4</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 2%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">21</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">5</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 1%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">10</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">6</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 1%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">5</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">7</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 1%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">5</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">8+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Complex Grid Layout for Detail Sections -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Left Column (Span 2): Connectivity & Distance Data -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Connectivity & Topology -->
+<section class="bg-surface-container-lowest border border-outline-variant">
+<div class="px-4 py-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-surface-tint text-sm" data-icon="device_hub">device_hub</span>
+                                Connectivity &amp; Topology
+                            </h3>
+<div class="w-2 h-2 bg-surface-tint rounded-none"></div>
+</div>
+<div class="p-4 grid grid-cols-2 gap-4">
+<div>
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1">Network Density</p>
+<div class="flex items-center gap-3">
+<span class="font-data-tabular text-lg font-semibold">0.000927</span>
+<div class="h-1.5 flex-1 bg-surface-variant overflow-hidden">
+<div class="h-full bg-surface-tint" style="width: 5%;"></div>
+</div>
+<span class="font-label-mono text-[10px] text-outline">SPARSE</span>
+</div>
+</div>
+<div>
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1">Independent Components</p>
+<div class="flex items-center gap-3">
+<span class="font-data-tabular text-lg font-semibold">871</span>
+<div class="h-1.5 flex-1 bg-surface-variant overflow-hidden">
+<div class="h-full bg-tertiary-container" style="width: 45%;"></div>
+</div>
+<span class="font-label-mono text-[10px] text-outline">FRAGMENTED</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Network Distances (Visualized Data) -->
+<section class="bg-surface-container-lowest border border-outline-variant">
+<div class="px-4 py-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-surface-tint text-sm" data-icon="route">route</span>
+                                Distance Distribution
+                            </h3>
+<span class="font-label-mono text-[10px] text-on-surface-variant border border-outline-variant px-2 py-0.5">AVG PATH: 5.19</span>
+</div>
+<div class="p-6 h-64 flex items-end gap-1 relative">
+<!-- Faux Bar Chart based on dist_distribution -->
+<div class="absolute left-0 bottom-6 top-6 w-full flex flex-col justify-between pointer-events-none px-6">
+<div class="border-b border-outline-variant/30 w-full h-0"></div>
+<div class="border-b border-outline-variant/30 w-full h-0"></div>
+<div class="border-b border-outline-variant/30 w-full h-0"></div>
+<div class="border-b border-outline-variant/30 w-full h-0"></div>
+</div>
+<!-- Bars (Heights approximated for visual effect) -->
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 5%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">4972</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">1</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 35%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">40068</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">2</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-tint relative" style="height: 85%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">98256</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 font-bold text-on-surface">3</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 60%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">72100</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">4</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 40%;">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 font-data-tabular text-[10px] bg-inverse-surface text-inverse-on-surface px-1 py-0.5">48500</div>
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">5</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 25%;">
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">6</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 15%;">
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">7</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 8%;">
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">8</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 4%;">
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">9</div>
+</div>
+<div class="flex-1 flex flex-col justify-end group z-10">
+<div class="w-full bg-surface-variant group-hover:bg-surface-tint transition-colors relative" style="height: 1%;">
+</div>
+<div class="text-center font-label-mono text-[10px] mt-2 text-outline">10+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Centrality Analysis (Data Tables) -->
+<div class="space-y-6">
+<section class="bg-surface-container-lowest border border-outline-variant h-full flex flex-col">
+<div class="px-4 py-3 border-b border-outline-variant bg-surface-container-low">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-surface-tint text-sm" data-icon="share">share</span>
+                                Centrality Rankings
+                            </h3>
+</div>
+<div class="flex-1 flex flex-col">
+<!-- In-Degree Table -->
+<div class="p-4 border-b border-outline-variant">
+<h4 class="font-label-mono text-label-mono text-on-surface-variant mb-3 uppercase">Top In-Degree</h4>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/50">
+<th class="pb-2 font-label-mono text-[10px] text-outline font-normal">ENTITY ID</th>
+<th class="pb-2 font-label-mono text-[10px] text-outline font-normal text-right">SCORE</th>
+</tr>
+</thead>
+<tbody class="font-data-tabular text-sm">
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-2 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-error rounded-none"></div>
+<span class="truncate max-w-[120px]">Gennaro</span>
+</td>
+<td class="py-2 text-right">0.022</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-2 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-surface-tint rounded-none"></div>
+<span class="truncate max-w-[120px]">ZedNode</span>
+</td>
+<td class="py-2 text-right">0.019</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-2 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-tertiary-container rounded-none"></div>
+<span class="truncate max-w-[120px]">Node_Alpha_7</span>
+</td>
+<td class="py-2 text-right">0.015</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Betweenness Table -->
+<div class="p-4 flex-1">
+<h4 class="font-label-mono text-label-mono text-on-surface-variant mb-3 uppercase">Top Betweenness</h4>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/50">
+<th class="pb-2 font-label-mono text-[10px] text-outline font-normal">ENTITY ID</th>
+<th class="pb-2 font-label-mono text-[10px] text-outline font-normal text-right">SCORE</th>
+</tr>
+</thead>
+<tbody class="font-data-tabular text-sm">
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-2 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-error rounded-none"></div>
+<span class="truncate max-w-[120px]">Antennista Grosseto</span>
+</td>
+<td class="py-2 text-right font-bold">0.036</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-2 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-tertiary-container rounded-none"></div>
+<span class="truncate max-w-[120px]">Gateway_Hub_2</span>
+</td>
+<td class="py-2 text-right">0.028</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-2 flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-tertiary-container rounded-none"></div>
+<span class="truncate max-w-[120px]">Proxy_Chain_A</span>
+</td>
+<td class="py-2 text-right">0.021</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+</body></html>

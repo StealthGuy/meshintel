@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Node Intelligence Profile - IK5XMK</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "surface": "#f7f9fb",
+                      "secondary": "#515f74",
+                      "error": "#ba1a1a",
+                      "on-tertiary-container": "#b4bbd5",
+                      "on-surface-variant": "#444653",
+                      "surface-container-highest": "#e0e3e5",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "tertiary": "#2d3449",
+                      "on-background": "#191c1e",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "secondary-fixed": "#d5e3fc",
+                      "outline": "#757684",
+                      "surface-container": "#eceef0",
+                      "inverse-surface": "#2d3133",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#b9c7df",
+                      "primary-fixed": "#dde1ff",
+                      "surface-dim": "#d8dadc",
+                      "on-primary": "#ffffff",
+                      "on-primary-container": "#a8b8ff",
+                      "background": "#f7f9fb",
+                      "surface-container-low": "#f2f4f6",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed": "#0d1c2e",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed-variant": "#3a485b",
+                      "inverse-on-surface": "#eff1f3",
+                      "error-container": "#ffdad6",
+                      "primary": "#00288e",
+                      "on-primary-fixed-variant": "#173bab",
+                      "on-error": "#ffffff",
+                      "outline-variant": "#c4c5d5",
+                      "tertiary-fixed": "#dae2fd",
+                      "surface-tint": "#3755c3",
+                      "surface-bright": "#f7f9fb",
+                      "on-primary-fixed": "#001453",
+                      "on-tertiary-fixed": "#131b2e",
+                      "on-secondary-container": "#57657a",
+                      "on-surface": "#191c1e",
+                      "inverse-primary": "#b8c4ff",
+                      "surface-variant": "#e0e3e5",
+                      "secondary-container": "#d5e3fc",
+                      "tertiary-container": "#434b60",
+                      "surface-container-high": "#e6e8ea",
+                      "primary-container": "#1e40af"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "density": "compact",
+                      "gutter": "1rem",
+                      "container-max": "1440px",
+                      "margin": "1.5rem"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-mono": [
+                              "Space Grotesk"
+                      ],
+                      "data-tabular": [
+                              "Space Grotesk"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-mono": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "data-tabular": [
+                              "13px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'Space Grotesk', monospace; }
+        /* Tonal Layering Utilities */
+        .card-level-1 { @apply bg-surface-container-low border border-outline-variant; }
+        .card-level-2 { @apply bg-surface-container-lowest border border-outline-variant; }
+        .signal-dot-green { @apply w-[8px] h-[8px] rounded-none bg-[#10B981]; }
+        .signal-dot-amber { @apply w-[8px] h-[8px] rounded-none bg-[#F59E0B]; }
+        .signal-dot-red { @apply w-[8px] h-[8px] rounded-none bg-[#EF4444]; }
+    </style>
+</head>
+<body class="bg-background text-on-background flex min-h-screen">
+<!-- SideNavBar (Generated from JSON) -->
+<nav class="fixed inset-y-0 left-0 w-64 border-r border-outline-variant bg-surface-container-low flex flex-col h-full py-4 z-50 shadow-none">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-8 h-8 bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]">radar</span>
+</div>
+<h1 class="font-label-mono font-bold text-lg text-primary tracking-tighter">SIGNAL PRECISION</h1>
+</div>
+<span class="font-label-mono text-[10px] font-semibold tracking-widest text-secondary uppercase">INTEL_REPORT</span>
+</div>
+<ul class="flex flex-col flex-grow">
+<!-- Inactive items -->
+<li class="mb-1">
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-150 font-body-sm font-semibold uppercase tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]">monitoring</span>
+                Executive Summary
+            </a>
+</li>
+<li class="mb-1">
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-150 font-body-sm font-semibold uppercase tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]">hub</span>
+                Network Topology
+            </a>
+</li>
+<li class="mb-1">
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-150 font-body-sm font-semibold uppercase tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]">analytics</span>
+                Traffic Analysis
+            </a>
+</li>
+<li class="mb-1">
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-150 font-body-sm font-semibold uppercase tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]">warning</span>
+                Anomaly Detection
+            </a>
+</li>
+<li class="mb-1">
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-150 font-body-sm font-semibold uppercase tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]">security</span>
+                Risk Profiles
+            </a>
+</li>
+<li class="mb-1 mt-auto">
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container transition-colors duration-150 font-body-sm font-semibold uppercase tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3 text-[20px]">settings</span>
+                System Settings
+            </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar (Generated from JSON) -->
+<header class="sticky top-0 w-full z-40 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center justify-between h-12 px-6 shadow-none">
+<div class="flex items-center">
+<span class="text-sm font-black text-slate-900 dark:text-slate-100 font-['Inter'] uppercase tracking-widest text-xs">ANALYTICS_DASHBOARD</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-700 transition-colors duration-150">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-700 transition-colors duration-150">
+<span class="material-symbols-outlined text-[20px]">settings_input_component</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-700 transition-colors duration-150">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<main class="flex-1 p-gutter bg-background overflow-y-auto">
+<div class="max-w-container-max mx-auto space-y-4">
+<!-- Header Identity Banner -->
+<div class="card-level-1 p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary flex items-center justify-center rounded-none text-on-primary">
+<span class="material-symbols-outlined text-[28px]">router</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface uppercase">IK5XMK (Sesto Fiorentino)</h2>
+<span class="px-2 py-0.5 bg-outline-variant text-on-surface-variant font-label-mono text-label-mono rounded-none uppercase border border-outline">CLIENT</span>
+</div>
+<div class="flex items-center gap-4 font-label-mono text-label-mono text-secondary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">tag</span> 00728f68</span>
+<span>|</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">short_text</span> 5XMK</span>
+<span>|</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">cell_tower</span> EU_868</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-highest border border-outline-variant">
+<div class="signal-dot-green"></div>
+<span class="font-label-mono text-label-mono text-on-surface uppercase font-bold">ONLINE / ACTIVE</span>
+</div>
+<span class="font-label-mono text-[10px] text-outline uppercase tracking-wider">LAST_HEARD: 12 SECONDS AGO</span>
+</div>
+</div>
+<!-- Main Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+<!-- Geospatial & Context Column (Span 4) -->
+<div class="md:col-span-4 flex flex-col gap-4">
+<!-- Mini-Map Card -->
+<div class="card-level-2 flex flex-col h-full border-t-4 border-t-primary">
+<div class="p-3 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+<span class="font-label-mono text-label-mono text-on-surface uppercase">GEOSPATIAL_DATA</span>
+<span class="material-symbols-outlined text-outline text-[16px]">my_location</span>
+</div>
+<div class="p-4 flex flex-col gap-4 flex-1">
+<div class="w-full h-48 bg-surface-variant border border-outline-variant relative overflow-hidden flex items-center justify-center">
+<!-- Decorative Map Stand-in -->
+<img alt="Satellite map view of Sesto Fiorentino area" class="w-full h-full object-cover opacity-60 grayscale" data-alt="high contrast technical satellite map view of Sesto Fiorentino with grid overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa8snEZURoLvNYLjE1wGePSI0IB17w08lNME3ucq5JvruT_j2C-q6RXGt5XPxNP143dOvPQZ8sCVGnDCC46TxCtF0RS9Ofwc8CJ0nKZ1Rd17cgvsQ4pRQShzRmsKUasZ_-ZNTO5fp7lFnuZmgagZN1Ef9Z_fJMRZexDl8gaRah0WK-qU8tVVrD7PCsEeMhxonoZGA6S0RAceOrXApgzT85ygSbFLTwZxjoBNIap2fev4fHXvVGXn_vDfkyDtneYyvwos165tSUvXzx"/>
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNjNGM1ZDUiLz48L3N2Zz4=')] opacity-20"></div>
+<div class="absolute w-4 h-4 bg-primary border-2 border-white rounded-full z-10 shadow-[0_0_10px_rgba(0,40,142,0.5)]"></div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="p-2 border border-outline-variant bg-surface-container-low">
+<span class="block font-label-mono text-[10px] text-secondary uppercase mb-1">LATITUDE</span>
+<span class="font-data-tabular text-data-tabular text-on-surface font-semibold">43.840</span>
+</div>
+<div class="p-2 border border-outline-variant bg-surface-container-low">
+<span class="block font-label-mono text-[10px] text-secondary uppercase mb-1">LONGITUDE</span>
+<span class="font-data-tabular text-data-tabular text-on-surface font-semibold">11.186</span>
+</div>
+</div>
+<div class="flex items-center justify-center gap-2 py-2 bg-surface-container-highest border border-outline-variant mt-auto">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">gps_fixed</span>
+<span class="font-label-mono text-label-mono text-on-surface font-bold uppercase tracking-widest">GPS FIX ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Metrics & System Column (Span 8) -->
+<div class="md:col-span-8 flex flex-col gap-4">
+<!-- Telemetry Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Battery -->
+<div class="card-level-2 p-4 flex flex-col justify-between h-32 border-l-4 border-l-primary">
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-secondary uppercase">BATTERY_LVL</span>
+<span class="material-symbols-outlined text-outline text-[18px]">battery_full_alt</span>
+</div>
+<div class="mt-auto">
+<div class="font-data-tabular text-[28px] font-bold text-on-surface leading-none mb-2">100%</div>
+<div class="w-full h-1 bg-surface-variant">
+<div class="h-full bg-primary w-full"></div>
+</div>
+</div>
+</div>
+<!-- Channel Util -->
+<div class="card-level-2 p-4 flex flex-col justify-between h-32">
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-secondary uppercase">CH_UTIL</span>
+<span class="material-symbols-outlined text-outline text-[18px]">data_usage</span>
+</div>
+<div class="mt-auto">
+<div class="font-data-tabular text-[28px] font-bold text-on-surface leading-none mb-2">4.12%</div>
+<div class="w-full h-1 bg-surface-variant flex">
+<div class="h-full bg-[#10B981] w-[4.12%]"></div>
+</div>
+</div>
+</div>
+<!-- Air Util TX -->
+<div class="card-level-2 p-4 flex flex-col justify-between h-32">
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-secondary uppercase">AIR_TX_UTIL</span>
+<span class="material-symbols-outlined text-outline text-[18px]">wifi_tethering</span>
+</div>
+<div class="mt-auto">
+<div class="font-data-tabular text-[28px] font-bold text-on-surface leading-none mb-2">0.56%</div>
+<div class="w-full h-1 bg-surface-variant flex">
+<div class="h-full bg-primary w-[0.56%]"></div>
+</div>
+</div>
+</div>
+<!-- Uptime -->
+<div class="card-level-2 p-4 flex flex-col justify-between h-32">
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-secondary uppercase">UPTIME</span>
+<span class="material-symbols-outlined text-outline text-[18px]">timer</span>
+</div>
+<div class="mt-auto">
+<div class="font-data-tabular text-[28px] font-bold text-on-surface leading-none mb-1">3850s</div>
+<span class="font-label-mono text-[10px] text-outline uppercase tracking-wider">~ 1h 4m 10s</span>
+</div>
+</div>
+</div>
+<!-- System Details Panel -->
+<div class="card-level-2 flex flex-col flex-1">
+<div class="p-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<span class="font-label-mono text-label-mono text-on-surface uppercase">SYSTEM_DIAGNOSTICS</span>
+</div>
+<div class="p-0 grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-outline-variant h-full">
+<!-- Hardware/Firmware -->
+<div class="p-4 flex flex-col gap-4">
+<div class="flex flex-col gap-1 border-b border-outline-variant pb-3">
+<span class="font-label-mono text-[10px] text-secondary uppercase tracking-wider">HARDWARE_PLATFORM</span>
+<span class="font-data-tabular text-data-tabular text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">memory</span> TBEAM
+                                        </span>
+</div>
+<div class="flex flex-col gap-1 border-b border-outline-variant pb-3">
+<span class="font-label-mono text-[10px] text-secondary uppercase tracking-wider">FIRMWARE_VER</span>
+<span class="font-data-tabular text-data-tabular text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">terminal</span> v2.4.1.deadbeef
+                                        </span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-mono text-[10px] text-secondary uppercase tracking-wider">PUBLIC_KEY</span>
+<div class="flex items-center gap-2">
+<code class="font-data-tabular text-[11px] bg-surface-container-highest px-2 py-1 text-on-surface border border-outline-variant flex-1 overflow-hidden text-ellipsis">Aq8x...9F2a</code>
+<button class="p-1 border border-outline-variant hover:border-primary hover:text-primary transition-colors bg-surface-container-lowest text-secondary">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Network Context -->
+<div class="p-4 flex flex-col gap-4 bg-surface-bright">
+<div class="flex flex-col gap-1 border-b border-outline-variant pb-3">
+<span class="font-label-mono text-[10px] text-secondary uppercase tracking-wider">PRIMARY_CHANNEL</span>
+<span class="font-data-tabular text-data-tabular text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">waves</span> MediumFast
+                                        </span>
+</div>
+<div class="flex flex-col gap-1 border-b border-outline-variant pb-3">
+<span class="font-label-mono text-[10px] text-secondary uppercase tracking-wider">CLUSTER_CODE</span>
+<span class="font-data-tabular text-data-tabular text-on-surface font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">hub</span> C0066
+                                        </span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-highest p-2 border border-outline-variant mt-auto">
+<span class="font-label-mono text-[10px] text-on-surface uppercase tracking-wider font-bold">ROUTING_STATUS</span>
+<span class="px-2 py-0.5 bg-outline-variant text-on-surface-variant font-label-mono text-[10px] rounded-none uppercase border border-outline">DISABLED</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Gateway Sub-Node Section -->
+<div class="card-level-1 mt-4">
+<div class="p-3 border-b border-outline-variant bg-surface-container-low flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">share</span>
+<span class="font-label-mono text-label-mono text-on-surface uppercase font-bold">LINKED_GATEWAY_NODE</span>
+</div>
+<div class="p-4 flex flex-col md:flex-row gap-6 items-center">
+<div class="flex-1 flex flex-col gap-3">
+<div class="flex items-center gap-3 border-b border-outline-variant pb-3">
+<div class="w-8 h-8 bg-secondary flex items-center justify-center rounded-none text-on-secondary">
+<span class="material-symbols-outlined text-[18px]">dns</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">GW l'etrusco Si🐗</h3>
+<div class="font-label-mono text-[10px] text-secondary uppercase tracking-wider mt-1">ID: e2e2d8a0 | HW: HELTEC_V3</div>
+</div>
+</div>
+<div class="flex gap-6 mt-2">
+<div class="flex flex-col gap-1 border-r border-outline-variant pr-6">
+<span class="font-label-mono text-[10px] text-secondary uppercase tracking-wider">BATTERY</span>
+<div class="font-data-tabular text-data-tabular text-on-surface font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-outline">battery_full_alt</span> 100%
+                                    </div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-mono text-[10px] text-secondary uppercase tracking-wider">CH_UTIL</span>
+<div class="font-data-tabular text-data-tabular text-on-surface font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-outline">data_usage</span> 11.2%
+                                    </div>
+</div>
+</div>
+</div>
+<div class="w-full md:w-64 h-24 bg-surface-variant border border-outline-variant relative overflow-hidden flex items-center justify-center shrink-0">
+<img alt="Secondary map view" class="w-full h-full object-cover opacity-50 grayscale" data-alt="minimalist technical map view showing relative position of gateway node" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl5VkuYeNMZ3vfh2da48lbWgTZRCOohezaIOPF49P_9FY9umW4zaFGbsT8miIwnLiNi1rxBeAE5tYJBn5GffpgJK-eNjxF3kx5oeIb7pF36rSYjjjUsciFql8BoGxusiNMyqm5nMSni7HEv5FT8hV87hAMOYu7TtalLi0xclx3nEbogY7NgLTCjqz1qqd-Fd1r_mRA9lu8EN6YwWr3lOHCY1WGyrcvlQkD82efRuxx8TVDrN0u1QBfQk_dTJ_wiQ_lcgn834OqGFUO"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+<div class="absolute w-3 h-3 bg-secondary border-2 border-white rounded-none z-10 transform rotate-45"></div>
+<span class="absolute bottom-1 right-1 font-label-mono text-[8px] text-on-surface bg-surface/80 px-1">GW_LOC_REF</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
