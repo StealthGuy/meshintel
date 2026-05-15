@@ -1,0 +1,55 @@
+name: Daily Data Update
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # Ogni giorno alle 02:00 UTC (04:00 ora italiana)
+  workflow_dispatch:        # Permette esecuzione manuale dalla UI GitHub
+
+permissions:
+  contents: write           # Necessario per fare il push dei JSON generati
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necessario per il push
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: pip install -r backend/requirements.txt
+
+      - name: Create cache directory
+        run: mkdir -p backend/cache
+
+      - name: Restore robustness cache (se non è lunedì)
+        # Ripristina il robustness.json precedente così lo script può
+        # decidere di non ricalcolarlo se non è lunedì
+        uses: actions/cache@v4
+        with:
+          path: frontend/public/data/robustness.json
+          key: robustness-cache-${{ github.ref }}
+          restore-keys: |
+            robustness-cache-
+
+      - name: Run static data generation
+        env:
+          PYTHONPATH: .
+        run: python scripts/generate_static.py
+
+      - name: Commit and push updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add frontend/public/data/
+          # Commit solo se ci sono modifiche effettive
+          git diff --staged --quiet || git commit -m "chore: daily data update [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+          git push
