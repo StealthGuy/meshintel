@@ -150,8 +150,13 @@ export const useAppStore = create<AppState>((set, get) => ({
   fetchNodeDetails: async (id: string) => {
     const { isLoadingNodeDetails, selectedNodeDetails } = get();
     
-    // Guard: Don't fetch if already loading or if we already have THIS node's details
-    if (isLoadingNodeDetails || (selectedNodeDetails && selectedNodeDetails.id === id)) {
+    // Guard: Don't fetch if already loading
+    if (isLoadingNodeDetails) {
+      return;
+    }
+
+    // Se abbiamo già i dettagli completi (es. c'è last_heard), non rifacciamo il fetch
+    if (selectedNodeDetails && selectedNodeDetails.id === id && selectedNodeDetails.last_heard) {
       return;
     }
 
@@ -165,13 +170,17 @@ export const useAppStore = create<AppState>((set, get) => ({
         if (feature) {
           set({ 
             selectedNodeDetails: feature.properties,
-            nodeError: null 
+            nodeError: null,
+            isLoadingNodeDetails: false // FIX: Reset loading state
           });
           return;
         }
       }
-      // Se non lo troviamo nel GeoJSON (magari non è ancora caricato), diamo un errore amichevole
-      set({ nodeError: 'Node data not available in current map view. Try refreshing the map.' });
+      // Se non lo troviamo nel GeoJSON, diamo un errore e resettiamo
+      set({ 
+        nodeError: 'Node data not available in current map view. Try refreshing the map.',
+        isLoadingNodeDetails: false // FIX: Reset loading state
+      });
       return;
     }
 

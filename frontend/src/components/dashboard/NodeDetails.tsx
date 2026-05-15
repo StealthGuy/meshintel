@@ -35,7 +35,7 @@ const fmtDate = (iso: string | undefined): string => {
 export const NodeDetails: React.FC = () => {
   const navigate = useNavigate();
   const { nodeId } = useParams<{ nodeId: string }>();
-  const { selectedNodeDetails, fetchNodeDetails, isSidebarOpen, nodeError } = useAppStore();
+  const { selectedNodeDetails, fetchNodeDetails, isSidebarOpen, nodeError, isLoadingNodeDetails } = useAppStore();
 
   useEffect(() => {
     if (nodeId) {
@@ -61,7 +61,8 @@ export const NodeDetails: React.FC = () => {
     );
   }
 
-  if (!selectedNodeDetails || (nodeId && selectedNodeDetails.id !== nodeId)) {
+  // Mostriamo lo spinner se stiamo caricando o se non abbiamo ancora i dettagli corretti
+  if (isLoadingNodeDetails || !selectedNodeDetails || (nodeId && selectedNodeDetails.id !== nodeId)) {
     return (
       <div className={`flex-1 flex flex-col items-center justify-center p-8 bg-surface text-on-surface transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
