@@ -61,8 +61,9 @@ export const NodeDetails: React.FC = () => {
     );
   }
 
-  // Mostriamo lo spinner se stiamo caricando o se non abbiamo ancora i dettagli corretti
-  if (isLoadingNodeDetails || !selectedNodeDetails || (nodeId && selectedNodeDetails.id !== nodeId)) {
+  // Mostriamo lo spinner a tutto schermo SOLO se non abbiamo proprio nessun dato (es. accesso diretto via URL)
+  // Se abbiamo già dati (anche parziali dalla mappa), mostriamo la UI subito per non interrompere il caricamento dell'iframe
+  if (!selectedNodeDetails || (nodeId && selectedNodeDetails.id !== nodeId)) {
     return (
       <div className={`flex-1 flex flex-col items-center justify-center p-8 bg-surface text-on-surface transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
@@ -131,13 +132,19 @@ export const NodeDetails: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto shrink-0">
-            <div className="flex items-center gap-2 px-3 py-1 bg-surface-container-highest border border-outline-variant">
-              <div className="w-2 h-2 bg-[#10B981]"></div>
-              <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold">ONLINE / ACTIVE</span>
+            <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto shrink-0">
+              <div className="flex items-center gap-2 px-3 py-1 bg-surface-container-highest border border-outline-variant">
+                {isLoadingNodeDetails ? (
+                  <div className="w-2 h-2 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <div className="w-2 h-2 bg-[#10B981]"></div>
+                )}
+                <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold">
+                  {isLoadingNodeDetails ? 'SYNCHRONIZING...' : 'ONLINE / ACTIVE'}
+                </span>
+              </div>
+              <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider">LAST_HEARD: {fmtDate(last_heard)}</span>
             </div>
-            <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider">LAST_HEARD: {fmtDate(last_heard)}</span>
-          </div>
         </div>
 
         {/* Main Bento Grid */}
