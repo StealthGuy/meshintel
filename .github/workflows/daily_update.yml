@@ -51,7 +51,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add frontend/public/data/
-          # Commit solo se ci sono modifiche effettive
           if ! git diff --staged --quiet; then
             git commit -m "chore: daily data update [$(date -u '+%Y-%m-%d %H:%M UTC')]"
             git pull --rebase origin main
