@@ -5,8 +5,10 @@ export const MetricsGrid: React.FC = () => {
   const { report, isLoadingReport, fetchReport } = useAppStore();
 
   useEffect(() => {
-    fetchReport();
-  }, [fetchReport]);
+    if (!report) {
+      fetchReport();
+    }
+  }, [fetchReport, report]);
 
   const nodesCount = report?.connectivity?.nodes ?? '...';
   const edgesCount = report?.connectivity?.edges ?? '...';

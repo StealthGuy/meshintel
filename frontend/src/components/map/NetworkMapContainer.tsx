@@ -10,7 +10,11 @@ export const NetworkMapContainer: React.FC = () => {
   const [map, setMap] = useState<L.Map | null>(null);
 
   useEffect(() => {
-    fetchMapData(activeAlgorithm);
+    // Only fetch if we don't have data yet. 
+    // The store's setActiveAlgorithm handles subsequent changes.
+    if (!useAppStore.getState().geoJsonData) {
+      fetchMapData(activeAlgorithm);
+    }
   }, [fetchMapData, activeAlgorithm]);
 
   useEffect(() => {

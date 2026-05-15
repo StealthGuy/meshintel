@@ -119,6 +119,8 @@ interface AppState {
   isLoadingMap: boolean;
   fetchMapData: (algo: string, forceRefresh?: boolean) => Promise<void>;
 
+  isLoadingNodeDetails: boolean; // NEW
+
   activeTileLayer: 'dark' | 'topo';
   setActiveTileLayer: (layer: 'dark' | 'topo') => void;
 
@@ -144,8 +146,16 @@ export const useAppStore = create<AppState>((set, get) => ({
     nodeError: null
   }),
   nodeError: null,
+  isLoadingNodeDetails: false,
   fetchNodeDetails: async (id: string) => {
-    set({ nodeError: null });
+    const { isLoadingNodeDetails, selectedNodeDetails } = get();
+    
+    // Guard: Don't fetch if already loading or if we already have THIS node's details
+    if (isLoadingNodeDetails || (selectedNodeDetails && selectedNodeDetails.id === id)) {
+      return;
+    }
+
+    set({ nodeError: null, isLoadingNodeDetails: true });
     
     // In produzione o se non siamo in dev, cerchiamo i dati nel GeoJSON già caricato
     if (!import.meta.env.DEV) {
@@ -169,17 +179,20 @@ export const useAppStore = create<AppState>((set, get) => ({
     try {
       const data = await networkApi.getNode(id);
       if (data) {
-        set((state) => ({
-          selectedNodeDetails: { ...state.selectedNodeDetails, ...data },
-          nodeError: null
-        }));
+        set({
+          selectedNodeDetails: data, // FIX: Overwrite instead of merge to avoid state pollution
+          nodeError: null,
+          isLoadingNodeDetails: false
+        });
+      } else {
+        set({ isLoadingNodeDetails: false });
       }
     } catch (error: any) {
       console.error('Failed to fetch node details', error);
       if (error.response?.status === 404) {
-        set({ nodeError: 'Node data not found on server' });
+        set({ nodeError: 'Node data not found on server', isLoadingNodeDetails: false });
       } else {
-        set({ nodeError: 'Failed to synchronize node telemetry data' });
+        set({ nodeError: 'Failed to synchronize node telemetry data', isLoadingNodeDetails: false });
       }
     }
   },
@@ -187,7 +200,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   report: null,
   isLoadingReport: false,
   fetchReport: async (forceRefresh = false) => {
-    const { report } = get();
+    const { report, isLoadingReport } = get();
+    
+    // Guard: Don't fetch if already loading
+    if (isLoadingReport) return;
+
     if (!forceRefresh && report) {
       return; // Return immediately if report is already in cache
     }
@@ -205,7 +222,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   robustness: null,
   isLoadingRobustness: false,
   fetchRobustness: async (forceRefresh = false) => {
-    const { robustness } = get();
+    const { robustness, isLoadingRobustness } = get();
+    
+    // Guard: Don't fetch if already loading
+    if (isLoadingRobustness) return;
+
     if (!forceRefresh && robustness) {
       return;
     }
@@ -224,9 +245,21 @@ export const useAppStore = create<AppState>((set, get) => ({
   geoJsonData: null,
   isLoadingMap: false,
   fetchMapData: async (algo: string, forceRefresh = false) => {
-    const { geoJsonCache } = get();
+    const { geoJsonCache, isLoadingMap } = get();
 
-    // Se abbiamo già i dati in cache e non stiamo forzando un refresh, usiamo quelli
+    // Guard: Don't fetch if already loading same algo
+    if (isLoadingMap) return;
+
+    // Se stiamo forzando un refresh, svuotiamo la cache per l'algoritmo corrente
+    if (forceRefresh) {
+      set((state) => {
+        const newCache = { ...state.geoJsonCache };
+        delete newCache[algo];
+        return { geoJsonCache: newCache };
+      });
+    }
+
+    // Se abbiamo già i dati in cache, usiamo quelli
     if (!forceRefresh && geoJsonCache[algo]) {
       set({ geoJsonData: geoJsonCache[algo] });
       return;
