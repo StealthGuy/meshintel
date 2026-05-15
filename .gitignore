@@ -28,7 +28,7 @@ backend/cache/*.json
 !backend/cache/.gitkeep
 
 # Cartella di output dei dati statici generati per il frontend
-frontend/public/data/*.json
+# frontend/public/data/*.json
 !frontend/public/data/.gitkeep
 
 # ============================================================
