@@ -17,7 +17,7 @@ from backend.analysis.distances import compute_distances
 from backend.analysis.degree_dist import compute_degree_distribution
 from backend.analysis.stats import compute_node_stats
 from backend.analysis.robustness import generate_robustness_plot
-from backend.analysis.anomalies import detect_anomalies
+
 
 from backend.analysis.models import NetworkReport, RobustnessReport
 
@@ -121,11 +121,6 @@ def get_robustness_analysis():
         
     return report
 
-@router.get("/anomalies")
-def get_network_anomalies():
-    load_graphs_if_needed()
-    G = APP_STATE["graph_orig"] 
-    return {"status": "success", "data": detect_anomalies(G)}
 
 @router.get("/nodes/{node_id}")
 def get_node_details(node_id: str):

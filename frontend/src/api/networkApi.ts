@@ -23,24 +23,10 @@ export const networkApi = {
     return response.data;
   },
 
-  getAnomalies: async () => {
-    // Le anomalie non hanno un file statico pre-generato (dati real-time)
-    // In produzione non sono disponibili
-    if (!isDev) {
-      console.warn('Anomalies endpoint not available in production static mode.');
-      return { status: 'unavailable', data: [] };
-    }
-    const response = await axios.get('/api/anomalies');
-    return response.data;
-  },
 
   getNode: async (id: string) => {
-    // I dettagli dei nodi non sono pre-generati come file statici individuali
-    // In produzione, i dati del nodo vengono estratti dal GeoJSON raw
-    if (!isDev) {
-      console.warn(`Node detail endpoint not available in static mode for node: ${id}`);
-      return null;
-    }
+    // Solo per sviluppo. In produzione lo store usa il lookup locale dal GeoJSON.
+    if (!isDev) return null;
     const response = await axios.get(`/api/nodes/${id}`);
     return response.data;
   },

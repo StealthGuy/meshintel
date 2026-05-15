@@ -146,6 +146,26 @@ export const useAppStore = create<AppState>((set, get) => ({
   nodeError: null,
   fetchNodeDetails: async (id: string) => {
     set({ nodeError: null });
+    
+    // In produzione o se non siamo in dev, cerchiamo i dati nel GeoJSON già caricato
+    if (!import.meta.env.DEV) {
+      const { geoJsonData } = get();
+      if (geoJsonData && geoJsonData.features) {
+        const feature = geoJsonData.features.find((f: any) => f.id === id);
+        if (feature) {
+          set({ 
+            selectedNodeDetails: feature.properties,
+            nodeError: null 
+          });
+          return;
+        }
+      }
+      // Se non lo troviamo nel GeoJSON (magari non è ancora caricato), diamo un errore amichevole
+      set({ nodeError: 'Node data not available in current map view. Try refreshing the map.' });
+      return;
+    }
+
+    // In sviluppo, continuiamo a usare l'API live per comodità
     try {
       const data = await networkApi.getNode(id);
       if (data) {
