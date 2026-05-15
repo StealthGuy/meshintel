@@ -6,3 +6,6 @@ leidenalg
 igraph
 scikit-learn
 matplotlib
+numpy
+requests
+urllib3
