@@ -164,22 +164,29 @@ export const useAppStore = create<AppState>((set, get) => ({
     
     // In produzione o se non siamo in dev, cerchiamo i dati nel GeoJSON già caricato
     if (!import.meta.env.DEV) {
-      const { geoJsonData } = get();
+      let { geoJsonData } = get();
+
+      // COLD START: Se la mappa non è caricata (es. refresh sulla pagina dettagli), carichiamola
+      if (!geoJsonData) {
+        await get().fetchMapData(get().activeAlgorithm);
+        geoJsonData = get().geoJsonData;
+      }
+
       if (geoJsonData && geoJsonData.features) {
         const feature = geoJsonData.features.find((f: any) => f.id === id);
         if (feature) {
           set({ 
             selectedNodeDetails: feature.properties,
             nodeError: null,
-            isLoadingNodeDetails: false // FIX: Reset loading state
+            isLoadingNodeDetails: false
           });
           return;
         }
       }
-      // Se non lo troviamo nel GeoJSON, diamo un errore e resettiamo
+      // Se non lo troviamo nel GeoJSON dopo il caricamento, diamo l'errore
       set({ 
         nodeError: 'Node data not available in current map view. Try refreshing the map.',
-        isLoadingNodeDetails: false // FIX: Reset loading state
+        isLoadingNodeDetails: false
       });
       return;
     }
