@@ -32,8 +32,6 @@ jobs:
         run: mkdir -p backend/cache
 
       - name: Restore robustness cache (se non è lunedì)
-        # Ripristina il robustness.json precedente così lo script può
-        # decidere di non ricalcolarlo se non è lunedì
         uses: actions/cache@v4
         with:
           path: frontend/public/data/robustness.json
@@ -49,10 +47,12 @@ jobs:
       - name: Commit and push updated data
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
           git add frontend/public/data/
+          
           if ! git diff --staged --quiet; then
             git commit -m "chore: daily data update [$(date -u '+%Y-%m-%d %H:%M UTC')]"
-            git pull --rebase origin main
+            git pull --rebase -X theirs origin main
             git push origin main
           fi
