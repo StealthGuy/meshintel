@@ -34,6 +34,7 @@ export const NetworkMapContainer: React.FC = () => {
         center={[42.5, 12.5]}
         zoom={6}
         zoomControl={false}
+        preferCanvas={true} // <--- Attiva il rendering Canvas globale
         className="absolute inset-0 w-full h-full z-0"
         ref={setMap}
       >
