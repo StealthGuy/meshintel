@@ -1,4 +1,4 @@
-# 📡 Meshtastic Network Analyst
+# 📡 Meshintel
 
 > Network analysis dashboard for Italian Meshtastic mesh network.
 

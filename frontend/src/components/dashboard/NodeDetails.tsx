@@ -51,7 +51,7 @@ export const NodeDetails: React.FC = () => {
         <p className="font-body-sm text-body-sm text-on-surface-variant mt-2 text-center max-w-md">
           {nodeError}. The node might have gone offline or the network topology was refreshed.
         </p>
-        <button 
+        <button
           onClick={() => navigate('/map')}
           className="mt-6 bg-primary text-on-primary px-6 py-2 font-label-mono text-[12px] uppercase tracking-wider hover:bg-primary/90 transition-colors cursor-pointer"
         >
@@ -108,7 +108,7 @@ export const NodeDetails: React.FC = () => {
         {/* Header Identity Banner */}
         <div className="bg-surface-container-low border border-outline-variant p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative">
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={() => navigate(-1)}
               className="w-10 h-10 border border-outline-variant hover:bg-surface-container-highest transition-colors flex items-center justify-center text-secondary hover:text-primary cursor-pointer shrink-0"
               title="Go Back"
@@ -132,19 +132,19 @@ export const NodeDetails: React.FC = () => {
               </div>
             </div>
           </div>
-            <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto shrink-0">
-              <div className="flex items-center gap-2 px-3 py-1 bg-surface-container-highest border border-outline-variant">
-                {isLoadingNodeDetails ? (
-                  <div className="w-2 h-2 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                ) : (
-                  <div className="w-2 h-2 bg-[#10B981]"></div>
-                )}
-                <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold">
-                  {isLoadingNodeDetails ? 'SYNCHRONIZING...' : 'ONLINE / ACTIVE'}
-                </span>
-              </div>
-              <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider">LAST_HEARD: {fmtDate(last_heard)}</span>
+          <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto shrink-0">
+            <div className="flex items-center gap-2 px-3 py-1 bg-surface-container-highest border border-outline-variant">
+              {isLoadingNodeDetails ? (
+                <div className="w-2 h-2 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <div className="w-2 h-2 bg-[#10B981]"></div>
+              )}
+              <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold">
+                {isLoadingNodeDetails ? 'SYNCHRONIZING...' : 'ONLINE / ACTIVE'}
+              </span>
             </div>
+            <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider">LAST_HEARD: {fmtDate(last_heard)}</span>
+          </div>
         </div>
 
         {/* Main Bento Grid */}
@@ -324,7 +324,7 @@ export const NodeDetails: React.FC = () => {
 
         {/* Gateway Sub-Node Section */}
         {gw && typeof gw === 'object' && 'id' in gw ? (
-          <div 
+          <div
             className="bg-surface-container-low border border-outline-variant cursor-pointer hover:bg-surface-container transition-colors group"
             onClick={() => {
               navigate(`/node-details/${gw.id}`);

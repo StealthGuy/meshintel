@@ -12,8 +12,8 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className="bg-background text-on-background min-h-screen print:min-h-fit flex overflow-hidden print:overflow-visible print:block dark">
       {/* Floating Toggle Button */}
-      <button 
-        onClick={toggleSidebar} 
+      <button
+        onClick={toggleSidebar}
         className="fixed top-4 left-4 z-[60] w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center cursor-pointer shadow-lg transition-all duration-300 hover:scale-105 print:hidden"
       >
         <span className={`material-symbols-outlined transition-transform duration-500 ${isSidebarOpen ? '-rotate-180' : 'rotate-0'}`} style={{ fontVariationSettings: "'FILL' 1" }}>

@@ -22,36 +22,36 @@ export const Sidebar: React.FC = () => {
 
       {/* Navigation Tabs */}
       <div className="flex-1 overflow-y-auto py-2">
-        <NavLink 
+        <NavLink
           to="/map"
-          className={({ isActive }) => 
+          className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
-            (isActive 
-              ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400` 
+            (isActive
+              ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400`
               : `text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800`)
           }
         >
-          <span className="material-symbols-outlined text-[20px]">hub</span>
+          <span className="material-symbols-outlined text-[20px]">graph_3</span>
           <span>Network Topology</span>
         </NavLink>
-        <NavLink 
+        <NavLink
           to="/report"
-          className={({ isActive }) => 
+          className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
-            (isActive 
-              ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400` 
+            (isActive
+              ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400`
               : `text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800`)
           }
         >
           <span className="material-symbols-outlined text-[20px]">description</span>
           <span>Executive Summary</span>
         </NavLink>
-        <NavLink 
+        <NavLink
           to="/robustness"
-          className={({ isActive }) => 
+          className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
-            (isActive 
-              ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400` 
+            (isActive
+              ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400`
               : `text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800`)
           }
         >
@@ -59,12 +59,12 @@ export const Sidebar: React.FC = () => {
           <span>Attack Simulation</span>
         </NavLink>
         {location.pathname.startsWith('/node-details') && (
-          <NavLink 
+          <NavLink
             to={location.pathname}
-            className={({ isActive }) => 
+            className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
-              (isActive 
-                ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400` 
+              (isActive
+                ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400`
                 : `text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800`)
             }
           >
@@ -83,7 +83,7 @@ export const Sidebar: React.FC = () => {
       )}
 
       <div className="p-4 shrink-0 flex flex-col gap-2">
-        <button 
+        <button
           onClick={() => {
             useAppStore.getState().fetchReport(true);
             useAppStore.getState().fetchMapData(useAppStore.getState().activeAlgorithm, true);
