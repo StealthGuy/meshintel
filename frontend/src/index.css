@@ -49,6 +49,8 @@
   --color-outline: #757684;
   --color-tertiary: #2d3449;
   --color-secondary-fixed: #d5e3fc;
+  --color-success: #15803d;
+  --color-warning: #ea580c;
 
   --font-headline-md: Inter, sans-serif;
   --font-headline-lg: Inter, sans-serif;
@@ -64,28 +66,33 @@
   letter-spacing: -0.01em;
   font-weight: 600;
 }
+
 @utility text-headline-lg {
   font-size: 24px;
   line-height: 32px;
   letter-spacing: -0.02em;
   font-weight: 600;
 }
+
 @utility text-body-sm {
   font-size: 13px;
   line-height: 18px;
   font-weight: 400;
 }
+
 @utility text-body-md {
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
 }
+
 @utility text-label-mono {
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.05em;
   font-weight: 500;
 }
+
 @utility text-data-tabular {
   font-size: 13px;
   line-height: 16px;
@@ -112,7 +119,7 @@
   font-family: var(--font-headline-lg);
   font-size: 7px;
   font-weight: bold;
-  text-shadow: 0px 0px 2px rgba(0,0,0,1); 
+  text-shadow: none;
   box-sizing: border-box;
   opacity: 0.95;
   /* transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275); */
@@ -129,7 +136,7 @@
 
 .node-circle:hover {
   transition: transform 0.1s ease-out;
-  transform: scale(2.0);
+  transform: scale(2.3);
 }
 
 @media print {
@@ -137,7 +144,7 @@
     size: A4 portrait;
     margin: 1cm;
   }
-  
+
   body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;

@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { GeoJSON, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { useAppStore } from '../../store/useAppStore';
+import { FALLBACK_VALUE } from '../../utils/formatters';
 
 export const GeoJsonLayer: React.FC = () => {
   const { geoJsonData, activeAlgorithm, mapSettings, setSelectedNodeDetails, activeTileLayer } = useAppStore();
@@ -60,12 +61,9 @@ export const GeoJsonLayer: React.FC = () => {
       layer.on({
         click: () => {
           setSelectedNodeDetails({
+            ...feature.properties,
             id: feature.id || feature.properties.id || 'Unknown',
-            short_name: feature.properties.short_name || 'Unnamed',
-            long_name: feature.properties.long_name || 'N/A',
-            role: feature.properties.role,
-            community_id: feature.properties.community_id,
-            color: feature.properties.color
+            long_name: feature.properties.long_name || FALLBACK_VALUE,
           });
         }
       });

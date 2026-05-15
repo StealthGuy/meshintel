@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../store/useAppStore';
+import { FALLBACK_VALUE } from '../../utils/formatters';
 
 export const NodeInfoCard: React.FC = () => {
   const navigate = useNavigate();
@@ -29,19 +30,19 @@ export const NodeInfoCard: React.FC = () => {
       <div className="p-4 flex flex-col gap-3">
         <div className="flex justify-between border-b border-surface-variant pb-2">
           <span className="font-body-sm text-body-sm text-on-surface-variant">Short Name</span>
-          <span className="font-body-sm text-body-sm text-on-surface font-semibold">{selectedNodeDetails.short_name || 'N/A'}</span>
+          <span className="font-body-sm text-body-sm text-on-surface font-semibold">{selectedNodeDetails.short_name || FALLBACK_VALUE}</span>
         </div>
         <div className="flex justify-between border-b border-surface-variant pb-2">
           <span className="font-body-sm text-body-sm text-on-surface-variant">Long Name</span>
-          <span className="font-body-sm text-body-sm text-on-surface font-semibold text-right max-w-[150px] truncate" title={selectedNodeDetails.long_name}>{selectedNodeDetails.long_name || 'N/A'}</span>
+          <span className="font-body-sm text-body-sm text-on-surface font-semibold text-right max-w-[150px] truncate" title={selectedNodeDetails.long_name}>{selectedNodeDetails.long_name || FALLBACK_VALUE}</span>
         </div>
         <div className="flex justify-between border-b border-surface-variant pb-2">
           <span className="font-body-sm text-body-sm text-on-surface-variant">Role</span>
-          <span className="font-body-sm text-body-sm text-on-surface">{selectedNodeDetails.role || 'Unknown'}</span>
+          <span className="font-body-sm text-body-sm text-on-surface">{selectedNodeDetails.role || FALLBACK_VALUE}</span>
         </div>
         {/* <div className="flex justify-between border-b border-surface-variant pb-2">
           <span className="font-body-sm text-body-sm text-on-surface-variant">Community</span>
-          <span className="font-body-sm text-body-sm text-on-surface">{selectedNodeDetails.community_id !== undefined && selectedNodeDetails.community_id !== -1 ? selectedNodeDetails.community_id : 'N/A'}</span>
+          <span className="font-body-sm text-body-sm text-on-surface">{selectedNodeDetails.community_id !== undefined && selectedNodeDetails.community_id !== -1 ? selectedNodeDetails.community_id : FALLBACK_VALUE}</span>
         </div> */}
         <button 
           onClick={() => navigate(`/node-details/${selectedNodeDetails.id}`)}

@@ -1,36 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppStore } from '../../store/useAppStore';
-
-// Helpers
-const fmt = (val: any, suffix = ''): string => {
-  if (val === null || val === undefined || val === '') return 'N/A';
-  return `${val}${suffix}`;
-};
-
-const fmtFloat = (val: any, decimals = 2, suffix = ''): string => {
-  const n = parseFloat(val);
-  if (isNaN(n)) return 'N/A';
-  return `${n.toFixed(decimals)}${suffix}`;
-};
-
-const fmtUptime = (seconds: string | number | undefined): string => {
-  const s = parseInt(String(seconds), 10);
-  if (isNaN(s)) return 'N/A';
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const sec = s % 60;
-  return `${s}s (~${h}h ${m}m ${sec}s)`;
-};
-
-const fmtDate = (iso: string | undefined): string => {
-  if (!iso) return 'N/A';
-  try {
-    return new Date(iso).toLocaleString();
-  } catch {
-    return 'INVALID DATE';
-  }
-};
+import { fmt, fmtFloat, fmtUptime, fmtDate, fmtUptimeShort, FALLBACK_VALUE } from '../../utils/formatters';
 
 export const NodeDetails: React.FC = () => {
   const navigate = useNavigate();
@@ -74,13 +45,13 @@ export const NodeDetails: React.FC = () => {
 
   const {
     id, short_name, long_name, role, hardware, fw_version, frequency,
-    cluster_code, public_key, routing_enabled, last_heard, channel,
+    cluster_code, public_key, routing_enabled, is_licensed, has_mqtt, last_heard, channel,
     gateway_node, last_position, last_device_metric
   } = selectedNodeDetails;
 
   const dm = last_device_metric;
   const batteryPct = dm?.battery_level != null ? dm.battery_level : null;
-  const batteryStr = batteryPct != null ? `${batteryPct}%` : 'N/A';
+  const batteryStr = batteryPct != null ? `${batteryPct}%` : FALLBACK_VALUE;
   const batteryBar = batteryPct != null ? `${batteryPct}%` : '0%';
 
   const chUtil = dm?.channel_utilization;
@@ -100,6 +71,11 @@ export const NodeDetails: React.FC = () => {
   const gwDm = gw?.last_device_metric;
   const gwLat = gw?.last_position?.latitude;
   const gwLon = gw?.last_position?.longitude;
+
+  // Regex per intercettare nominativi radio (es: IW2DMO, K1ABC, ecc) 
+  // ed estrarre solo la parte principale ignorando l'SSID (-23, -9, ecc)
+  const callsignMatch = long_name?.match(/([a-zA-Z]{1,2}\d[a-zA-Z]{1,4})(-\d+)?/);
+  const extractedCallsign = callsignMatch ? callsignMatch[1].toUpperCase() : null;
 
   return (
     <div className={`flex-1 p-6 bg-surface overflow-y-auto transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
@@ -143,7 +119,13 @@ export const NodeDetails: React.FC = () => {
                 {isLoadingNodeDetails ? 'SYNCHRONIZING...' : 'ONLINE / ACTIVE'}
               </span>
             </div>
-            <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider">LAST_HEARD: {fmtDate(last_heard)}</span>
+            <div className="flex flex-col items-end gap-1">
+              <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider">LAST_HEARD: {fmtDate(last_heard)}</span>
+              <span className="font-label-mono text-[9px] text-primary uppercase font-bold flex items-center gap-1">
+                <span className="material-symbols-outlined text-[11px]">sync</span>
+                SYNCHRONIZED DAILY
+              </span>
+            </div>
           </div>
         </div>
 
@@ -151,15 +133,15 @@ export const NodeDetails: React.FC = () => {
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
 
           {/* Geospatial Column */}
-          <div className="xl:col-span-4 flex flex-col gap-4">
-            <div className="bg-surface-container-lowest border border-outline-variant flex flex-col border-t-4 border-t-primary">
+          <div className="xl:col-span-4 flex flex-col gap-4 h-full">
+            <div className="bg-surface-container-lowest border border-outline-variant flex flex-col h-full">
               <div className="p-3 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
                 <span className="font-label-mono text-[12px] text-on-surface uppercase">GEOSPATIAL_DATA</span>
                 <span className="material-symbols-outlined text-outline text-[16px]">my_location</span>
               </div>
               <div className="p-4 flex flex-col gap-4 flex-1">
                 {/* Map placeholder */}
-                <div className="w-full h-48 bg-surface-variant border border-outline-variant relative overflow-hidden">
+                <div className="w-full flex-1 bg-surface-variant border border-outline-variant relative overflow-hidden">
                   {lat && lon ? (
                     <iframe
                       width="100%"
@@ -185,13 +167,18 @@ export const NodeDetails: React.FC = () => {
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold">{fmtFloat(lon, 6)}</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-center gap-2 py-2 bg-surface-container-highest border border-outline-variant">
-                  <span className="material-symbols-outlined text-[16px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    {lat != null ? 'gps_fixed' : 'gps_off'}
+                <div className="flex items-center justify-center gap-3 py-2 bg-surface-container-highest border border-outline-variant">
+                  <span className="material-symbols-outlined text-[16px] text-primary">
+                    terrain
                   </span>
-                  <span className="font-label-mono text-[12px] text-on-surface font-bold uppercase tracking-widest">
-                    {lat != null ? 'GPS FIX ACTIVE' : 'NO GPS DATA'}
-                  </span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="font-label-mono text-[12px] text-on-surface font-black uppercase tracking-widest">
+                      ALTITUDE:
+                    </span>
+                    <span className="font-data-tabular text-[14px] text-primary font-bold">
+                      {fmt(last_position?.altitude, ' m ASL')}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -203,7 +190,7 @@ export const NodeDetails: React.FC = () => {
             {/* Telemetry Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {/* Battery */}
-              <div className="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between h-32 border-l-4 border-l-primary">
+              <div className="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between h-32">
                 <div className="flex items-center justify-between">
                   <span className="font-label-mono text-[11px] text-secondary uppercase">BATTERY_LVL</span>
                   <span className="material-symbols-outlined text-outline text-[18px]">battery_full_alt</span>
@@ -247,42 +234,47 @@ export const NodeDetails: React.FC = () => {
                   <span className="font-label-mono text-[11px] text-secondary uppercase">UPTIME</span>
                   <span className="material-symbols-outlined text-outline text-[18px]">timer</span>
                 </div>
-                <div className="mt-auto">
-                  <div className="font-data-tabular text-[20px] font-bold text-on-surface leading-tight">
-                    {dm?.uptime_seconds != null ? `${dm.uptime_seconds}s` : 'N/A'}
+                <div className="flex-1 flex items-center justify-center">
+                  <div className="font-data-tabular text-[32px] font-bold text-on-surface leading-none">
+                    {dm?.uptime_seconds != null ? fmtUptimeShort(dm.uptime_seconds) : FALLBACK_VALUE}
                   </div>
-                  <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider">
-                    {dm?.uptime_seconds != null ? fmtUptime(dm.uptime_seconds).split('(')[1]?.replace(')', '') : ''}
-                  </span>
                 </div>
               </div>
             </div>
-
             {/* System Details Panel */}
             <div className="bg-surface-container-lowest border border-outline-variant flex flex-col flex-1">
-              <div className="p-3 border-b border-outline-variant bg-surface-container-low">
+              <div className="p-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
                 <span className="font-label-mono text-[12px] text-on-surface uppercase">SYSTEM_DIAGNOSTICS</span>
+                <div className="flex items-center gap-1.5">
+                  <span className={`material-symbols-outlined text-[14px] ${has_mqtt ? 'text-primary' : 'text-outline'}`}>
+                    {has_mqtt ? 'cloud_done' : 'cloud_off'}
+                  </span>
+                  <span className={`font-label-mono text-[10px] font-bold uppercase tracking-widest ${has_mqtt ? 'text-primary' : 'text-outline'}`}>
+                    {has_mqtt ? 'MQTT ACTIVE' : 'MQTT NOT ACTIVE'}
+                  </span>
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-outline-variant">
-                {/* Hardware/Firmware */}
+
+                {/* Hardware/Firmware Column */}
                 <div className="p-4 flex flex-col gap-4">
                   <div className="flex flex-col gap-1 border-b border-outline-variant pb-3">
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">HARDWARE_PLATFORM</span>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">HARDWAR PLATFORM</span>
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2">
                       <span className="material-symbols-outlined text-[16px] text-outline">memory</span> {fmt(hardware)}
                     </span>
                   </div>
                   <div className="flex flex-col gap-1 border-b border-outline-variant pb-3">
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">FIRMWARE_VER</span>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">FIRMWARE VER</span>
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[16px] text-outline">terminal</span> {fw_version || 'N/A'}
+                      <span className="material-symbols-outlined text-[16px] text-outline">terminal</span> {fw_version || FALLBACK_VALUE}
                     </span>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">PUBLIC_KEY</span>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">PUBLIC KEY</span>
                     <div className="flex items-center gap-2">
                       <code className="font-data-tabular text-[11px] bg-surface-container-highest px-2 py-1 text-on-surface border border-outline-variant flex-1 overflow-hidden text-ellipsis whitespace-nowrap" title={public_key}>
-                        {public_key ? `${public_key.slice(0, 12)}...` : 'N/A'}
+                        {public_key ? `${public_key.slice(0, 12)}...` : FALLBACK_VALUE}
                       </code>
                       {public_key && (
                         <button
@@ -296,25 +288,57 @@ export const NodeDetails: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                {/* Network Context */}
+
+                {/* Network Context Column */}
                 <div className="p-4 flex flex-col gap-4 bg-surface-container-lowest">
                   <div className="flex flex-col gap-1 border-b border-outline-variant pb-3">
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">PRIMARY_CHANNEL</span>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">PRIMARY CHANNEL</span>
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[16px] text-outline">waves</span> {channel?.name || 'N/A'}
+                      <span className="material-symbols-outlined text-[16px] text-outline">waves</span> {channel?.name || FALLBACK_VALUE}
                     </span>
                   </div>
                   <div className="flex flex-col gap-1 border-b border-outline-variant pb-3">
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">CLUSTER_CODE</span>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">CLUSTER CODE</span>
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2">
                       <span className="material-symbols-outlined text-[16px] text-outline">hub</span> {fmt(cluster_code)}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between bg-surface-container-highest p-2 border border-outline-variant mt-auto">
-                    <span className="font-label-mono text-[10px] text-on-surface uppercase tracking-wider font-bold">ROUTING_STATUS</span>
-                    <span className="px-2 py-0.5 bg-outline-variant text-on-surface-variant font-label-mono text-[10px] uppercase border border-outline">
-                      {routing_enabled ? 'ENABLED' : 'DISABLED'}
-                    </span>
+                  {/* OPERATOR_TYPE - Layout Split Orizzontale */}
+                  <div className="flex flex-col gap-1 mt-auto">
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">OPERATOR TYPE / LOOKUP</span>
+
+                    <div className="grid grid-cols-2 gap-2">
+
+                      {/* Metà Sinistra: Status Display */}
+                      <div className="flex items-center gap-2 bg-surface-container-highest p-2 border border-outline-variant min-h-[38px]">
+                        <span className="material-symbols-outlined text-[16px] text-outline">verified_user</span>
+                        <span className={`font-label-mono text-[10px] uppercase font-bold ${is_licensed ? 'text-primary' : 'text-on-surface-variant'}`}>
+                          {is_licensed ? 'LICENSED' : 'UNLICENSED'}
+                        </span>
+                      </div>
+
+                      {/* Metà Destra: Action Button (Blu) */}
+                      {extractedCallsign ? (
+                        <a
+                          href={`https://www.google.com/search?q=${extractedCallsign}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between bg-primary text-on-primary p-2 border border-primary hover:bg-primary/90 transition-all cursor-pointer min-h-[38px] group"
+                        >
+                          <span className="font-label-mono text-[10px] font-black tracking-tighter">
+                            SEARCH: {extractedCallsign}
+                          </span>
+                          <span className="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">
+                            search
+                          </span>
+                        </a>
+                      ) : (
+                        <div className="flex items-center justify-center bg-surface-container-low border border-outline-variant/50 p-2 min-h-[38px] opacity-50 grayscale">
+                          <span className="font-label-mono text-[9px] text-outline uppercase">No ID Detected</span>
+                        </div>
+                      )}
+
+                    </div>
                   </div>
                 </div>
               </div>
@@ -345,7 +369,7 @@ export const NodeDetails: React.FC = () => {
                   </div>
                   <div className="min-w-0">
                     <h3 className="font-headline-md text-headline-md text-on-surface truncate group-hover:text-primary transition-colors">{gw.long_name || gw.id}</h3>
-                    <div className="font-label-mono text-[10px] text-secondary uppercase tracking-wider mt-1">ID: {gw.id} | HW: {gw.hardware || 'N/A'}</div>
+                    <div className="font-label-mono text-[10px] text-secondary uppercase tracking-wider mt-1">ID: {gw.id} | HW: {gw.hardware || FALLBACK_VALUE}</div>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-6">
@@ -366,7 +390,7 @@ export const NodeDetails: React.FC = () => {
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">BATTERY</span>
                     <div className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-1">
                       <span className="material-symbols-outlined text-[14px] text-outline">battery_full_alt</span>
-                      {gwDm?.battery_level != null ? `${gwDm.battery_level}%` : 'N/A'}
+                      {gwDm?.battery_level != null ? `${gwDm.battery_level}%` : FALLBACK_VALUE}
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -403,6 +427,6 @@ export const NodeDetails: React.FC = () => {
         )}
 
       </div>
-    </div>
+    </div >
   );
 };

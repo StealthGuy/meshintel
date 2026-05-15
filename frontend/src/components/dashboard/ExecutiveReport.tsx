@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../store/useAppStore';
+import { FALLBACK_VALUE } from '../../utils/formatters';
 import { KpiBentoCard } from './KpiBentoCard';
 import { CssHistogram } from './CssHistogram';
 
@@ -28,56 +29,71 @@ export const ExecutiveReport: React.FC = () => {
   const assortativityVal = degree_distribution.assortativity || 0;
   const isAssortative = assortativityVal > 0;
   const assortativityText = isAssortative
-    ? "Network is assortative. High degree nodes tend to connect to other high degree nodes, making the core very resilient."
-    : "Network is disassortative. High degree nodes are less connected to one another and the failure of a high degree node would have more impact on the connectedness of the network.";
+    ? "Assortative Network: High degree nodes tend to connect to other high degree nodes, making the core very resilient."
+    : "Disassortative Network: High degree nodes are less connected to one another and the failure of a high degree node would have more impact on the connectedness of the network.";
 
   // Helper for Centrality Tables
-  const renderCentralityTable = (title: string, dataList: Array<{id: string, name: string, value: number}>) => {
+  const renderCentralityTable = (title: string, dataList: Array<{ id: string, name: string, value: number }>) => {
     if (!dataList || dataList.length === 0) return null;
+
+    // Il primo nodo ha il punteggio massimo, lo usiamo come riferimento per il 100%
+    const maxValue = dataList[0].value;
+
     return (
       <div className="p-4 border-b border-outline-variant last:border-b-0 flex-1">
-        <h4 className="font-label-mono text-label-mono text-on-surface-variant mb-3 uppercase">{title}</h4>
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-outline-variant/50">
-              <th className="pb-2 font-label-mono text-[10px] text-outline font-normal">ENTITY ID</th>
-              <th className="pb-2 font-label-mono text-[10px] text-outline font-normal text-right">SCORE</th>
-            </tr>
-          </thead>
-          <tbody className="font-data-tabular text-sm">
-            {dataList.map((item, idx) => {
-              // Assign colors arbitrarily for visual effect like mockup
-              const colors = ["bg-error", "bg-surface-tint", "bg-tertiary-container", "bg-secondary", "bg-primary"];
-              const dotColor = colors[idx % colors.length];
-              return (
-                <tr 
-                  key={item.id} 
-                  className="group hover:bg-surface-container-low transition-colors cursor-pointer"
-                  onClick={() => {
-                    setSelectedNodeDetails({ id: item.id, long_name: item.name });
-                    navigate(`/node-details/${item.id}`);
-                  }}
-                >
-                  <td className="py-2 flex items-center gap-2">
+        <h4 className="font-label-mono text-label-mono text-on-surface-variant mb-4 uppercase">{title}</h4>
+        <div className="space-y-4">
+          {dataList.map((item, idx) => {
+            const colors = ["bg-error", "bg-surface-tint", "bg-tertiary-container", "bg-secondary", "bg-primary"];
+            const dotColor = colors[idx % colors.length];
+            const percentage = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
+
+            return (
+              <div
+                key={item.id}
+                className="group cursor-pointer"
+                onClick={() => {
+                  setSelectedNodeDetails({ id: item.id, long_name: item.name });
+                  navigate(`/node-details/${item.id}`);
+                }}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2 min-w-0">
                     <div className={`w-1.5 h-1.5 ${dotColor} rounded-none shrink-0`}></div>
-                    <span className="truncate max-w-[150px] text-primary hover:underline group-hover:text-primary transition-colors" title={item.name}>
+                    <span className="truncate text-[13px] font-bold text-primary hover:underline group-hover:text-primary transition-colors" title={item.name}>
                       {item.name || item.id}
                     </span>
-                  </td>
-                  <td className="py-2 text-right">{item.value.toFixed(4)}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                  </div>
+                  <span className="font-data-tabular text-[11px] font-bold text-on-surface-variant">
+                    {item.value.toFixed(4)}
+                  </span>
+                </div>
+                <div className="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+                  <div
+                    className={`h-full ${dotColor} transition-all duration-700 ease-out`}
+                    style={{ width: `${percentage}%` }}
+                  ></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
+  };
+
+  // Helper for conditional coloring of hops
+  const getHopsColorClass = (val: number | undefined) => {
+    if (!val || val === 0) return "text-on-surface";
+    if (val >= 7) return "text-error";
+    if (val >= 4) return "text-warning";
+    return "text-success";
   };
 
   return (
     <div className={`p-6 overflow-y-auto h-full w-full bg-surface print:overflow-visible print:h-auto print:block transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
       <div className="max-w-container-max mx-auto space-y-8">
-        
+
         {/* Page Header */}
         <div className="flex justify-between items-end border-b border-outline-variant pb-4">
           <div>
@@ -86,7 +102,7 @@ export const ExecutiveReport: React.FC = () => {
               Comprehensive analysis of topology, centrality, and connectivity metrics.
             </p>
           </div>
-          <button 
+          <button
             onClick={() => window.print()}
             className="print:hidden bg-primary-container text-on-primary border-none rounded-DEFAULT px-4 py-2 flex items-center gap-2 font-label-mono text-label-mono hover:bg-primary transition-colors cursor-pointer"
           >
@@ -98,72 +114,112 @@ export const ExecutiveReport: React.FC = () => {
         {/* Executive Summary KPIs */}
         <section aria-label="Executive Summary KPIs">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <KpiBentoCard 
-              title="Total Nodes" 
-              value={(connectivity.nodes || 0).toLocaleString()} 
+            <KpiBentoCard
+              title="Total Nodes"
+              value={(connectivity.nodes || 0).toLocaleString()}
               colorClass="bg-primary-fixed-dim/20"
             />
-            <KpiBentoCard 
-              title="Total Edges" 
-              value={(connectivity.edges || 0).toLocaleString()} 
+            <KpiBentoCard
+              title="Total Edges"
+              value={(connectivity.edges || 0).toLocaleString()}
               colorClass="bg-secondary-fixed-dim/20"
             />
-            <KpiBentoCard 
-              title="Network Diameter" 
-              value={distances.diameter || 'N/A'} 
-              subtitle="hops"
+            <KpiBentoCard
+              title="Network Diameter"
+              value={distances.diameter || FALLBACK_VALUE}
+              subtitle="Max hops"
               colorClass="bg-tertiary-fixed-dim/20"
+              valueColorClass={getHopsColorClass(distances.diameter)}
             />
-            <KpiBentoCard 
-              title="Avg Degree" 
-              value={connectivity.avg_degree ? connectivity.avg_degree.toFixed(2) : 'N/A'} 
-              subtitle="connections/node"
-              colorClass="bg-error-container/40"
+            <KpiBentoCard
+              title="Average Path Length"
+              value={distances.avg_path_length ? distances.avg_path_length.toFixed(2) : FALLBACK_VALUE}
+              subtitle="Avg hops"
+              colorClass="bg-surface-tint/20"
+              valueColorClass={getHopsColorClass(distances.avg_path_length)}
             />
           </div>
         </section>
 
-        {/* Assortativity Insight */}
+        {/* Network Assortativity - Infographic Slider Version */}
         <section aria-label="Network Assortativity">
-          <div className="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col md:flex-row items-start md:items-center gap-4 border-l-4 border-l-tertiary-container">
-            <div className="flex items-center gap-4 md:border-r border-outline-variant md:pr-6 md:min-w-fit">
-              <span className="material-symbols-outlined text-tertiary-container text-3xl">insights</span>
-              <div>
-                <h3 className="font-label-mono text-label-mono text-on-surface-variant uppercase">Assortativity</h3>
-                <div className="font-headline-lg text-2xl font-black tracking-tight text-on-surface mt-1">
-                  {assortativityVal.toFixed(3)}
+          <div className="bg-surface-container-lowest border border-outline-variant p-6 flex flex-col gap-6">
+
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div className="flex items-center gap-4">
+                <span className="material-symbols-outlined text-tertiary-container text-3xl">insights</span>
+                <div>
+                  <h3 className="font-label-mono text-label-mono text-on-surface-variant uppercase">Network Assortativity</h3>
+                  <div className="font-headline-lg text-3xl font-black tracking-tight text-on-surface mt-1">
+                    {assortativityVal.toFixed(3)}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex-1">
-              <p className="font-body-sm text-body-sm text-on-surface">
-                <span className="font-semibold text-tertiary-container">
-                  {isAssortative ? 'Network is assortative. ' : 'Network is disassortative. '}
-                </span>
-                {assortativityText.split('. ')[1]}
-              </p>
+
+            {/* Visual Slider Container */}
+            <div className="space-y-4">
+              <div className="relative w-full h-2 bg-surface-container-highest rounded-full overflow-visible">
+                {/* Gradient Track - Using Design System Tones */}
+                <div className="absolute inset-0 bg-gradient-to-r from-error/30 via-outline-variant/30 to-primary/30 rounded-full"></div>
+
+                {/* Center Notch (0.0) */}
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-4 bg-outline-variant z-10"></div>
+
+                {/* The Cursor */}
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-on-surface border-2 border-white shadow-lg rounded-full z-20 transition-all duration-700 ease-out"
+                  style={{ left: `${Math.min(Math.max(((assortativityVal + 1) / 2) * 100, 0), 100)}%` }}
+                >
+                  {/* Pulse effect if very disassortative */}
+                  {!isAssortative && assortativityVal < -0.1 && (
+                    <div className="absolute inset-0 animate-ping bg-error/40 rounded-full"></div>
+                  )}
+                </div>
+              </div>
+
+              {/* Scale Labels */}
+              <div className="flex justify-between font-label-mono text-[9px] text-outline uppercase tracking-widest">
+                <div className="flex flex-col items-start">
+                  <span>-1.0</span>
+                  <span className="text-error font-bold">Disassortative</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span>0.0</span>
+                  <span>Neutral</span>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span>+1.0</span>
+                  <span className="text-primary font-bold">Assortative</span>
+                </div>
+              </div>
             </div>
+
+            {/* Micro-description - Restoring custom constant */}
+            <p className="font-body-sm text-body-sm text-on-surface-variant border-t border-outline-variant/30 pt-4 italic">
+              {assortativityText}
+            </p>
           </div>
         </section>
 
         {/* Charts & Tables Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
+
           {/* Left Column (Span 2) */}
           <div className="lg:col-span-2 space-y-6 flex flex-col">
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="h-64">
-                <CssHistogram 
+                <CssHistogram
                   title="In-Degree Distribution"
                   icon="call_received"
                   data={Object.values(degree_distribution.in_degree || {})}
-                  badgeText="INCOMING"
+                  badgeText={`AVG DEGREE: ${connectivity.avg_degree ? connectivity.avg_degree.toFixed(2) : FALLBACK_VALUE}`}
                   colorTheme="primary"
                 />
               </div>
               <div className="h-64">
-                <CssHistogram 
+                <CssHistogram
                   title="Out-Degree Distribution"
                   icon="call_made"
                   data={Object.values(degree_distribution.out_degree || {})}
@@ -174,11 +230,11 @@ export const ExecutiveReport: React.FC = () => {
             </div>
 
             <div className="h-64 shrink-0">
-              <CssHistogram 
+              <CssHistogram
                 title="Distance Distribution"
                 icon="route"
                 data={Object.values(distances.distribution || {})}
-                badgeText={`AVG PATH: ${distances.avg_path_length ? distances.avg_path_length.toFixed(2) : 'N/A'}`}
+                badgeText={`AVG PATH: ${distances.avg_path_length ? distances.avg_path_length.toFixed(2) : FALLBACK_VALUE}`}
                 colorTheme="tertiary-container"
               />
             </div>
@@ -201,7 +257,7 @@ export const ExecutiveReport: React.FC = () => {
           </div>
 
         </div>
-        
+
         {/* Bottom spacer */}
         <div className="h-8"></div>
       </div>

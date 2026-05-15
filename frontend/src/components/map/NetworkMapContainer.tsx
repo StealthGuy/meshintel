@@ -5,6 +5,12 @@ import { NodeInfoCard } from './NodeInfoCard';
 import { GeoJsonLayer } from './GeoJsonLayer';
 import { useAppStore } from '../../store/useAppStore';
 
+// Definiamo dei bounds per l'Italia sulla mappa
+const ITALY_BOUNDS: L.LatLngBoundsExpression = [
+  [35.0, 6.0],  // Sud-Ovest (Sotto la Sicilia)
+  [47.5, 19.0]  // Nord-Est (Sopra le Alpi)
+];
+
 export const NetworkMapContainer: React.FC = () => {
   const { activeTileLayer, setActiveTileLayer, fetchMapData, activeAlgorithm, isLoadingMap, isSidebarOpen } = useAppStore();
   const [map, setMap] = useState<L.Map | null>(null);
@@ -37,6 +43,9 @@ export const NetworkMapContainer: React.FC = () => {
         preferCanvas={true} // <--- Attiva il rendering Canvas globale
         className="absolute inset-0 w-full h-full z-0"
         ref={setMap}
+        maxBounds={ITALY_BOUNDS}
+        maxBoundsViscosity={1.0}
+        minZoom={5}
       >
         {activeTileLayer === 'dark' ? (
           <TileLayer

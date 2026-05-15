@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 class Position(BaseModel):
     latitude: float
     longitude: float
+    altitude: Optional[float] = None
 
 class NodeRef(BaseModel):
     id: str

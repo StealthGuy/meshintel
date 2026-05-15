@@ -78,10 +78,12 @@ interface NodeDetails {
   cluster_code?: string;
   public_key?: string;
   routing_enabled?: number;
+  is_licensed?: number;
+  has_mqtt?: number;
   last_heard?: string;
   channel?: { id: number; name: string };
   gateway_node?: GatewayNode;
-  last_position?: { latitude: number | string; longitude: number | string };
+  last_position?: { latitude: number | string; longitude: number | string; altitude?: number };
   last_device_metric?: DeviceMetric;
 }
 
