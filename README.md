@@ -1,93 +1,120 @@
 # 📡 Meshtastic Network Analyst
 
-Benvenuto in **Meshtastic Network Analyst**, una applicazione di analisi dei grafi progettata per monitorare, analizzare e visualizzare la struttura delle reti mesh decentralizzate, in stile **Signal Intelligence (SIGINT)**
+> Network analysis dashboard for Italian Meshtastic mesh network.
+
 
 ---
 
-## 🚀 Funzionalità Principali
+## Overview
 
-* **Community Detection Avanzata**: Identificazione di cluster di nodi tramite gli algoritmi di **Louvain** e **Leiden**, calcolati su un grafo ridotto (*k-core*) per eliminare il rumore.
-* **Intelligence Metrics**: Calcolo in tempo reale di metriche strutturali:
-    * *Centralità (Betweenness & In-Degree)* per identificare i nodi bridge e gli hub.
-    * *Connettività* (LWCC, densità, isole isolate).
-    * *Distanze* (diametro e lunghezza media dei cammini).
-* **Dashboard Interattiva**: Interfaccia UI/UX moderna (generata con Google Stitch) con supporto per:
-    * Cambio dinamico degli algoritmi di clustering.
-    * Switch tra mappa Scura e Topografica.
-    * Pannello dettagli nodo "Floating" per ispezione rapida.
-* **Dual-Storage Fetcher**: Routine di aggiornamento dati che mantiene uno storico datato dei dump e un file master per le API.
-* **Validazione Dati**: Parsing dei dati grezzi tramite **Pydantic** per garantire la resilienza a campi mancanti o malformati.
+<!-- TODO: Describe what this project does and why it's useful -->
+
+This project provides a web dashboard for analyzing the topology and performance of the Italian [Meshtastic](https://meshtastic.org/) mesh radio network. It processes raw node/edge data and computes key network science metrics, visualized through an interactive frontend.
 
 ---
 
-## 📂 Struttura del Progetto
+## Features
 
-```text
-meshtastic-na/
-├── backend/
-│   ├── analysis/       # Moduli per calcoli statistici e metriche
-│   ├── api/            # Definizione delle rotte FastAPI
-│   ├── cache/          # Dump JSON (nodes/edges) e storico storico
-│   ├── communities/    # Implementazione Louvain e Leiden
-│   ├── data/           # Parsing Pydantic e Fetcher API LoRa
-│   ├── graph/          # Builder NetworkX e logica di riduzione (k-core)
-│   ├── main.py         # Entrypoint dell'applicazione
-│   └── requirements.txt
-├── frontend/
-│   └── index.html      # Dashboard integrata (Tailwind + Leaflet)
+- 🗺️ **Interactive Map** — Visualize nodes and links with community detection overlays (Louvain, Leiden)
+- 📊 **Network Metrics** — Density, average degree, clustering coefficient, diameter
+- 🎯 **Centrality Analysis** — Top nodes by Betweenness Centrality
+- 📏 **Distance Distribution** — Shortest path lengths across the network
+- 📡 **Node Statistics** — Hardware models, roles, and MQTT gateway breakdownn
+- ⚔️ **Robustness / Attack Simulation** — Once a week it simulates Random, Degree, PageRank, and Betweenness-based attacks on the network
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React + TypeScript + Vite |
+| Styling | Tailwind CSS |
+| State Management | Zustand |
+| Map | Leaflet / MapLibre |
+| Backend (local/CI) | Python + FastAPI |
+| Network Analysis | NetworkX, igraph, leidenalg |
+| Data Validation | Pydantic |
+| Hosting | Cloudflare Pages |
+| CI/CD | GitHub Actions |
+
+---
+
+
+## Project Structure
+
+```
+meshintel/
+├── backend/              # Python backend (FastAPI + NetworkX)
+│   ├── analysis/         # Network metrics modules
+│   ├── communities/      # Louvain & Leiden detection
+│   ├── api/              # FastAPI routes
+│   ├── graph/            # Graph builder & reducer
+│   └── data/             # Data parser & fetcher
+├── frontend/             # React + Vite frontend
+│   ├── src/
+│   │   ├── components/   # UI components
+│   │   ├── store/        # Zustand state management
+│   │   └── api/          # API client
+│   └── public/data/      # Pre-generated static JSON (CI output)
+└── scripts/              # CI data generation scripts
+    └── generate_static.py
 ```
 
 ---
 
-## 🛠️ Installazione e Avvio
+## Local Development
 
-### 1. Requisiti
-* Python 3.10+
-* `pip` (Python package manager)
+### Backend
 
-### 2. Setup Ambiente
-Clona il progetto e installa le dipendenze:
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate  # Su Windows: .venv\Scripts\activate
+cd meshintel
+python -m venv .venv
+source .venv/bin/activate
 pip install -r backend/requirements.txt
-```
-
-### 3. Avvio del Server
-Lancia l'applicazione dalla cartella principale del progetto:
-```bash
 python -m uvicorn backend.main:app --reload
 ```
 
-### 4. Accesso
-* **Dashboard**: [http://localhost:8000](http://localhost:8000)
-* **Documentazione API (Swagger)**: [http://localhost:8000/docs](http://localhost:8000/docs)
+API available at `http://localhost:8000` — docs at `http://localhost:8000/docs`
+
+### Frontend (in another terminal)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend available at `http://localhost:5173`
+
+
+## Deployment
+
+This project is deployed as a **static site** on Cloudflare Pages.
+
+A GitHub Actions workflow runs daily at 02:00 UTC:
+1. Fetches fresh Meshtastic network data
+2. Runs all analysis scripts locally
+3. Saves pre-computed JSON files to `frontend/public/data/`
+4. Commits and pushes the updated data
+5. Cloudflare Pages automatically rebuilds and deploys
+
+To deploy, simply commit any changes to the repository:
+```bash
+git add .
+git commit -m "Update data"
+git push
+```
 
 ---
 
-## 🔌 API Endpoints
+## License
 
-| Metodo | Endpoint | Descrizione |
-| :--- | :--- | :--- |
-| `GET` | `/api/report` | Restituisce tutte le metriche di rete (centralità, distanze, etc.) |
-| `GET` | `/api/geojson/{algo}` | Restituisce il GeoJSON colorato (algo: raw, louvain, leiden) |
-| `POST` | `/api/refresh` | Scarica nuovi dati, archivia lo storico e resetta la cache |
+<!-- TODO: Choose a license -->
+MIT
 
 ---
 
-## 📈 Roadmap di Sviluppo (Intelligence Features)
+A special thank you to the <a href="https://www.loraitalia.it/">loraitalia</a> community for providing the data.
 
-* [ ] **Anomaly Detection**: Identificazione automatica di spoofing GPS basata su SNR/Distanza.
-* [ ] **Ego Network**: Visualizzazione dei contatti di un singolo nodo fino al 2° grado.
-* [ ] **Vulnerability Map**: Evidenziazione dei *Bridges* e *Articulation Points* (nodi critici).
-* [ ] **Historical Trends**: Grafici dell'evoluzione temporale della rete tramite database SQLite.
-
----
-*Sviluppato per fini di Network Intelligence e analisi delle reti decentralizzate.*
-
-
-
-
-Apri un terminale nella cartella meshtastic-na/ e scrivi: python -m uvicorn backend.main:app --reload
-Apri un SECONDO terminale nella cartella frontend/ e scrivi: npm run dev
-
+*Built with ❤️ for the Meshtastic community.*
