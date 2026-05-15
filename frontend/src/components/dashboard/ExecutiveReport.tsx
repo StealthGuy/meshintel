@@ -81,7 +81,7 @@ export const ExecutiveReport: React.FC = () => {
         {/* Page Header */}
         <div className="flex justify-between items-end border-b border-outline-variant pb-4">
           <div>
-            <h1 className="font-headline-lg text-headline-lg text-on-surface">Network Intelligence Summary</h1>
+            <h1 className="font-headline-lg text-headline-lg text-on-surface">Network Analysis Summary</h1>
             <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">
               Comprehensive analysis of topology, centrality, and connectivity metrics.
             </p>

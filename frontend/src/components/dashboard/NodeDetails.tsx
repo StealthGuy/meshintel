@@ -65,7 +65,7 @@ export const NodeDetails: React.FC = () => {
     return (
       <div className={`flex-1 flex flex-col items-center justify-center p-8 bg-surface text-on-surface transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
-        <h2 className="font-headline-lg text-headline-lg text-on-surface">Loading Node Intelligence...</h2>
+        <h2 className="font-headline-lg text-headline-lg text-on-surface">Loading Node Data...</h2>
       </div>
     );
   }

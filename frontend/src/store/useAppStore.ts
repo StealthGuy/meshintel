@@ -157,7 +157,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     } catch (error: any) {
       console.error('Failed to fetch node details', error);
       if (error.response?.status === 404) {
-        set({ nodeError: 'Node intelligence profile not found on server' });
+        set({ nodeError: 'Node data not found on server' });
       } else {
         set({ nodeError: 'Failed to synchronize node telemetry data' });
       }

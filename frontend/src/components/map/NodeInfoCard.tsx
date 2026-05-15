@@ -47,7 +47,7 @@ export const NodeInfoCard: React.FC = () => {
           onClick={() => navigate(`/node-details/${selectedNodeDetails.id}`)}
           className="mt-2 w-full py-1.5 text-center text-[11px] uppercase tracking-wider text-primary font-label-mono bg-surface-container-highest border border-outline-variant hover:bg-surface-variant transition-colors cursor-pointer"
         >
-          View Full Intelligence Profile
+          View Full Node Profile
         </button>
       </div>
     </div>

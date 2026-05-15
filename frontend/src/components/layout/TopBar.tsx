@@ -4,7 +4,7 @@ export const TopBar: React.FC = () => {
   return (
     <header className="h-12 border-b border-slate-200 dark:border-slate-800 shadow-none fixed top-0 right-0 left-64 flex items-center justify-between px-6 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
       <div className="flex items-center font-mono text-xs uppercase tracking-tighter">
-        <span className="font-bold text-slate-900 dark:text-white mr-4">Mesh Intelligence Terminal</span>
+        <span className="font-bold text-slate-900 dark:text-white mr-4">MeshIntel Terminal</span>
       </div>
       <div className="flex items-center gap-4 text-blue-800 dark:text-blue-400">
         <div className="flex items-center gap-3">

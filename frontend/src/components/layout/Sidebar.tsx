@@ -69,7 +69,7 @@ export const Sidebar: React.FC = () => {
             }
           >
             <span className="material-symbols-outlined text-[20px]">radar</span>
-            <span>Node Intelligence</span>
+            <span>Node Details</span>
           </NavLink>
         )}
       </div>
