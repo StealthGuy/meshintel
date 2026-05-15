@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppStore } from '../../store/useAppStore';
-import { fmt, fmtFloat, fmtUptime, fmtDate, fmtUptimeShort, FALLBACK_VALUE } from '../../utils/formatters';
+import { fmt, fmtFloat, fmtDate, fmtUptimeShort, FALLBACK_VALUE } from '../../utils/formatters';
 
 export const NodeDetails: React.FC = () => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ export const NodeDetails: React.FC = () => {
 
   const {
     id, short_name, long_name, role, hardware, fw_version, frequency,
-    cluster_code, public_key, routing_enabled, is_licensed, has_mqtt, last_heard, channel,
+    cluster_code, public_key, is_licensed, has_mqtt, last_heard, channel,
     gateway_node, last_position, last_device_metric
   } = selectedNodeDetails;
 
