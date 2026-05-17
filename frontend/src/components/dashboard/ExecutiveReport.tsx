@@ -23,7 +23,7 @@ export const ExecutiveReport: React.FC = () => {
     );
   }
 
-  const { connectivity, distances, degree_distribution, centrality } = report;
+  const { connectivity, distances, degree_distribution, centrality, stats } = report;
 
   // Assortativity text logic
   const assortativityVal = degree_distribution.assortativity || 0;
@@ -32,8 +32,12 @@ export const ExecutiveReport: React.FC = () => {
     ? "Assortative Network: High degree nodes tend to connect to other high degree nodes, making the core very resilient."
     : "Disassortative Network: High degree nodes are less connected to one another and the failure of a high degree node would have more impact on the connectedness of the network.";
 
-  // Helper for Centrality Tables
-  const renderCentralityTable = (title: string, dataList: Array<{ id: string, name: string, value: number }>) => {
+  // Helper for Ranking Tables
+  const renderRankingTable = (
+    title: string, 
+    dataList: Array<{ id: string, name: string, value: number }>,
+    onItemClick?: (id: string, name: string) => void
+  ) => {
     if (!dataList || dataList.length === 0) return null;
 
     // Il primo nodo ha il punteggio massimo, lo usiamo come riferimento per il 100%
@@ -51,21 +55,23 @@ export const ExecutiveReport: React.FC = () => {
             return (
               <div
                 key={item.id}
-                className="group cursor-pointer"
+                className={`group ${onItemClick ? 'cursor-pointer' : ''}`}
                 onClick={() => {
-                  setSelectedNodeDetails({ id: item.id, long_name: item.name });
-                  navigate(`/node-details/${item.id}`);
+                  if (onItemClick) {
+                    onItemClick(item.id, item.name);
+                  }
                 }}
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-2 min-w-0">
                     <div className={`w-1.5 h-1.5 ${dotColor} rounded-none shrink-0`}></div>
-                    <span className="truncate text-[13px] font-bold text-primary hover:underline group-hover:text-primary transition-colors" title={item.name}>
+                    <span className={`truncate text-[13px] font-bold ${onItemClick ? 'text-primary hover:underline group-hover:text-primary transition-colors' : 'text-on-surface'}`} title={item.name}>
                       {item.name || item.id}
                     </span>
                   </div>
                   <span className="font-data-tabular text-[11px] font-bold text-on-surface-variant">
-                    {item.value.toFixed(4)}
+                    {/* Format logic: if the value is an integer (like count), don't show decimals */}
+                    {Number.isInteger(item.value) ? item.value : item.value.toFixed(4)}
                   </span>
                 </div>
                 <div className="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
@@ -241,17 +247,32 @@ export const ExecutiveReport: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Centrality Analysis */}
+          {/* Right Column: Rankings */}
           <div className="space-y-6 flex flex-col">
             <section className="bg-surface-container-lowest border border-outline-variant h-[536px] flex flex-col">
               <div className="px-4 py-3 border-b border-outline-variant bg-surface-container-low shrink-0">
                 <h3 className="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
-                  <span className="material-symbols-outlined text-surface-tint text-sm">share</span>
-                  Centrality Rankings
+                  <span className="material-symbols-outlined text-surface-tint text-sm">leaderboard</span>
+                  Top Rankings
                 </h3>
               </div>
               <div className="flex-1 flex flex-col overflow-y-auto">
-                {renderCentralityTable("Top Betweenness", centrality.top_betweenness || [])}
+                {renderRankingTable(
+                  "Top Betweenness", 
+                  centrality?.top_betweenness || [],
+                  (id, name) => {
+                    setSelectedNodeDetails({ id, long_name: name });
+                    navigate(`/node-details/${id}`);
+                  }
+                )}
+                {renderRankingTable(
+                  "Most Popular Hardware", 
+                  stats?.hardware?.slice(0, 5).map((hw: any) => ({
+                    id: hw.label || 'UNKNOWN',
+                    name: hw.label || 'UNKNOWN',
+                    value: hw.count
+                  })) || []
+                )}
               </div>
             </section>
           </div>
