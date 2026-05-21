@@ -1,0 +1,1 @@
+export const HUB_NODE_IN_DEGREE_THRESHOLD = 7;

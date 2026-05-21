@@ -36,5 +36,10 @@ def build_graph(nodes: List[NodeModel], edges: List[EdgeModel]) -> nx.DiGraph:
                 weight_snr_linear=weight_snr_linear
             )
 
+    # Aggiunta In/Out Degree come attributi dei nodi
+    for node_id in G.nodes():
+        G.nodes[node_id]['in_degree'] = G.in_degree(node_id)
+        G.nodes[node_id]['out_degree'] = G.out_degree(node_id)
+
     print(f"Grafo completato: {G.number_of_nodes()} nodi e {G.number_of_edges()} archi.")
     return G

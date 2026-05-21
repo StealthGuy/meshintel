@@ -346,6 +346,38 @@ export const NodeDetails: React.FC = () => {
           </div>
         </div>
 
+        {/* Network Graph Metrics Box */}
+        <div className="bg-surface-container-lowest border border-outline-variant flex flex-col">
+          <div className="p-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+            <span className="font-label-mono text-[12px] text-on-surface uppercase">NETWORK_GRAPH_METRICS</span>
+            <span className="material-symbols-outlined text-[16px] text-outline">hub</span>
+          </div>
+          <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-surface-container-low border border-outline-variant p-4 flex flex-col justify-between h-24">
+              <div className="flex items-center justify-between">
+                <span className="font-label-mono text-[11px] text-secondary uppercase">IN_DEGREE</span>
+                <span className="material-symbols-outlined text-outline text-[18px]">south_east</span>
+              </div>
+              <div className="mt-auto">
+                <div className="font-data-tabular text-[28px] font-bold text-on-surface leading-none">
+                  {(selectedNodeDetails as any).in_degree ?? FALLBACK_VALUE}
+                </div>
+              </div>
+            </div>
+            <div className="bg-surface-container-low border border-outline-variant p-4 flex flex-col justify-between h-24">
+              <div className="flex items-center justify-between">
+                <span className="font-label-mono text-[11px] text-secondary uppercase">OUT_DEGREE</span>
+                <span className="material-symbols-outlined text-outline text-[18px]">north_east</span>
+              </div>
+              <div className="mt-auto">
+                <div className="font-data-tabular text-[28px] font-bold text-on-surface leading-none">
+                  {(selectedNodeDetails as any).out_degree ?? FALLBACK_VALUE}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Gateway Sub-Node Section */}
         {gw && typeof gw === 'object' && 'id' in gw ? (
           <div
