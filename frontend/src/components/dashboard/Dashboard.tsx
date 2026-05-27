@@ -5,7 +5,7 @@ import { FALLBACK_VALUE } from '../../utils/formatters';
 import { KpiBentoCard } from './KpiBentoCard';
 import { CssHistogram } from './CssHistogram';
 
-export const ExecutiveReport: React.FC = () => {
+export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { report, fetchReport, isSidebarOpen, setSelectedNodeDetails } = useAppStore();
 
@@ -117,8 +117,8 @@ export const ExecutiveReport: React.FC = () => {
           </button>
         </div>
 
-        {/* Executive Summary KPIs */}
-        <section aria-label="Executive Summary KPIs">
+        {/* Dashboard KPIs */}
+        <section aria-label="Dashboard KPIs">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <KpiBentoCard
               title="Total Nodes"

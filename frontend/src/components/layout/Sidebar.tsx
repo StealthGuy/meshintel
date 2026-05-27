@@ -35,7 +35,7 @@ export const Sidebar: React.FC = () => {
           <span>Network Topology</span>
         </NavLink>
         <NavLink
-          to="/report"
+          to="/dashboard"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
             (isActive
@@ -43,8 +43,8 @@ export const Sidebar: React.FC = () => {
               : `text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800`)
           }
         >
-          <span className="material-symbols-outlined text-[20px]">description</span>
-          <span>Executive Summary</span>
+          <span className="material-symbols-outlined text-[20px]">dashboard</span>
+          <span>Dashboard</span>
         </NavLink>
         <NavLink
           to="/robustness"

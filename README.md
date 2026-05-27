@@ -1,15 +1,17 @@
 # 📡 Meshintel
 
-> Network analysis dashboard for Italian Meshtastic mesh network.
-
+> Network analysis and topology dashboard for the Italian Meshtastic mesh network.
 
 ---
 
 ## Overview
 
-<!-- TODO: Describe what this project does and why it's useful -->
-
 This project provides a web dashboard for analyzing the topology and performance of the Italian [Meshtastic](https://meshtastic.org/) mesh radio network. It processes raw node/edge data and computes key network science metrics, visualized through an interactive frontend.
+
+### Gallery
+| Interactive Topology Map | Analytics Dashboard | Node Intelligence Profile |
+| :---: | :---: | :---: |
+| ![Topology Map](images/meshintel_map.png) | ![Analytics Dashboard](images/meshintel_dashboard.png) | ![Node Intelligence Profile](images/meshintel_node_details.png) |
 
 ---
 
@@ -19,7 +21,7 @@ This project provides a web dashboard for analyzing the topology and performance
 - 📊 **Network Metrics** — Density, average degree, clustering coefficient, diameter
 - 🎯 **Centrality Analysis** — Top nodes by Betweenness Centrality
 - 📏 **Distance Distribution** — Shortest path lengths across the network
-- 📡 **Node Statistics** — Hardware models, roles, and MQTT gateway breakdownn
+- 📡 **Node Statistics** — Hardware models, roles, and MQTT gateway breakdown
 - ⚔️ **Robustness / Attack Simulation** — Once a week it simulates Random, Degree, PageRank, and Betweenness-based attacks on the network
 
 ---
@@ -31,7 +33,7 @@ This project provides a web dashboard for analyzing the topology and performance
 | Frontend | React + TypeScript + Vite |
 | Styling | Tailwind CSS |
 | State Management | Zustand |
-| Map | Leaflet / MapLibre |
+| Map | Leaflet / React Leaflet |
 | Backend (local/CI) | Python + FastAPI |
 | Network Analysis | NetworkX, igraph, leidenalg |
 | Data Validation | Pydantic |
@@ -39,7 +41,6 @@ This project provides a web dashboard for analyzing the topology and performance
 | CI/CD | GitHub Actions |
 
 ---
-
 
 ## Project Structure
 
@@ -67,17 +68,31 @@ meshintel/
 
 ### Backend
 
+To set up and run the python analysis backend:
+
 ```bash
-cd meshintel
+# Install virtual environment and dependencies
 python -m venv .venv
 source .venv/bin/activate
 pip install -r backend/requirements.txt
+
+# Run the local API server
 python -m uvicorn backend.main:app --reload
 ```
 
-API available at `http://localhost:8000` — docs at `http://localhost:8000/docs`
+* API documentation is available at `http://localhost:8000/docs`
+* Redoc is available at `http://localhost:8000/redoc`
 
-### Frontend (in another terminal)
+#### API Endpoints
+The backend exposes a structured API for graph query and analytics:
+* `GET /api/report` — Returns global network topology metrics, degree distributions, centrality lists, and hardware stats.
+* `GET /api/geojson/{algorithm}` — Exports the map-ready GeoJSON for the specified clustering algorithm (`raw`, `louvain`, or `leiden`).
+* `GET /api/robustness` — Retrieves the cached simulation results of structural network robustness under multiple node-removal strategies.
+* `GET /api/nodes/{node_id}` — Resolves specific node metrics, hardware specs, status, and telemetry data.
+
+### Frontend
+
+To set up and run the React web interface:
 
 ```bash
 cd frontend
@@ -85,24 +100,25 @@ npm install
 npm run dev
 ```
 
-Frontend available at `http://localhost:5173`
+* Frontend dev server is available at `http://localhost:5173`
 
+---
 
 ## Deployment
 
 This project is deployed as a **static site** on Cloudflare Pages.
 
 A GitHub Actions workflow runs daily at 02:00 UTC:
-1. Fetches fresh Meshtastic network data
-2. Runs all analysis scripts locally
-3. Saves pre-computed JSON files to `frontend/public/data/`
-4. Commits and pushes the updated data
-5. Cloudflare Pages automatically rebuilds and deploys
+1. Fetches fresh Meshtastic network data from the LoRa Italia API
+2. Runs all analysis scripts to build a refreshed network topology graph
+3. Saves pre-computed JSON files to `frontend/public/data/` (caching the heavy weekly robustness simulation)
+4. Commits and pushes the updated data back to the repository
+5. Cloudflare Pages automatically detects the commit, rebuilds, and deploys the new static files (costing 0 euro of backend hosting)
 
-To deploy, simply commit any changes to the repository:
+To manually trigger a deploy or push changes:
 ```bash
 git add .
-git commit -m "Update data"
+git commit -m "Update project features"
 git push
 ```
 
@@ -110,11 +126,12 @@ git push
 
 ## License
 
-<!-- TODO: Choose a license -->
-MIT
+This project is licensed under the [MIT License](LICENSE) (see the [LICENSE](LICENSE) file for details).
 
 ---
 
-A special thank you to the <a href="https://www.loraitalia.it/">loraitalia</a> community for providing the data.
+## Acknowledgements
+
+A special thank you to the [LoRa Italia](https://www.loraitalia.it/) community for providing the network data.
 
 *Built with ❤️ for the Meshtastic community.*

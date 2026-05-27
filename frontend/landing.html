@@ -1,0 +1,421 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MESHINTEL | Network Analysis for the Mesh</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;family=Space+Grotesk:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f2f4f6",
+                        "outline": "#757684",
+                        "primary-container": "#1e40af",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-surface-variant": "#444653",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "background": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-fixed": "#131b2e",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-surface": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "tertiary-container": "#434b60",
+                        "secondary-container": "#d5e3fc",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#a8b8ff",
+                        "surface-tint": "#3755c3",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "primary": "#00288e",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed-variant": "#173bab",
+                        "on-tertiary-container": "#b4bbd5",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#dde1ff",
+                        "tertiary-fixed": "#dae2fd",
+                        "outline-variant": "#c4c5d5",
+                        "on-secondary-container": "#57657a",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#2d3449",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1e",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#b8c4ff",
+                        "secondary": "#515f74",
+                        "surface-variant": "#e0e3e5",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#001453",
+                        "inverse-surface": "#2d3133",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "1.5rem",
+                        "container-max": "1440px",
+                        "density": "compact",
+                        "unit": "4px",
+                        "gutter": "1rem"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["Space Grotesk"],
+                        "data-tabular": ["Space Grotesk"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "data-tabular": ["13px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .mesh-pattern {
+            background-image: radial-gradient(circle, #c4c5d5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        canvas#hero-network-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-white"><div class="bg-primary text-on-primary py-2 px-margin text-center">
+<div class="max-w-container-max mx-auto flex items-center justify-center gap-2 font-label-mono text-[11px] tracking-[0.1em]">
+<span class="material-symbols-outlined text-[14px]">code</span>
+<span>PROUDLY OPEN SOURCE — VIEW ON</span>
+<a class="underline font-bold hover:opacity-80 transition-opacity" href="#">GITHUB</a>
+</div>
+</div>
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-outline-variant sticky top-0 z-50">
+<div class="flex justify-between items-center h-16 w-full px-margin max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: &quot;FILL&quot; 1;">hub</span>
+<div class="flex flex-col">
+<span class="font-headline-lg text-headline-lg font-black tracking-tighter text-primary">MESHINTEL</span>
+<span class="font-label-mono text-[10px] tracking-widest text-outline -mt-1 uppercase">Network Analyst V1.0</span>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-8">
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">Map</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">Analysis</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">Nodes</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">Settings</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">Documentation</a>
+</nav>
+<div class="flex items-center">
+<button class="bg-primary text-on-primary font-label-mono text-label-mono px-4 py-2 hover:bg-primary-container transition-all active:scale-[0.98]">View Map</button>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-[700px] flex flex-col justify-center overflow-hidden border-b border-outline-variant bg-surface">
+<!-- Dynamic Network Graph Canvas -->
+<canvas height="700" id="hero-network-canvas" width="1280"></canvas>
+<div class="absolute inset-0 mesh-pattern opacity-10 pointer-events-none"></div>
+<div class="max-w-container-max mx-auto px-margin w-full flex flex-col items-center justify-center relative z-10 py-24 text-center">
+<!-- Status Chip -->
+<h1 class="font-headline-lg text-[64px] md:text-[80px] leading-[0.9] font-black tracking-tighter text-on-surface mb-6" style="font-family: &quot;Space Grotesk&quot;, monospace; font-weight: 500;">
+                MESHINTEL
+            </h1>
+<p class="font-label-mono text-headline-md text-secondary mb-10 max-w-2xl leading-relaxed mx-auto bg-surface/50 backdrop-blur-[2px]">
+                Applying high-fidelity network analysis on meshtastic ecosystems. Visualize, simulate, and optimize tactical decentralized communication.
+            </p>
+<div class="flex flex-wrap gap-4 justify-center">
+<button class="bg-primary text-on-primary font-label-mono text-label-mono px-8 py-4 flex items-center gap-2 hover:bg-primary-container transition-all shadow-lg active:scale-[0.98]">
+                    INITIALIZE ANALYSIS
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="border border-outline-variant bg-surface/80 backdrop-blur-sm text-on-surface-variant font-label-mono text-label-mono px-8 py-4 hover:bg-surface-container-low transition-all">
+                    DOCUMENTATION
+                </button>
+</div>
+</div>
+</section>
+<!-- Open Source Section -->
+<section class="bg-surface-container-low border-b border-outline-variant">
+<div class="max-w-container-max mx-auto px-margin py-4 flex items-center justify-center gap-3"><div class="flex items-center justify-center gap-2 font-label-mono text-[13px] text-on-surface-variant">
+<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+<a href="#" class="hover:text-primary transition-colors">MESHINTEL is an open source project on <span class="font-bold underline">GitHub</span></a>
+</div></div>
+</section>
+<!-- Bento Grid Features Section -->
+<section class="py-24 bg-surface">
+<div class="max-w-container-max mx-auto px-margin">
+<div class="flex flex-col mb-16"><span class="font-label-mono text-label-mono text-primary uppercase tracking-[0.2em] mb-2">Strategic Framework</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">10 Strategic Insights: Why Mesh Intelligence Matters</h2></div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Insight 1 -->
+<div class="border border-outline-variant p-8 flex flex-col justify-between hover:bg-surface-container-low transition-colors group">
+<div>
+<span class="material-symbols-outlined text-primary mb-6 text-3xl">visibility</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 font-mono" style="font-family: monospace; color: rgb(0, 0, 0); text-transform: uppercase; font-weight: bold;">Rendering the Invisible Visible</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">In a LoRa network, topology is a ghost. MeshIntel transforms invisible radio signals into coherent structural maps, allowing you to see the true shape of your off-grid infrastructure.</p>
+</div>
+</div>
+<!-- Insight 2 -->
+<div class="border border-outline-variant p-8 flex flex-col justify-between hover:bg-surface-container-low transition-colors group">
+<div>
+<span class="material-symbols-outlined text-primary mb-6 text-3xl">route</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 font-mono" style="font-family: monospace; color: rgb(0, 0, 0); text-transform: uppercase; font-weight: bold;">The Silent Tax of Hops</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Every hop is a gamble with time and battery life. Analyzing Average Path Length is the only way to measure the vital efficiency of your communication.</p>
+</div>
+</div>
+<!-- Insight 3 -->
+<div class="border border-outline-variant p-8 flex flex-col justify-between hover:bg-surface-container-low transition-colors group">
+<div>
+<span class="material-symbols-outlined text-primary mb-6 text-3xl">hub</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 font-mono" style="font-family: monospace; color: rgb(0, 0, 0); text-transform: uppercase; font-weight: bold;">Identifying Structural Breakpoints</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">A mesh is only as strong as its most critical node. Through Betweenness Centrality, we pinpoint bottlenecks before a single failure isolates entire communities.</p>
+</div>
+</div>
+<!-- Insight 4 -->
+<div class="border border-outline-variant p-8 flex flex-col justify-between hover:bg-surface-container-low transition-colors group">
+<div>
+<span class="material-symbols-outlined text-primary mb-6 text-3xl">warning</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 font-mono" style="font-family: monospace; color: rgb(0, 0, 0); text-transform: uppercase; font-weight: bold;">Simulating Failure for Resilience</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Security is a process, not a state. With our Attack Simulation, we stress-test network robustness by removing critical hubs to see if the mesh survives or fragments.</p>
+</div>
+</div>
+<!-- Insight 5 -->
+<div class="border border-outline-variant p-8 flex flex-col justify-between hover:bg-surface-container-low transition-colors group">
+<div>
+<span class="material-symbols-outlined text-primary mb-6 text-3xl">groups</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 font-mono" style="font-family: monospace; color: rgb(0, 0, 0); text-transform: uppercase; font-weight: bold;">Communities, Not Just Nodes</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Mesh networks are social infrastructures. Louvain and Leiden algorithms reveal how nodes naturally cluster, helping to coordinate regional network leaders.</p>
+</div>
+</div>
+<!-- Insight 6 -->
+<div class="border border-outline-variant p-8 flex flex-col justify-between hover:bg-surface-container-low transition-colors group">
+<div>
+<span class="material-symbols-outlined text-primary mb-6 text-3xl">analytics</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2 font-mono" style="font-family: monospace; color: rgb(0, 0, 0); text-transform: uppercase; font-weight: bold;">Spectrum Health Analysis</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Real-time monitoring of Channel Utilization and Airtime TX. We prevent spectrum congestion by identifying nodes that risk frequency saturation and blocking emergency traffic.</p>
+</div>
+</div></div>
+</div>
+</section><section class="py-24 bg-background border-t border-outline-variant">
+<div class="max-w-3xl mx-auto px-margin">
+<div class="flex flex-col mb-12">
+<span class="font-label-mono text-label-mono text-primary uppercase tracking-[0.2em] mb-2">Common Inquiries</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Frequently Asked Questions</h2>
+</div>
+<div class="space-y-4"><div class="border border-outline-variant bg-surface">
+<label class="flex flex-col cursor-pointer hover:bg-surface-container-low transition-colors group">
+<input checked="" class="peer hidden" name="faq-accordion" type="radio">
+<div class="flex items-center justify-between p-6">
+<span class="text-body-md font-bold text-on-surface font-mono uppercase hover:text-primary">1. Is the network a true "Mesh" or just a collection of islands?</span>
+<span class="material-symbols-outlined transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
+</div>
+<div class="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low">
+<div class="p-6 pt-2 font-body-sm text-on-surface-variant leading-relaxed border-t border-outline-variant/30">
+                By analyzing density and edge-to-node ratios, we determine if a cohesive interconnected structure exists or if the network is fragmented into isolated segments.
+            </div>
+</div>
+</label>
+</div>
+<div class="border border-outline-variant bg-surface">
+<label class="flex flex-col cursor-pointer hover:bg-surface-container-low transition-colors group">
+<input class="peer hidden" name="faq-accordion" type="radio">
+<div class="flex items-center justify-between p-6">
+<span class="text-body-md font-bold text-on-surface font-mono uppercase hover:text-primary">2. Who are the "Gatekeepers" of communication?</span>
+<span class="material-symbols-outlined transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
+</div>
+<div class="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low">
+<div class="p-6 pt-2 font-body-sm text-on-surface-variant leading-relaxed border-t border-outline-variant/30">
+                Using Betweenness Centrality, we identify the few critical nodes acting as mandatory bridges between different regions. If they fail, the network splits.
+            </div>
+</div>
+</label>
+</div>
+<div class="border border-outline-variant bg-surface">
+<label class="flex flex-col cursor-pointer hover:bg-surface-container-low transition-colors group">
+<input class="peer hidden" name="faq-accordion" type="radio">
+<div class="flex items-center justify-between p-6">
+<span class="text-body-md font-bold text-on-surface font-mono uppercase hover:text-primary">3. How "deep" is the network latency?</span>
+<span class="material-symbols-outlined transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
+</div>
+<div class="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low">
+<div class="p-6 pt-2 font-body-sm text-on-surface-variant leading-relaxed border-t border-outline-variant/30">
+                Network Diameter and Average Path Length tell us how many hops a packet must face. A network deeper than 7 hops is a slow network prone to collisions.
+            </div>
+</div>
+</label>
+</div>
+<div class="border border-outline-variant bg-surface">
+<label class="flex flex-col cursor-pointer hover:bg-surface-container-low transition-colors group">
+<input class="peer hidden" name="faq-accordion" type="radio">
+<div class="flex items-center justify-between p-6">
+<span class="text-body-md font-bold text-on-surface font-mono uppercase hover:text-primary">4. Is the mesh designed to survive a targeted attack?</span>
+<span class="material-symbols-outlined transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
+</div>
+<div class="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low">
+<div class="p-6 pt-2 font-body-sm text-on-surface-variant leading-relaxed border-t border-outline-variant/30">
+                Our Attack Simulations show whether the network collapses quickly when high-connection nodes are removed, or if it possesses the redundancy to stay operational.
+            </div>
+</div>
+</label>
+</div>
+<div class="border border-outline-variant bg-surface">
+<label class="flex flex-col cursor-pointer hover:bg-surface-container-low transition-colors group">
+<input class="peer hidden" name="faq-accordion" type="radio">
+<div class="flex items-center justify-between p-6">
+<span class="text-body-md font-bold text-on-surface font-mono uppercase hover:text-primary">5. Do natural radio communities exist?</span>
+<span class="material-symbols-outlined transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
+</div>
+<div class="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low">
+<div class="p-6 pt-2 font-body-sm text-on-surface-variant leading-relaxed border-t border-outline-variant/30">
+                Cluster algorithms reveal groups of nodes that communicate intensely with each other, allowing us to map the "digital provinces" or regions of the mesh.
+            </div>
+</div>
+</label>
+</div></div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-24 bg-primary text-on-primary">
+<div class="max-w-3xl mx-auto px-margin text-center">
+<h2 class="font-headline-lg text-[40px] leading-tight mb-6 font-mono">Ready to secure your communications?</h2>
+<p class="font-body-md mb-10" style="opacity: 0;">Deploy MESHINTEL on your local infrastructure or connect to our cloud dashboard to start analyzing your meshtastic topology today.</p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4"><button class="w-full sm:w-auto bg-white text-primary font-mono text-label-mono px-12 py-5 hover:bg-opacity-90 transition-all active:scale-[0.98] border-2 border-white">GET STARTED FOR FREE</button><button class="w-full sm:w-auto border-2 border-white text-white font-mono text-label-mono px-12 py-5 hover:bg-white/10 transition-all">VIEW LIVE DEMO</button></div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center py-12 px-margin max-w-container-max mx-auto">
+<div class="flex flex-col items-center md:items-start mb-8 md:mb-0">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">hub</span>
+<span class="font-headline-md text-on-surface font-black tracking-tighter">MESHINTEL</span>
+</div>
+<p class="font-body-sm text-on-surface-variant text-center md:text-left">© 2024 MESHINTEL. Network Analysis for the Mesh.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">API Status</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-primary transition-colors" href="#">GitHub</a>
+</div>
+</div>
+</footer>
+<script>
+    const canvas = document.getElementById('hero-network-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let nodes = [];
+    const nodeCount = 60;
+    const maxDistance = 150;
+    const nodeColor = '#00288e';
+
+    class Node {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * 0.5;
+            this.vy = (Math.random() - 0.5) * 0.5;
+            this.radius = Math.random() * 2 + 1;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = nodeColor;
+            ctx.fill();
+        }
+    }
+
+    function resize() {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+        initNodes();
+    }
+
+    function initNodes() {
+        nodes = [];
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push(new Node());
+        }
+    }
+
+    function drawLines() {
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const dist = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+                if (dist < maxDistance) {
+                    ctx.beginPath();
+                    ctx.moveTo(nodes[i].x, nodes[i].y);
+                    ctx.lineTo(nodes[j].x, nodes[j].y);
+                    ctx.strokeStyle = nodeColor;
+                    ctx.globalAlpha = 1 - (dist / maxDistance);
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+            }
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        nodes.forEach(node => {
+            node.update();
+            node.draw();
+        });
+        drawLines();
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    animate();
+</script>
+
+
+
+
+
+
+</body></html>
