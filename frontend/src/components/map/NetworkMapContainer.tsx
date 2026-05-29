@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import { NodeInfoCard } from './NodeInfoCard';
 import { GeoJsonLayer } from './GeoJsonLayer';
@@ -33,6 +33,19 @@ export const NetworkMapContainer: React.FC = () => {
     }
   }, [map, isSidebarOpen]);
 
+  // Component to handle map clicks
+  const MapClickHandler = () => {
+    const { isSidebarOpen, toggleSidebar } = useAppStore();
+    useMapEvents({
+      click() {
+        if (window.innerWidth < 768 && isSidebarOpen) {
+          toggleSidebar();
+        }
+      },
+    });
+    return null;
+  };
+
   return (
     <div className="flex-1 bg-black relative w-full h-full" id="map-container">
 
@@ -60,6 +73,7 @@ export const NetworkMapContainer: React.FC = () => {
         )}
 
         <GeoJsonLayer />
+        <MapClickHandler />
       </MapContainer>
 
       {/* Floating Map Controls */}

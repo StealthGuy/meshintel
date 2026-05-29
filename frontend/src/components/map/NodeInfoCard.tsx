@@ -15,7 +15,7 @@ export const NodeInfoCard: React.FC = () => {
   const dotColor = activeAlgorithm === 'raw' ? mapSettings.rawNodeColor : (selectedNodeDetails.color || '#10b981');
 
   return (
-    <div className={`absolute top-6 z-20 w-72 bg-white/95 backdrop-blur shadow-sm border border-outline-variant rounded flex flex-col hover:shadow-md transition-all duration-300 pointer-events-auto ${isSidebarOpen ? 'left-6' : 'left-16'}`}>
+    <div className={`absolute z-20 bg-white/95 backdrop-blur shadow-sm border border-outline-variant rounded flex flex-col hover:shadow-md transition-all duration-300 pointer-events-auto top-16 left-4 right-4 md:top-6 md:w-72 md:right-auto ${isSidebarOpen ? 'md:left-6' : 'md:left-16'}`}>
       {/* HEADER */}
       <div className="px-4 py-3 border-b border-outline-variant flex justify-between items-start">
         <div>

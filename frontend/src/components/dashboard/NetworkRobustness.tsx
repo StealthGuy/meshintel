@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppStore } from '../../store/useAppStore';
 
 export const NetworkRobustness: React.FC = () => {
-  const { robustness, fetchRobustness, isSidebarOpen } = useAppStore();
+  const { robustness, fetchRobustness } = useAppStore();
 
   useEffect(() => {
     if (!robustness) {
@@ -19,7 +19,7 @@ export const NetworkRobustness: React.FC = () => {
   }
 
   return (
-    <div className={`p-6 overflow-y-auto h-full w-full bg-surface transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
+    <div className={`p-6 pt-16 md:pt-6 overflow-y-auto h-full w-full bg-surface transition-all duration-300`}>
       <div className="max-w-container-max mx-auto space-y-8">
         
         {/* Page Header */}

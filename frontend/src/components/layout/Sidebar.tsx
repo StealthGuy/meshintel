@@ -5,9 +5,15 @@ import { MetricsGrid } from '../dashboard/MetricsGrid';
 import { useAppStore } from '../../store/useAppStore';
 
 export const Sidebar: React.FC = () => {
-  const { isSidebarOpen } = useAppStore();
+  const { isSidebarOpen, toggleSidebar } = useAppStore();
   const location = useLocation();
   const isMapView = location.pathname === '/map';
+
+  const handleNavClick = () => {
+    if (window.innerWidth < 768 && isSidebarOpen) {
+      toggleSidebar();
+    }
+  };
 
   return (
     <nav className={`fixed left-0 top-0 bottom-0 flex flex-col bg-slate-50 dark:bg-slate-950 font-sans text-sm antialiased tracking-tight h-screen w-64 border-r border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800 shadow-none z-50 transition-transform duration-300 ease-in-out print:hidden ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
@@ -24,6 +30,7 @@ export const Sidebar: React.FC = () => {
       <div className="flex-1 overflow-y-auto py-2">
         <NavLink
           to="/map"
+          onClick={handleNavClick}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
             (isActive
@@ -36,6 +43,7 @@ export const Sidebar: React.FC = () => {
         </NavLink>
         <NavLink
           to="/dashboard"
+          onClick={handleNavClick}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
             (isActive
@@ -48,6 +56,7 @@ export const Sidebar: React.FC = () => {
         </NavLink>
         <NavLink
           to="/robustness"
+          onClick={handleNavClick}
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
             (isActive
@@ -61,6 +70,7 @@ export const Sidebar: React.FC = () => {
         {location.pathname.startsWith('/node-details') && (
           <NavLink
             to={location.pathname}
+            onClick={handleNavClick}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
               (isActive

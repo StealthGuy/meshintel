@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppStore } from '../../store/useAppStore';
 import { fmt, fmtFloat, fmtDate, fmtUptimeShort, FALLBACK_VALUE } from '../../utils/formatters';
@@ -6,7 +6,8 @@ import { fmt, fmtFloat, fmtDate, fmtUptimeShort, FALLBACK_VALUE } from '../../ut
 export const NodeDetails: React.FC = () => {
   const navigate = useNavigate();
   const { nodeId } = useParams<{ nodeId: string }>();
-  const { selectedNodeDetails, fetchNodeDetails, isSidebarOpen, nodeError, isLoadingNodeDetails } = useAppStore();
+  const { selectedNodeDetails, fetchNodeDetails, nodeError, isLoadingNodeDetails } = useAppStore();
+  const [copiedKey, setCopiedKey] = useState(false);
 
   useEffect(() => {
     if (nodeId) {
@@ -16,7 +17,7 @@ export const NodeDetails: React.FC = () => {
 
   if (nodeError) {
     return (
-      <div className={`flex-1 flex flex-col items-center justify-center p-8 bg-surface text-on-surface transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
+      <div className={`flex-1 flex flex-col items-center justify-center p-8 pt-16 md:pt-8 bg-surface text-on-surface transition-all duration-300`}>
         <span className="material-symbols-outlined text-[64px] text-error mb-4">error</span>
         <h2 className="font-headline-lg text-headline-lg text-on-surface">Data Sync Failed</h2>
         <p className="font-body-sm text-body-sm text-on-surface-variant mt-2 text-center max-w-md">
@@ -36,7 +37,7 @@ export const NodeDetails: React.FC = () => {
   // Se abbiamo già dati (anche parziali dalla mappa), mostriamo la UI subito per non interrompere il caricamento dell'iframe
   if (!selectedNodeDetails || (nodeId && selectedNodeDetails.id !== nodeId)) {
     return (
-      <div className={`flex-1 flex flex-col items-center justify-center p-8 bg-surface text-on-surface transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
+      <div className={`flex-1 flex flex-col items-center justify-center p-8 pt-16 md:pt-8 bg-surface text-on-surface transition-all duration-300`}>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
         <h2 className="font-headline-lg text-headline-lg text-on-surface">Loading Node Data...</h2>
       </div>
@@ -78,51 +79,65 @@ export const NodeDetails: React.FC = () => {
   const extractedCallsign = callsignMatch ? callsignMatch[1].toUpperCase() : null;
 
   return (
-    <div className={`flex-1 p-6 bg-surface overflow-y-auto transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
-      <div className="max-w-container-max mx-auto space-y-4">
+    <div className={`flex-1 p-6 pt-16 md:pt-6 bg-surface overflow-y-auto overflow-x-hidden w-full transition-all duration-300 min-w-0`}>
+      <div className="max-w-container-max mx-auto space-y-4 w-full min-w-0">
 
         {/* Header Identity Banner */}
-        <div className="bg-surface-container-low border border-outline-variant p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate(-1)}
-              className="w-10 h-10 border border-outline-variant hover:bg-surface-container-highest transition-colors flex items-center justify-center text-secondary hover:text-primary cursor-pointer shrink-0"
-              title="Go Back"
-            >
-              <span className="material-symbols-outlined text-[24px]">arrow_back</span>
-            </button>
-            <div className="w-12 h-12 bg-primary flex items-center justify-center text-on-primary shrink-0">
-              <span className="material-symbols-outlined text-[28px]">router</span>
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2 mb-1">
-                <h2 className="font-headline-lg text-headline-lg text-on-surface uppercase">{fmt(long_name, '') || id}</h2>
-                <span className="px-2 py-0.5 bg-outline-variant text-on-surface-variant font-label-mono text-[12px] uppercase border border-outline">{fmt(role)}</span>
+        <div className="bg-surface-container-low border border-outline-variant p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative w-full min-w-0">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 w-full md:w-auto min-w-0">
+            {/* Top row on mobile: buttons + title */}
+            <div className="flex items-center gap-3 w-full md:w-auto min-w-0">
+              <button
+                onClick={() => navigate(-1)}
+                className="w-10 h-10 border border-outline-variant hover:bg-surface-container-highest transition-colors flex items-center justify-center text-secondary hover:text-primary cursor-pointer shrink-0"
+                title="Go Back"
+              >
+                <span className="material-symbols-outlined text-[24px]">arrow_back</span>
+              </button>
+              <div className="w-12 h-12 bg-primary flex items-center justify-center text-on-primary shrink-0">
+                <span className="material-symbols-outlined text-[28px]">router</span>
               </div>
-              <div className="flex flex-wrap items-center gap-2 md:gap-4 font-label-mono text-[12px] text-secondary">
-                <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">tag</span> {id}</span>
-                <span className="hidden md:inline">|</span>
-                <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">short_text</span> {fmt(short_name)}</span>
-                <span className="hidden md:inline">|</span>
-                <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">cell_tower</span> {fmt(frequency)}</span>
+              <h2 className="font-headline-lg text-[22px] md:text-headline-lg text-on-surface uppercase break-all md:hidden leading-tight flex-1 min-w-0">
+                {fmt(long_name, '') || id}
+              </h2>
+            </div>
+            
+            {/* Badges and metadata */}
+            <div className="flex flex-col items-start justify-center min-w-0 w-full md:w-auto">
+              <div className="flex flex-wrap items-center gap-2 mb-1 hidden md:flex min-w-0 w-full">
+                <h2 className="font-headline-lg text-headline-lg text-on-surface uppercase break-all max-w-full xl:max-w-md min-w-0">
+                  {fmt(long_name, '') || id}
+                </h2>
+                <span className="px-2 py-0.5 bg-outline-variant text-on-surface-variant font-label-mono text-[12px] uppercase border border-outline shrink-0">{fmt(role)}</span>
+              </div>
+              {/* Mobile Role Badge */}
+              <div className="md:hidden mb-2 min-w-0">
+                <span className="px-2 py-0.5 bg-outline-variant text-on-surface-variant font-label-mono text-[12px] uppercase border border-outline inline-block break-all">{fmt(role)}</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 md:gap-4 font-label-mono text-[12px] text-secondary min-w-0 w-full">
+                <span className="flex items-center gap-1 min-w-0 break-all"><span className="material-symbols-outlined text-[14px] shrink-0">tag</span> {id}</span>
+                <span className="hidden md:inline shrink-0">|</span>
+                <span className="flex items-center gap-1 min-w-0 break-all"><span className="material-symbols-outlined text-[14px] shrink-0">short_text</span> {fmt(short_name)}</span>
+                <span className="hidden md:inline shrink-0">|</span>
+                <span className="flex items-center gap-1 min-w-0 break-all"><span className="material-symbols-outlined text-[14px] shrink-0">cell_tower</span> {fmt(frequency)}</span>
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto shrink-0">
-            <div className="flex items-center gap-2 px-3 py-1 bg-surface-container-highest border border-outline-variant">
+          <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto shrink-0 min-w-0">
+            <div className="flex items-center gap-2 px-3 py-1 bg-surface-container-highest border border-outline-variant min-w-0">
               {isLoadingNodeDetails ? (
-                <div className="w-2 h-2 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-2 h-2 border-2 border-primary border-t-transparent rounded-full animate-spin shrink-0"></div>
               ) : (
-                <div className="w-2 h-2 bg-[#10B981]"></div>
+                <div className="w-2 h-2 bg-[#10B981] shrink-0"></div>
               )}
-              <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold">
+              <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold truncate">
                 {isLoadingNodeDetails ? 'SYNCHRONIZING...' : 'ONLINE / ACTIVE'}
               </span>
             </div>
-            <div className="flex flex-col items-end gap-1">
-              <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider">LAST_HEARD: {fmtDate(last_heard)}</span>
-              <span className="font-label-mono text-[9px] text-primary uppercase font-bold flex items-center gap-1">
-                <span className="material-symbols-outlined text-[11px]">sync</span>
+            <div className="flex flex-col items-end gap-1 min-w-0">
+              <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider truncate max-w-full">LAST_HEARD: {fmtDate(last_heard)}</span>
+              <span className="font-label-mono text-[9px] text-primary uppercase font-bold flex items-center gap-1 truncate max-w-full">
+                <span className="material-symbols-outlined text-[11px] shrink-0">sync</span>
                 SYNCHRONIZED DAILY
               </span>
             </div>
@@ -133,7 +148,7 @@ export const NodeDetails: React.FC = () => {
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
 
           {/* Geospatial Column */}
-          <div className="xl:col-span-4 flex flex-col gap-4 h-full">
+          <div className="xl:col-span-4 flex flex-col gap-4 h-full order-2 xl:order-1">
             <div className="bg-surface-container-lowest border border-outline-variant flex flex-col h-full">
               <div className="p-3 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
                 <span className="font-label-mono text-[12px] text-on-surface uppercase">GEOSPATIAL_DATA</span>
@@ -185,7 +200,7 @@ export const NodeDetails: React.FC = () => {
           </div>
 
           {/* Metrics & System Column */}
-          <div className="xl:col-span-8 flex flex-col gap-4">
+          <div className="xl:col-span-8 flex flex-col gap-4 order-1 xl:order-2">
 
             {/* Telemetry Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -257,32 +272,40 @@ export const NodeDetails: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-outline-variant">
 
                 {/* Hardware/Firmware Column */}
-                <div className="p-4 flex flex-col gap-4">
-                  <div className="flex flex-col gap-1 border-b border-outline-variant pb-3">
+                <div className="p-4 flex flex-col gap-4 min-w-0 w-full">
+                  <div className="flex flex-col gap-1 border-b border-outline-variant pb-3 min-w-0 w-full">
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">HARDWAR PLATFORM</span>
-                    <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[16px] text-outline">memory</span> {fmt(hardware)}
+                    <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2 break-all min-w-0">
+                      <span className="material-symbols-outlined text-[16px] text-outline shrink-0">memory</span> 
+                      <span className="break-all min-w-0">{fmt(hardware)}</span>
                     </span>
                   </div>
-                  <div className="flex flex-col gap-1 border-b border-outline-variant pb-3">
+                  <div className="flex flex-col gap-1 border-b border-outline-variant pb-3 min-w-0 w-full">
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">FIRMWARE VER</span>
-                    <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[16px] text-outline">terminal</span> {fw_version || FALLBACK_VALUE}
+                    <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2 break-all min-w-0">
+                      <span className="material-symbols-outlined text-[16px] text-outline shrink-0">terminal</span> 
+                      <span className="break-all min-w-0">{fw_version || FALLBACK_VALUE}</span>
                     </span>
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 min-w-0 w-full">
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">PUBLIC KEY</span>
-                    <div className="flex items-center gap-2">
-                      <code className="font-data-tabular text-[11px] bg-surface-container-highest px-2 py-1 text-on-surface border border-outline-variant flex-1 overflow-hidden text-ellipsis whitespace-nowrap" title={public_key}>
-                        {public_key ? `${public_key.slice(0, 12)}...` : FALLBACK_VALUE}
+                    <div className="flex items-center gap-2 min-w-0 w-full">
+                      <code className="font-data-tabular text-[11px] bg-surface-container-highest px-2 py-1 text-on-surface border border-outline-variant flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap block" title={public_key}>
+                        {public_key ? `${public_key.slice(0, 16)}...` : FALLBACK_VALUE}
                       </code>
                       {public_key && (
                         <button
-                          className="p-1 border border-outline-variant hover:border-primary hover:text-primary transition-colors bg-surface-container-lowest text-secondary cursor-pointer shrink-0"
-                          title="Copy"
-                          onClick={() => navigator.clipboard.writeText(public_key)}
+                          className={`p-1 border transition-colors bg-surface-container-lowest cursor-pointer shrink-0 ${copiedKey ? 'border-success text-success' : 'border-outline-variant hover:border-primary hover:text-primary text-secondary'}`}
+                          title={copiedKey ? "Copied!" : "Copy"}
+                          onClick={() => {
+                            navigator.clipboard.writeText(public_key);
+                            setCopiedKey(true);
+                            setTimeout(() => setCopiedKey(false), 2000);
+                          }}
                         >
-                          <span className="material-symbols-outlined text-[14px]">content_copy</span>
+                          <span className="material-symbols-outlined text-[14px]">
+                            {copiedKey ? 'check' : 'content_copy'}
+                          </span>
                         </button>
                       )}
                     </div>
@@ -304,10 +327,10 @@ export const NodeDetails: React.FC = () => {
                     </span>
                   </div>
                   {/* OPERATOR_TYPE - Layout Split Orizzontale */}
-                  <div className="flex flex-col gap-1 mt-auto">
+                  <div className="flex flex-col gap-1 mt-auto w-full min-w-0">
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">OPERATOR TYPE / LOOKUP</span>
 
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-2 w-full min-w-0">
 
                       {/* Metà Sinistra: Status Display */}
                       <div className="flex items-center gap-2 bg-surface-container-highest p-2 border border-outline-variant min-h-[38px]">
@@ -323,18 +346,18 @@ export const NodeDetails: React.FC = () => {
                           href={`https://www.google.com/search?q=${extractedCallsign}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-between bg-primary text-on-primary p-2 border border-primary hover:bg-primary/90 transition-all cursor-pointer min-h-[38px] group"
+                          className="flex items-center justify-between bg-primary text-on-primary p-2 border border-primary hover:bg-primary/90 transition-all cursor-pointer min-h-[38px] group min-w-0 overflow-hidden"
                         >
-                          <span className="font-label-mono text-[10px] font-black tracking-tighter">
+                          <span className="font-label-mono text-[10px] font-black tracking-tighter truncate">
                             SEARCH: {extractedCallsign}
                           </span>
-                          <span className="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">
+                          <span className="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform shrink-0 ml-1">
                             search
                           </span>
                         </a>
                       ) : (
-                        <div className="flex items-center justify-center bg-surface-container-low border border-outline-variant/50 p-2 min-h-[38px] opacity-50 grayscale">
-                          <span className="font-label-mono text-[9px] text-outline uppercase">No ID Detected</span>
+                        <div className="flex items-center justify-center bg-surface-container-low border border-outline-variant/50 p-2 min-h-[38px] opacity-50 grayscale w-full">
+                          <span className="font-label-mono text-[9px] text-outline uppercase truncate">No ID Detected</span>
                         </div>
                       )}
 
@@ -393,32 +416,34 @@ export const NodeDetails: React.FC = () => {
               </div>
               <span className="material-symbols-outlined text-[18px] text-outline group-hover:text-primary animate-pulse">arrow_forward</span>
             </div>
-            <div className="p-4 flex flex-col md:flex-row gap-6 items-start md:items-center">
+            <div className="p-4 flex flex-col md:flex-row gap-6 items-start md:items-center min-w-0">
               <div className="flex-1 flex flex-col gap-3 w-full min-w-0">
-                <div className="flex items-center gap-3 border-b border-outline-variant pb-3">
+                <div className="flex items-center gap-3 border-b border-outline-variant pb-3 min-w-0">
                   <div className="w-8 h-8 bg-secondary flex items-center justify-center text-on-secondary shrink-0 group-hover:bg-primary transition-colors">
                     <span className="material-symbols-outlined text-[18px]">dns</span>
                   </div>
-                  <div className="min-w-0">
-                    <h3 className="font-headline-md text-headline-md text-on-surface truncate group-hover:text-primary transition-colors">{gw.long_name || gw.id}</h3>
-                    <div className="font-label-mono text-[10px] text-secondary uppercase tracking-wider mt-1">ID: {gw.id} | HW: {gw.hardware || FALLBACK_VALUE}</div>
+                  <div className="min-w-0 flex-1 w-full">
+                    <h3 className="font-headline-md text-headline-md text-on-surface break-all min-w-0 group-hover:text-primary transition-colors leading-tight">
+                      {gw.long_name || gw.id}
+                    </h3>
+                    <div className="font-label-mono text-[10px] text-secondary uppercase tracking-wider mt-1 truncate">ID: {gw.id} | HW: {gw.hardware || FALLBACK_VALUE}</div>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-6">
+                <div className="grid grid-cols-2 md:flex md:flex-wrap gap-4 md:gap-6">
                   {/* GW Lat/Lon */}
                   {gwLat != null && (
-                    <div className="flex flex-col gap-1 border-r border-outline-variant pr-6">
+                    <div className="flex flex-col gap-1 md:border-r md:border-outline-variant md:pr-6">
                       <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">LATITUDE</span>
                       <span className="font-data-tabular text-[13px] text-on-surface font-semibold">{fmtFloat(gwLat, 5)}</span>
                     </div>
                   )}
                   {gwLon != null && (
-                    <div className="flex flex-col gap-1 border-r border-outline-variant pr-6">
+                    <div className="flex flex-col gap-1 md:border-r md:border-outline-variant md:pr-6">
                       <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">LONGITUDE</span>
                       <span className="font-data-tabular text-[13px] text-on-surface font-semibold">{fmtFloat(gwLon, 5)}</span>
                     </div>
                   )}
-                  <div className="flex flex-col gap-1 border-r border-outline-variant pr-6">
+                  <div className="flex flex-col gap-1 md:border-r md:border-outline-variant md:pr-6">
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">BATTERY</span>
                     <div className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-1">
                       <span className="material-symbols-outlined text-[14px] text-outline">battery_full_alt</span>

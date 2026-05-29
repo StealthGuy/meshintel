@@ -47,9 +47,9 @@ export const CssHistogram: React.FC<CssHistogramProps> = ({
         )}
       </div>
       
-      <div className="p-6 h-48 flex items-end gap-1 relative flex-1 min-h-[200px]">
+      <div className="p-4 flex items-end gap-1 relative flex-1">
         {/* Griglia di sfondo */}
-        <div className="absolute left-0 bottom-6 top-6 w-full flex flex-col justify-between pointer-events-none px-6 z-0">
+        <div className="absolute left-0 bottom-4 top-4 w-full flex flex-col justify-between pointer-events-none px-4 z-0">
           <div className="border-b border-outline-variant/30 w-full h-0"></div>
           <div className="border-b border-outline-variant/30 w-full h-0"></div>
           <div className="border-b border-outline-variant/30 w-full h-0"></div>

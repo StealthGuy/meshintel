@@ -22,7 +22,17 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       </button>
 
       <Sidebar />
-      <main className={`transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-64' : 'ml-0'} print:ml-0 flex-1 h-screen print:h-auto relative bg-black flex flex-col print:block`}>
+      
+      {/* Mobile Sidebar Backdrop Overlay */}
+      {isSidebarOpen && (
+        <div 
+          onClick={toggleSidebar}
+          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 md:hidden transition-opacity duration-300 cursor-pointer"
+          aria-hidden="true"
+        />
+      )}
+
+      <main className={`transition-all duration-300 ease-in-out ml-0 ${isSidebarOpen ? 'md:ml-64' : ''} print:ml-0 flex-1 h-screen print:h-auto relative bg-black flex flex-col print:block`}>
         {/* <TopBar /> */}
         {children}
       </main>

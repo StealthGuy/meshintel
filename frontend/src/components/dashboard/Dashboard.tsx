@@ -7,7 +7,7 @@ import { CssHistogram } from './CssHistogram';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { report, fetchReport, isSidebarOpen, setSelectedNodeDetails } = useAppStore();
+  const { report, fetchReport, setSelectedNodeDetails } = useAppStore();
 
   useEffect(() => {
     if (!report) {
@@ -97,7 +97,7 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className={`p-6 overflow-y-auto h-full w-full bg-surface print:overflow-visible print:h-auto print:block transition-all duration-300 ${!isSidebarOpen ? 'pl-[4.5rem]' : ''}`}>
+    <div className={`p-6 pt-16 md:pt-6 overflow-y-auto h-full w-full bg-surface print:overflow-visible print:h-auto print:block transition-all duration-300`}>
       <div className="max-w-container-max mx-auto space-y-8">
 
         {/* Page Header */}
@@ -110,7 +110,7 @@ export const Dashboard: React.FC = () => {
           </div>
           <button
             onClick={() => window.print()}
-            className="print:hidden bg-primary-container text-on-primary border-none rounded-DEFAULT px-4 py-2 flex items-center gap-2 font-label-mono text-label-mono hover:bg-primary transition-colors cursor-pointer"
+            className="print:hidden bg-primary-container text-on-primary border-none rounded px-4 py-2 flex items-center gap-2 font-label-mono text-label-mono hover:bg-primary transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-sm">download</span>
             EXPORT PDF
