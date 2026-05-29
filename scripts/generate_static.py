@@ -10,6 +10,7 @@ from backend.data.fetcher import fetch_and_save_data
 from backend.data.parser import parse_nodes, parse_edges
 from backend.graph.builder import build_graph
 from backend.graph.reducer import reduce_graph_k_core
+from backend.graph.mqtt import add_mqtt_broker_to_graph
 from backend.communities.louvain import run_louvain
 from backend.communities.leiden import run_leiden
 from backend.exporters.geojson import to_geojson
@@ -80,6 +81,20 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "report.json"), "w") as f:
         json.dump(report, f)
     print("  ✓ report.json")
+
+    # Genera report_mqtt.json per l'analisi con il broker MQTT
+    G_mqtt = add_mqtt_broker_to_graph(G)
+    report_mqtt = {
+        "connectivity": to_serializable(compute_connectivity(G_mqtt)),
+        "centrality": to_serializable(compute_centrality(G_mqtt)),
+        "distances": to_serializable(compute_distances(G_mqtt)),
+        "degree_distribution": to_serializable(compute_degree_distribution(G_mqtt)),
+        "stats": to_serializable(compute_node_stats()),
+        "generated_at": datetime.now().isoformat()
+    }
+    with open(os.path.join(OUTPUT_DIR, "report_mqtt.json"), "w") as f:
+        json.dump(report_mqtt, f)
+    print("  ✓ report_mqtt.json")
 
     # --- STEP 4: GeoJSON community ---
     print("\n[4/4] Generazione GeoJSON...")

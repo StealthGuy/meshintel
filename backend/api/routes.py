@@ -6,6 +6,7 @@ import networkx as nx
 from backend.data.parser import parse_nodes, parse_edges
 from backend.graph.builder import build_graph
 from backend.graph.reducer import reduce_graph_k_core
+from backend.graph.mqtt import add_mqtt_broker_to_graph
 from backend.communities.louvain import run_louvain
 from backend.communities.leiden import run_leiden
 from backend.exporters.geojson import to_geojson
@@ -35,7 +36,9 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 APP_STATE = {
     "graph_orig": None,
     "graph_kcore": None,
+    "graph_mqtt": None,
     "report_cache": None,
+    "report_mqtt_cache": None,
     "communities_cache": {}
 }
 
@@ -50,6 +53,7 @@ def load_graphs_if_needed(use_k_core: int = 2):
         edges = parse_edges(edges_path)
         APP_STATE["graph_orig"] = build_graph(nodes, edges)
         APP_STATE["graph_kcore"] = reduce_graph_k_core(APP_STATE["graph_orig"], k=use_k_core)
+        APP_STATE["graph_mqtt"] = add_mqtt_broker_to_graph(APP_STATE["graph_orig"])
         print(f"Grafo completato: {len(APP_STATE['graph_orig'])} nodi.")
 
 # --- ENDPOINTS ---
@@ -71,6 +75,25 @@ def get_network_report():
     }
     
     APP_STATE["report_cache"] = report
+    return report
+
+@router.get("/report_mqtt", response_model=NetworkReport)
+def get_network_report_mqtt():
+    if APP_STATE["report_mqtt_cache"] is not None:
+        return APP_STATE["report_mqtt_cache"]
+        
+    load_graphs_if_needed()
+    G = APP_STATE["graph_mqtt"]
+    
+    report = {
+        "connectivity": compute_connectivity(G),
+        "centrality": compute_centrality(G),
+        "distances": compute_distances(G),
+        "degree_distribution": compute_degree_distribution(G),
+        "stats": compute_node_stats()
+    }
+    
+    APP_STATE["report_mqtt_cache"] = report
     return report
 
 @router.get("/geojson/{algorithm}")
@@ -140,7 +163,9 @@ def refresh_network_data():
     # Reset cache in memoria
     APP_STATE["graph_orig"] = None
     APP_STATE["graph_kcore"] = None
+    APP_STATE["graph_mqtt"] = None
     APP_STATE["report_cache"] = None
+    APP_STATE["report_mqtt_cache"] = None
     APP_STATE["communities_cache"] = {}
     
     # Rimuovi cache su file della robustezza

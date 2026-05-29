@@ -9,8 +9,9 @@ function apiUrl(endpoint: string): string {
 }
 
 export const networkApi = {
-  getReport: async () => {
-    const response = await axios.get(apiUrl('report'));
+  getReport: async (useMqtt = false) => {
+    const endpoint = useMqtt ? 'report_mqtt' : 'report';
+    const response = await axios.get(apiUrl(endpoint));
     return response.data;
   },
 

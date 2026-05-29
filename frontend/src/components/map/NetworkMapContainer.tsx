@@ -63,12 +63,12 @@ export const NetworkMapContainer: React.FC = () => {
         {activeTileLayer === 'dark' ? (
           <TileLayer
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; CARTO'
+            attribution='&copy; CARTO | Dati: <a href="https://www.loraitalia.it/" target="_blank" rel="noopener noreferrer">loraitalia.it</a>'
           />
         ) : (
           <TileLayer
             url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-            attribution='Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap (CC-BY-SA)'
+            attribution='Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap (CC-BY-SA) | Dati: <a href="https://www.loraitalia.it/" target="_blank" rel="noopener noreferrer">loraitalia.it</a>'
           />
         )}
 

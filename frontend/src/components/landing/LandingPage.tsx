@@ -183,12 +183,15 @@ export const LandingPage: React.FC = () => {
             {/* <Link className="font-mono text-sm text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-blue-400 transition-colors" to="/map">Map</Link>
             <a className="font-mono text-sm text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-blue-400 transition-colors" href="https://blog.meshintel.it">Blog</a> */}
           </nav>
-          <div className="flex items-center">
-            {/* <Link to="/map">
-              <button className="bg-primary dark:bg-blue-600 hover:bg-primary-container dark:hover:bg-blue-700 text-on-primary dark:text-white font-mono text-xs font-bold tracking-wider px-4 py-2 rounded transition-all active:scale-[0.98] cursor-pointer">
-                Analyst Tool
-              </button>
-            </Link> */}
+          {/* Language Selector */}
+          <div className="flex items-center gap-4">
+            <Link to="/it" className="font-mono text-xs font-bold text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-blue-400 transition-colors uppercase">
+              IT
+            </Link>
+            <span className="text-outline font-mono text-xs">|</span>
+            <span className="font-mono text-xs font-bold text-primary dark:text-blue-500 uppercase">
+              EN
+            </span>
           </div>
         </div>
       </header>
@@ -206,7 +209,7 @@ export const LandingPage: React.FC = () => {
               MESHINTEL
             </h1>
             <p className="font-sans text-lg sm:text-xl text-secondary dark:text-slate-300 mb-10 max-w-2xl leading-relaxed mx-auto bg-surface/60 dark:bg-slate-950/60 backdrop-blur-[2px] p-4 rounded-lg border border-outline-variant/50 dark:border-slate-900/50">
-              The world's first advanced network analysis dashboard for Meshtastic, designed to empower off-grid communication across the Italian mesh network.
+              The world's first network analysis study on Meshtastic, designed to empower off-grid communication across the Italian mesh network.
             </p>
 
             {/* Countdown Box */}
@@ -317,7 +320,7 @@ export const LandingPage: React.FC = () => {
                 <div>
                   <span className="material-symbols-outlined text-primary dark:text-blue-500 mb-6 text-3xl">insights</span>
                   <h3 className="text-lg font-bold font-mono text-on-surface dark:text-white mb-3 uppercase tracking-wide">Powered by NetworkX</h3>
-                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">Our backend uses NetworkX, the leading Python library for network science. We process graph mathematics in real time to calculate advanced topology metrics.</p>
+                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">Our backend uses NetworkX, the leading Python library for network science. We process graph mathematics to calculate topology metrics.</p>
                 </div>
               </div>
               {/* Insight 3 */}
@@ -434,7 +437,7 @@ export const LandingPage: React.FC = () => {
                   </div>
                   <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
                     <div className="p-6 pt-2 text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed border-t border-outline-variant/30 dark:border-slate-900/40">
-                      To solve a real problem: Meshtastic needs structural analysis. We also wanted to build a clean, high-performance project to showcase our development skills.
+                      To solve a real problem: Meshtastic needs structural analysis. We also wanted to build a project to showcase our development skills.
                     </div>
                   </div>
                 </label>

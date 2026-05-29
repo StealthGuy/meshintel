@@ -111,6 +111,8 @@ interface AppState {
   report: ReportData | null;
   isLoadingReport: boolean;
   fetchReport: (forceRefresh?: boolean) => Promise<void>;
+  useMqttReport: boolean;
+  setUseMqttReport: (value: boolean) => void;
 
   robustness: RobustnessReport | null;
   isLoadingRobustness: boolean;
@@ -217,8 +219,13 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   report: null,
   isLoadingReport: false,
+  useMqttReport: false,
+  setUseMqttReport: (val) => {
+    set({ useMqttReport: val });
+    get().fetchReport(true);
+  },
   fetchReport: async (forceRefresh = false) => {
-    const { report, isLoadingReport } = get();
+    const { report, isLoadingReport, useMqttReport } = get();
     
     // Guard: Don't fetch if already loading
     if (isLoadingReport) return;
@@ -229,7 +236,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     set({ isLoadingReport: true });
     try {
-      const data = await networkApi.getReport();
+      const data = await networkApi.getReport(useMqttReport);
       set({ report: data, isLoadingReport: false });
     } catch (error) {
       console.error('Failed to fetch report', error);

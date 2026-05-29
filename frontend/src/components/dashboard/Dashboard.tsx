@@ -7,7 +7,7 @@ import { CssHistogram } from './CssHistogram';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { report, fetchReport, setSelectedNodeDetails } = useAppStore();
+  const { report, fetchReport, setSelectedNodeDetails, useMqttReport, setUseMqttReport } = useAppStore();
 
   useEffect(() => {
     if (!report) {
@@ -101,20 +101,48 @@ export const Dashboard: React.FC = () => {
       <div className="max-w-container-max mx-auto space-y-8">
 
         {/* Page Header */}
-        <div className="flex justify-between items-end border-b border-outline-variant pb-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-outline-variant pb-4 gap-4">
           <div>
             <h1 className="font-headline-lg text-headline-lg text-on-surface">Network Analysis Summary</h1>
             <p className="font-body-sm text-body-sm text-on-surface-variant mt-1">
               Comprehensive analysis of topology, centrality, and connectivity metrics.
             </p>
           </div>
-          <button
-            onClick={() => window.print()}
-            className="print:hidden bg-primary-container text-on-primary border-none rounded px-4 py-2 flex items-center gap-2 font-label-mono text-label-mono hover:bg-primary transition-colors cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-sm">download</span>
-            EXPORT PDF
-          </button>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 print:hidden shrink-0 w-full sm:w-auto">
+            {/* Toggle MQTT */}
+            <div className="flex items-center justify-between sm:justify-start gap-2.5 bg-surface-container-low border border-outline-variant rounded px-3 py-1.5 w-full sm:w-auto">
+              <div className="flex items-center gap-2">
+                <span className={`material-symbols-outlined text-[18px] ${useMqttReport ? 'text-primary' : 'text-on-surface-variant'}`}>
+                  {useMqttReport ? 'cloud_done' : 'cloud_off'}
+                </span>
+                <span className="font-label-mono text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">
+                  MQTT Broker
+                </span>
+              </div>
+              <button
+                onClick={() => setUseMqttReport(!useMqttReport)}
+                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                  useMqttReport ? 'bg-primary' : 'bg-outline-variant'
+                }`}
+                role="switch"
+                aria-checked={useMqttReport}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-surface shadow ring-0 transition duration-200 ease-in-out ${
+                    useMqttReport ? 'translate-x-4' : 'translate-x-0'
+                  }`}
+                />
+              </button>
+            </div>
+
+            <button
+              onClick={() => window.print()}
+              className="bg-primary-container text-on-primary border-none rounded px-4 py-2 flex items-center justify-center gap-2 font-label-mono text-label-mono hover:bg-primary transition-colors cursor-pointer w-full sm:w-auto"
+            >
+              <span className="material-symbols-outlined text-sm">download</span>
+              EXPORT PDF
+            </button>
+          </div>
         </div>
 
         {/* Dashboard KPIs */}
