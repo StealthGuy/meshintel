@@ -289,8 +289,8 @@ export const LandingPage: React.FC = () => {
               <a href="https://t.me/+W98oFecg2E01OTg0" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-blue-400 underline font-bold flex items-center gap-1">
                 Join the Telegram Group
 
+                <span className="material-symbols-outlined text-[12px] inline">open_in_new</span>
               </a>
-              <span className="material-symbols-outlined text-[12px] inline">open_in_new</span>
             </div>
           </div>
         </section>
