@@ -130,6 +130,11 @@ This project is licensed under the [MIT License](LICENSE) (see the [LICENSE](LIC
 
 ---
 
+## AI Usage Disclosure
+
+LLM technologies were employed in this project to accelerate frontend development, in particular using Stitch MCP. Regarding the backend, AI was utilized strictly as a development assistant; all network analysis formulas, metrics calculations, mathematical models, and core logic were carefully selected and/or implemented by the author. Moreover, LLM were used to provide deployment suggestions, which allowed to keep this project 0-cost.
+---
+
 ## Acknowledgements
 
 A special thank you to the [LoRa Italia](https://www.loraitalia.it/) community for providing the network data.

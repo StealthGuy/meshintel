@@ -432,7 +432,22 @@ export const LandingPage: React.FC = () => {
                 <label className="flex flex-col cursor-pointer hover:bg-surface-container-low dark:hover:bg-slate-900/40 transition-colors group">
                   <input className="peer hidden" name="faq-accordion" type="radio" />
                   <div className="flex items-center justify-between p-6">
-                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">5. Why did you build MeshIntel?</span>
+                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">5. How does MQTT affect the mesh?</span>
+                    <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
+                  </div>
+                  <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
+                    <div className="p-6 pt-2 text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed border-t border-outline-variant/30 dark:border-slate-900/40">
+                      Thanks to data from the <a href="https://loraitalia.it" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-blue-400 hover:underline">loraitalia.it</a> community, we are able to calculate metrics on the network composed of RF nodes, both with and without MQTT. This allows us to perform an empirical assessment of how the network would change if MQTT were to stop working one day.
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <div className="border border-outline-variant dark:border-slate-900 bg-surface dark:bg-slate-900/20 rounded-lg overflow-hidden">
+                <label className="flex flex-col cursor-pointer hover:bg-surface-container-low dark:hover:bg-slate-900/40 transition-colors group">
+                  <input className="peer hidden" name="faq-accordion" type="radio" />
+                  <div className="flex items-center justify-between p-6">
+                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">6. Why did you build MeshIntel?</span>
                     <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
                   </div>
                   <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
