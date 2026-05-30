@@ -203,9 +203,13 @@ export const LandingPageIt: React.FC = () => {
           <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #3b82f6 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
 
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center justify-center relative z-10 py-24 text-center">
-            <h1 className="text-5xl sm:text-7xl md:text-8xl leading-tight font-extrabold tracking-tighter text-on-surface dark:text-white mb-6 font-mono">
+            <h1 className="text-5xl sm:text-7xl md:text-8xl leading-tight font-extrabold tracking-tighter text-on-surface dark:text-white mb-4 font-mono">
               MESHINTEL
             </h1>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-500/10 text-amber-500 dark:bg-amber-400/10 dark:text-amber-400 border border-amber-500/20 dark:border-amber-400/20 mb-6 font-mono text-[10px] font-bold tracking-widest uppercase">
+              <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse"></span>
+              ALPHA Version
+            </div>
             <p className="font-sans text-lg sm:text-xl text-secondary dark:text-slate-300 mb-10 max-w-2xl leading-relaxed mx-auto bg-surface/60 dark:bg-slate-950/60 backdrop-blur-[2px] p-4 rounded-lg border border-outline-variant/50 dark:border-slate-900/50">
               Il primo studio di network analysis su Meshtastic, progettata per potenziare la comunicazione off-grid attraverso la rete mesh italiana.
             </p>
