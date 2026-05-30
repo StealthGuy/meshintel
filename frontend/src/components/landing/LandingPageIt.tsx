@@ -220,7 +220,7 @@ export const LandingPageIt: React.FC = () => {
                 🔔 CONTO ALLA ROVESCIA PER IL RILASCIO DI CODICE E REPORT
               </span>
               <p className="text-sm text-on-surface-variant dark:text-slate-400 mb-6 leading-relaxed">
-                Il codice sorgente di MeshIntel e i report sull'analisi della topologia e della resilienza saranno disponibili a partire dal <strong>12 Giugno 2026 alle ore 12:00</strong>.
+                Il codice sorgente di Meshintel e i report sull'analisi della topologia e della resilienza saranno disponibili a partire dal <strong>12 Giugno 2026 alle ore 12:00</strong>.
               </p>
 
               {timeLeft.expired ? (
@@ -278,7 +278,7 @@ export const LandingPageIt: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center gap-3">
             <div className="flex items-center justify-center gap-2 font-mono text-xs text-on-surface-variant dark:text-slate-400 text-center flex-wrap">
               <span className="material-symbols-outlined text-[16px] text-primary dark:text-blue-500 shrink-0">info</span>
-              <span><strong>MeshIntel è attualmente in modalità demo.</strong> Segnala i bug e condividi le tue idee sul nostro gruppo Telegram:</span>
+              <span><strong>Meshintel è attualmente in modalità demo.</strong> Segnala i bug e condividi le tue idee sul nostro gruppo Telegram:</span>
               <a href="https://t.me/+W98oFecg2E01OTg0" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-blue-400 underline font-bold flex items-center gap-1">
                 Entra nel Gruppo Telegram
                 <span className="material-symbols-outlined text-[12px] inline">open_in_new</span>
@@ -301,7 +301,7 @@ export const LandingPageIt: React.FC = () => {
                 <div>
                   <span className="material-symbols-outlined text-primary dark:text-blue-500 mb-6 text-3xl">visibility</span>
                   <h3 className="text-lg font-bold font-mono text-on-surface dark:text-white mb-3 uppercase tracking-wide">Topologia, Non Solo Segnale</h3>
-                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">La maggior parte degli strumenti e delle mappe controlla solo il segnale e la posizione dei nodi. MeshIntel analizza la struttura complessiva della rete italiana. La potenza del segnale di un nodo non conta se questo non è ben integrato nella mesh.</p>
+                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">La maggior parte degli strumenti e delle mappe controlla solo il segnale e la posizione dei nodi. Meshintel analizza la struttura complessiva della rete italiana. La potenza del segnale di un nodo non conta se questo non è ben integrato nella mesh.</p>
                 </div>
               </div>
               {/* Insight 2 */}
@@ -309,7 +309,7 @@ export const LandingPageIt: React.FC = () => {
                 <div>
                   <span className="material-symbols-outlined text-primary dark:text-blue-500 mb-6 text-3xl">insights</span>
                   <h3 className="text-lg font-bold font-mono text-on-surface dark:text-white mb-3 uppercase tracking-wide">Alimentato da NetworkX</h3>
-                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">Il nostro backend utilizza NetworkX, la principale libreria Python per la scienza delle reti. Elaboriamo la matematica dei grafi per calcolare metriche di topologia.</p>
+                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">Il nostro backend utilizza NetworkX, la principale libreria Python per la network science. Elaboriamo la matematica dei grafi per calcolare le metriche di topologia della rete.</p>
                 </div>
               </div>
               {/* Insight 3 */}
@@ -406,7 +406,7 @@ export const LandingPageIt: React.FC = () => {
                 <label className="flex flex-col cursor-pointer hover:bg-surface-container-low dark:hover:bg-slate-900/40 transition-colors group">
                   <input className="peer hidden" name="faq-accordion" type="radio" />
                   <div className="flex items-center justify-between p-6">
-                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">4. Come testate la resilienza della rete?</span>
+                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">4. La rete è resiliente?</span>
                     <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
                   </div>
                   <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
@@ -436,12 +436,27 @@ export const LandingPageIt: React.FC = () => {
                 <label className="flex flex-col cursor-pointer hover:bg-surface-container-low dark:hover:bg-slate-900/40 transition-colors group">
                   <input className="peer hidden" name="faq-accordion" type="radio" />
                   <div className="flex items-center justify-between p-6">
-                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">6. Perché avete creato MeshIntel?</span>
+                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">6. Perché avete creato Meshintel?</span>
                     <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
                   </div>
                   <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
                     <div className="p-6 pt-2 text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed border-t border-outline-variant/30 dark:border-slate-900/40">
                       Per risolvere un problema reale: Meshtastic ha bisogno di analisi strutturale. Volevamo anche costruire un progetto per mostrare le nostre competenze di sviluppo.
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <div className="border border-outline-variant dark:border-slate-900 bg-surface dark:bg-slate-900/20 rounded-lg overflow-hidden">
+                <label className="flex flex-col cursor-pointer hover:bg-surface-container-low dark:hover:bg-slate-900/40 transition-colors group">
+                  <input className="peer hidden" name="faq-accordion" type="radio" />
+                  <div className="flex items-center justify-between p-6">
+                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">7. Posso usare Meshintel per analizzare reti al di fuori dell'Italia?</span>
+                    <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
+                  </div>
+                  <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
+                    <div className="p-6 pt-2 text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed border-t border-outline-variant/30 dark:border-slate-900/40">
+                      Attualmente, questo studio è limitato al territorio italiano poiché i dati provengono esclusivamente dalla community di <a href="https://loraitalia.it" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-blue-400 hover:underline">loraitalia.it</a>. Tuttavia, l'architettura di MeshIntel è completamente scalabile e indipendente dalla localizzazione geografica. Se hai a disposizione il grafo di una rete mes composta da nodi in radiofrequenza (RF-only) contattaci per espandere l'analisi.
                     </div>
                   </div>
                 </label>

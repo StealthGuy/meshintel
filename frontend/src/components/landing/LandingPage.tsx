@@ -222,7 +222,7 @@ export const LandingPage: React.FC = () => {
                 🔔 CODE and REPORTS RELEASE COUNTDOWN
               </span>
               <p className="text-sm text-on-surface-variant dark:text-slate-400 mb-6 leading-relaxed">
-                The source code of MeshIntel and the structural and resilience analysis reports will be available starting from <strong>June 12, 2026 at 12:00 PM</strong>.
+                The source code of Meshintel and the structural and resilience analysis reports will be available starting from <strong>June 12, 2026 at 12:00 PM</strong>.
               </p>
 
               {timeLeft.expired ? (
@@ -292,7 +292,7 @@ export const LandingPage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center gap-3">
             <div className="flex items-center justify-center gap-2 font-mono text-xs text-on-surface-variant dark:text-slate-400 text-center flex-wrap">
               <span className="material-symbols-outlined text-[16px] text-primary dark:text-blue-500 shrink-0">info</span>
-              <span><strong>MeshIntel is currently in demo mode.</strong> Please report bugs and share your ideas on our Telegram group:</span>
+              <span><strong>Meshintel is currently in demo mode.</strong> Please report bugs and share your ideas on our Telegram group:</span>
               <a href="https://t.me/+W98oFecg2E01OTg0" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-blue-400 underline font-bold flex items-center gap-1">
                 Join the Telegram Group
 
@@ -316,7 +316,7 @@ export const LandingPage: React.FC = () => {
                 <div>
                   <span className="material-symbols-outlined text-primary dark:text-blue-500 mb-6 text-3xl">visibility</span>
                   <h3 className="text-lg font-bold font-mono text-on-surface dark:text-white mb-3 uppercase tracking-wide">Topology, Not Just Signal</h3>
-                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">Most tools and maps only check the signal and position of nodes. MeshIntel analyzes the overall structure of the Italian network. A node's signal strength doesn't matter if it's not well-integrated into the mesh.</p>
+                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">Most tools and maps only check the signal and position of nodes. Meshintel analyzes the overall structure of the Italian network. A node's signal strength doesn't matter if it's not well-integrated into the mesh.</p>
                 </div>
               </div>
               {/* Insight 2 */}
@@ -421,7 +421,7 @@ export const LandingPage: React.FC = () => {
                 <label className="flex flex-col cursor-pointer hover:bg-surface-container-low dark:hover:bg-slate-900/40 transition-colors group">
                   <input className="peer hidden" name="faq-accordion" type="radio" />
                   <div className="flex items-center justify-between p-6">
-                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">4. How do you test network resilience?</span>
+                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">4. Is the network resilient?</span>
                     <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
                   </div>
                   <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
@@ -451,7 +451,7 @@ export const LandingPage: React.FC = () => {
                 <label className="flex flex-col cursor-pointer hover:bg-surface-container-low dark:hover:bg-slate-900/40 transition-colors group">
                   <input className="peer hidden" name="faq-accordion" type="radio" />
                   <div className="flex items-center justify-between p-6">
-                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">6. Why did you build MeshIntel?</span>
+                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">6. Why did you build Meshintel?</span>
                     <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
                   </div>
                   <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
@@ -461,16 +461,31 @@ export const LandingPage: React.FC = () => {
                   </div>
                 </label>
               </div>
+
+              <div className="border border-outline-variant dark:border-slate-900 bg-surface dark:bg-slate-900/20 rounded-lg overflow-hidden">
+                <label className="flex flex-col cursor-pointer hover:bg-surface-container-low dark:hover:bg-slate-900/40 transition-colors group">
+                  <input className="peer hidden" name="faq-accordion" type="radio" />
+                  <div className="flex items-center justify-between p-6">
+                    <span className="text-sm sm:text-base font-bold text-on-surface dark:text-white font-mono uppercase group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">7. Can I use Meshintel to analyze networks outside of Italy?</span>
+                    <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 transition-transform duration-300 peer-checked:rotate-180">expand_more</span>
+                  </div>
+                  <div className="max-h-0 overflow-hidden peer-checked:max-h-96 transition-all duration-300 ease-in-out bg-surface-container-low dark:bg-slate-900/10">
+                    <div className="p-6 pt-2 text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed border-t border-outline-variant/30 dark:border-slate-900/40">
+                      Currently, this study is limited to the Italian territory as the data is sourced exclusively from the <a href="https://loraitalia.it" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-blue-400 hover:underline">loraitalia.it</a> community. However, the MeshIntel architecture is fully scalable and completely independent of geographical location. If you have access to the graph of a mesh network composed entirely of radio frequency (RF-only) nodes please contact us to expand the analysis.
+                    </div>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
-        </section>
+        </section >
 
         {/* Final CTA Section */}
-        <section className="py-24 bg-primary dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 dark:border-t dark:border-slate-900 text-on-primary dark:text-white text-center">
+        < section className="py-24 bg-primary dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 dark:border-t dark:border-slate-900 text-on-primary dark:text-white text-center" >
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl sm:text-5xl font-mono font-bold leading-tight mb-6">Ready to analyze the Meshtastic network yourself? </h2>
             <p className="text-white/80 dark:text-slate-300 text-base sm:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-              Use MeshIntel to understand the routing, resilience, and structure of our decentralized mesh. If you are new to network analysis, check out our reports first to understand the metrics
+              Use Meshintel to understand the routing, resilience, and structure of our decentralized mesh. If you are new to network analysis, check out our reports first to understand the metrics
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
               <Link to="/map" className="w-full sm:w-auto">
@@ -485,11 +500,11 @@ export const LandingPage: React.FC = () => {
               </div>
             </div>
           </div>
-        </section>
-      </main>
+        </section >
+      </main >
 
       {/* Footer */}
-      <footer className="bg-surface dark:bg-slate-950 border-t border-outline-variant dark:border-slate-900">
+      < footer className="bg-surface dark:bg-slate-950 border-t border-outline-variant dark:border-slate-900" >
         <div className="flex flex-col md:flex-row justify-between items-center py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center md:items-start mb-8 md:mb-0">
             <div className="flex items-center gap-3 mb-2">
@@ -508,7 +523,7 @@ export const LandingPage: React.FC = () => {
             {/* <a className="font-mono text-xs text-slate-400 hover:text-primary dark:hover:text-blue-400 transition-colors" href="https://github.com/StealthGuy/meshintel"> My GitHub</a> */}
           </div>
         </div>
-      </footer>
+      </footer >
     </div >
   );
 };
