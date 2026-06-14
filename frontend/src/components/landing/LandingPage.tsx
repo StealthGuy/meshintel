@@ -222,7 +222,7 @@ export const LandingPage: React.FC = () => {
                 🔔 CODE and REPORTS RELEASE COUNTDOWN
               </span>
               <p className="text-sm text-on-surface-variant dark:text-slate-400 mb-6 leading-relaxed">
-                The source code of Meshintel and the structural and resilience analysis reports will be available starting from <strong>June 12, 2026 at 12:00 PM</strong>.
+                The source code of Meshintel and the structural and resilience analysis reports will be available starting from <strong>June 20, 2026 at 12:00 PM</strong>.
               </p>
 
               {timeLeft.expired ? (
