@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const calculateTimeLeft = () => {
-  const targetDate = new Date('2026-06-12T12:00:00+02:00'); // June 12, 2026 at 12:00:00 GMT+2
+  const targetDate = new Date('2026-06-20T12:00:00+02:00'); // June 20, 2026 at 12:00:00 GMT+2
   const difference = +targetDate - +new Date();
 
   let timeLeft = {
