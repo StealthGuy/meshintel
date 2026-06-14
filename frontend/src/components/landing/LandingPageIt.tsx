@@ -198,7 +198,7 @@ export const LandingPageIt: React.FC = () => {
         {/* Hero Section */}
         <section className="relative min-h-[600px] flex flex-col justify-center overflow-hidden border-b border-outline-variant dark:border-slate-900 bg-surface dark:bg-slate-950">
           {/* Dynamic Network Graph Canvas */}
-          <canvas ref={canvasRef} id="hero-network-canvas" className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 opacity-25 dark:opacity-40"></canvas>
+          <canvas ref={canvasRef} id="hero-network-canvas" className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 opacity-25 dark:opacity-60"></canvas>
 
           <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #3b82f6 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
 
