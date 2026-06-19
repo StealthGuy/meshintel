@@ -30,19 +30,19 @@ def annotate_role_suggestions(G: nx.DiGraph):
     # Calculate betweenness centrality
     betweenness = nx.betweenness_centrality(G)
     bet_values = list(betweenness.values())
-    p90_threshold = float(np.percentile(bet_values, 90)) if bet_values else 0.0
+    p95_threshold = float(np.percentile(bet_values, 95)) if bet_values else 0.0
 
     for node_id, data in G.nodes(data=True):
         node_bet = betweenness.get(node_id, 0.0)
         current_role = data.get('role', 'UNKNOWN').upper()
 
-        # Determine suggestion (Top 10% of betweenness is recommended to be ROUTER)
-        if node_bet >= p90_threshold:
+        # Determine suggestion (Top 5% of betweenness is recommended to be ROUTER)
+        if node_bet >= p95_threshold:
             suggested_role = "ROUTER"
-            reason = f"High topology importance (betweenness: {node_bet:.6f} >= threshold: {p90_threshold:.6f})"
+            reason = f"High topology importance (betweenness: {node_bet:.6f} >= threshold: {p95_threshold:.6f})"
         else:
             suggested_role = "CLIENT"
-            reason = f"Low topology importance (betweenness: {node_bet:.6f} < threshold: {p90_threshold:.6f})"
+            reason = f"Low topology importance (betweenness: {node_bet:.6f} < threshold: {p95_threshold:.6f})"
 
         # A mismatch occurs if:
         # - suggested is ROUTER, but current configuration is NOT router-like
@@ -54,6 +54,6 @@ def annotate_role_suggestions(G: nx.DiGraph):
         # Annotate node attributes
         data['betweenness_centrality'] = node_bet
         data['suggested_role'] = suggested_role
-        data['role_threshold'] = p90_threshold
+        data['role_threshold'] = p95_threshold
         data['role_reason'] = reason
         data['role_mismatch'] = has_mismatch

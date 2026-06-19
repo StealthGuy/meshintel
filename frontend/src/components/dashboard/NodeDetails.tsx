@@ -445,7 +445,7 @@ export const NodeDetails: React.FC = () => {
                     </span>
                   </div>
                   <span className="text-[10px] text-outline font-label-mono uppercase tracking-wider font-semibold">
-                    Threshold: {role_threshold ? role_threshold.toFixed(6) : '0.000000'} (Top 10%)
+                    Threshold: {role_threshold ? role_threshold.toFixed(6) : '0.000000'} (Top 5%)
                   </span>
                 </div>
 
@@ -456,16 +456,16 @@ export const NodeDetails: React.FC = () => {
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-label-mono text-[11px] text-secondary uppercase tracking-wider">Network Centrality Spectrum</span>
                   <span className="text-[11px] font-label-mono text-outline font-semibold">
-                    {betweenness_centrality >= (role_threshold || 0) ? 'Top 10% (Router Zone)' : 'Client Zone'}
+                    {betweenness_centrality >= (role_threshold || 0) ? 'Top 5% (Router Zone)' : 'Client Zone'}
                   </span>
                 </div>
                 
                 {/* Progress bar container */}
                 <div className="relative w-full h-3 bg-surface-container-highest border border-outline-variant rounded-full overflow-visible my-4">
                   {/* Threshold Mark Indicator */}
-                  <div className="absolute left-[90%] top-[-8px] bottom-[-8px] w-0.5 bg-red-600 z-10" title="90th Percentile (Router Threshold)">
+                  <div className="absolute left-[90%] top-[-8px] bottom-[-8px] w-0.5 bg-red-600 z-10" title="95th Percentile (Router Threshold)">
                     <span className="absolute bottom-[16px] left-1/2 -translate-x-1/2 bg-red-600 text-white font-label-mono text-[9px] px-1 py-0.5 rounded-sm whitespace-nowrap font-bold">
-                      Router Threshold (Top 10%)
+                      Router Threshold (Top 5%)
                     </span>
                   </div>
                   

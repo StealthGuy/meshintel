@@ -66,7 +66,7 @@ export const RoleConfigurationOptimizer: React.FC = () => {
                 <h4 className="font-label-mono text-label-mono text-on-surface font-bold uppercase">High centrality Clients (Suggest ROUTER)</h4>
               </div>
               <p className="text-[12px] text-on-surface-variant mb-4">
-                Nodes currently set as <strong>CLIENT</strong> but showing high centrality (top 10% of network). Consider setting them to <strong>ROUTER</strong>.
+                Nodes currently set as <strong>CLIENT</strong> but showing high centrality (top 5% of network). Consider setting them to <strong>ROUTER</strong>.
               </p>
               {roleSuggestions.hidden_backbones.length === 0 ? (
                 <div className="flex-1 flex items-center justify-center py-6 border border-dashed border-outline-variant bg-surface-container-lowest">
@@ -113,7 +113,7 @@ export const RoleConfigurationOptimizer: React.FC = () => {
                 <h4 className="font-label-mono text-label-mono text-on-surface font-bold uppercase">Low centrality Routers (Suggest CLIENT)</h4>
               </div>
               <p className="text-[12px] text-on-surface-variant mb-4">
-                Nodes currently set as <strong>ROUTER</strong> but showing low centrality (below top 10%). Consider setting them to <strong>CLIENT</strong>.
+                Nodes currently set as <strong>ROUTER</strong> but showing low centrality (below top 5%). Consider setting them to <strong>CLIENT</strong>.
               </p>
               {roleSuggestions.under_utilized_routers.length === 0 ? (
                 <div className="flex-1 flex items-center justify-center py-6 border border-dashed border-outline-variant bg-surface-container-lowest">
