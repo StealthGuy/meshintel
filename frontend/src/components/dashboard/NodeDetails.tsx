@@ -102,7 +102,7 @@ export const NodeDetails: React.FC = () => {
                 {fmt(long_name, '') || id}
               </h2>
             </div>
-            
+
             {/* Badges and metadata */}
             <div className="flex flex-col items-start justify-center min-w-0 w-full md:w-auto">
               <div className="flex flex-wrap items-center gap-2 mb-1 hidden md:flex min-w-0 w-full">
@@ -277,14 +277,14 @@ export const NodeDetails: React.FC = () => {
                   <div className="flex flex-col gap-1 border-b border-outline-variant pb-3 min-w-0 w-full">
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">HARDWAR PLATFORM</span>
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2 break-all min-w-0">
-                      <span className="material-symbols-outlined text-[16px] text-outline shrink-0">memory</span> 
+                      <span className="material-symbols-outlined text-[16px] text-outline shrink-0">memory</span>
                       <span className="break-all min-w-0">{fmt(hardware)}</span>
                     </span>
                   </div>
                   <div className="flex flex-col gap-1 border-b border-outline-variant pb-3 min-w-0 w-full">
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">FIRMWARE VER</span>
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2 break-all min-w-0">
-                      <span className="material-symbols-outlined text-[16px] text-outline shrink-0">terminal</span> 
+                      <span className="material-symbols-outlined text-[16px] text-outline shrink-0">terminal</span>
                       <span className="break-all min-w-0">{fw_version || FALLBACK_VALUE}</span>
                     </span>
                   </div>
@@ -378,38 +378,37 @@ export const NodeDetails: React.FC = () => {
               <span className="material-symbols-outlined text-[16px] text-outline">verified_user</span>
             </div>
             <div className="p-6 flex flex-col gap-6">
-              
+
               {/* Status Banner */}
-              <div className={`p-4 border flex flex-col md:flex-row gap-4 items-start md:items-center rounded-sm ${
-                role_mismatch 
-                  ? 'bg-[#FEF3C7] border-[#FDE68A] text-black' 
+              <div className={`p-4 border flex flex-col md:flex-row gap-4 items-start md:items-center rounded-sm ${role_mismatch
+                  ? 'bg-[#FEF3C7] border-[#FDE68A] text-black'
                   : 'bg-[#D1FAE5] border-[#A7F3D0] text-black'
-              }`}>
+                }`}>
                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-black/5 shrink-0 text-black">
                   <span className="material-symbols-outlined text-[28px] text-black">
-                    {role_mismatch ? 'warning' : 'check_circle'}
+                    {role_mismatch ? 'info' : 'check_circle'}
                   </span>
                 </div>
                 <div className="flex-1 text-black">
                   <h4 className="font-bold text-[16px] leading-tight text-black">
-                    {role_mismatch ? 'Configuration Mismatch Detected' : 'Optimal Role Configuration'}
+                    {role_mismatch ? 'Role Reconfiguration Suggestion' : 'Optimal Role Configuration'}
                   </h4>
                   <p className="text-[13px] opacity-95 mt-1 text-black">
-                    {role_mismatch 
-                      ? `This node is currently configured as ${role}, but its network position suggests it should be set to ${suggested_role}.`
+                    {role_mismatch
+                      ? `This node is currently configured as ${role}. Based on its topological position, the automatically suggested role is ${suggested_role}.`
                       : `The node's configured role (${role}) perfectly matches its topological position in the network.`}
                   </p>
                 </div>
                 {role_mismatch && (
                   <div className="bg-black text-white px-3 py-1 font-label-mono text-[11px] font-black uppercase tracking-wider rounded-sm shrink-0">
-                    Reconfiguration Advised
+                    Evaluate Reconfiguration
                   </div>
                 )}
               </div>
 
               {/* Side-by-side Role Comparison & Stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
+
                 {/* Current Role Card */}
                 <div className="p-4 border border-outline-variant bg-surface-container-low flex flex-col justify-between h-28">
                   <div>
@@ -422,14 +421,12 @@ export const NodeDetails: React.FC = () => {
                 </div>
 
                 {/* Suggested Role Card */}
-                <div className={`p-4 border bg-surface-container-low flex flex-col justify-between h-28 ${
-                  role_mismatch ? 'border-amber-500/50 border-l-4 border-l-amber-500' : 'border-outline-variant'
-                }`}>
+                <div className={`p-4 border bg-surface-container-low flex flex-col justify-between h-28 ${role_mismatch ? 'border-amber-500/50 border-l-4 border-l-amber-500' : 'border-outline-variant'
+                  }`}>
                   <div>
                     <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider block">Suggested Role</span>
-                    <span className={`font-headline-md text-headline-md font-black uppercase mt-1 block ${
-                      role_mismatch ? 'text-amber-500 font-bold' : 'text-[#10B981] font-bold'
-                    }`}>
+                    <span className={`font-headline-md text-headline-md font-black uppercase mt-1 block ${role_mismatch ? 'text-amber-500 font-bold' : 'text-[#10B981] font-bold'
+                      }`}>
                       {suggested_role}
                     </span>
                   </div>
@@ -459,7 +456,7 @@ export const NodeDetails: React.FC = () => {
                     {betweenness_centrality >= (role_threshold || 0) ? 'Top 5% (Router Zone)' : 'Client Zone'}
                   </span>
                 </div>
-                
+
                 {/* Progress bar container */}
                 <div className="relative w-full h-3 bg-surface-container-highest border border-outline-variant rounded-full overflow-visible my-4">
                   {/* Threshold Mark Indicator */}
@@ -468,7 +465,7 @@ export const NodeDetails: React.FC = () => {
                       Router Threshold (Top 5%)
                     </span>
                   </div>
-                  
+
                   {/* Background segments */}
                   <div className="absolute left-0 right-[5%] h-full bg-[#10B981]/20 rounded-l-full"></div>
                   <div className="absolute left-[95%] right-0 h-full bg-red-500/20 rounded-r-full"></div>
@@ -480,7 +477,7 @@ export const NodeDetails: React.FC = () => {
                       ? (betweenness_centrality / th) * 95
                       : 95 + Math.min(((betweenness_centrality - th) / Math.max(1 - th, 0.0001)) * 5, 4);
                     return (
-                      <div 
+                      <div
                         className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-on-surface border-2 border-white shadow-md rounded-full z-20 transition-all duration-700 cursor-help"
                         style={{ left: `${Math.min(Math.max(percentagePosition, 0.5), 99.5)}%` }}
                         title={`Your node's betweenness centrality: ${betweenness_centrality.toFixed(6)}`}
@@ -492,7 +489,7 @@ export const NodeDetails: React.FC = () => {
                     );
                   })()}
                 </div>
-                
+
                 <div className="flex justify-between font-label-mono text-[9px] text-outline uppercase tracking-wider mt-4">
                   <span>0.0 (Low Transit)</span>
                   <span>1.0 (Maximum Transit)</span>
