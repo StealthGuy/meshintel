@@ -382,26 +382,26 @@ export const NodeDetails: React.FC = () => {
               {/* Status Banner */}
               <div className={`p-4 border flex flex-col md:flex-row gap-4 items-start md:items-center rounded-sm ${
                 role_mismatch 
-                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-950 dark:text-amber-200' 
-                  : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-955 dark:text-emerald-200'
+                  ? 'bg-[#FEF3C7] border-[#FDE68A] text-black' 
+                  : 'bg-[#D1FAE5] border-[#A7F3D0] text-black'
               }`}>
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 shrink-0">
-                  <span className="material-symbols-outlined text-[28px]">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-black/5 shrink-0 text-black">
+                  <span className="material-symbols-outlined text-[28px] text-black">
                     {role_mismatch ? 'warning' : 'check_circle'}
                   </span>
                 </div>
-                <div className="flex-1">
-                  <h4 className="font-bold text-[16px] leading-tight">
+                <div className="flex-1 text-black">
+                  <h4 className="font-bold text-[16px] leading-tight text-black">
                     {role_mismatch ? 'Configuration Mismatch Detected' : 'Optimal Role Configuration'}
                   </h4>
-                  <p className="text-[13px] opacity-90 mt-1">
+                  <p className="text-[13px] opacity-95 mt-1 text-black">
                     {role_mismatch 
                       ? `This node is currently configured as ${role}, but its network position suggests it should be set to ${suggested_role}.`
                       : `The node's configured role (${role}) perfectly matches its topological position in the network.`}
                   </p>
                 </div>
                 {role_mismatch && (
-                  <div className="bg-amber-500 text-slate-900 px-3 py-1 font-label-mono text-[11px] font-black uppercase tracking-wider rounded-sm shrink-0">
+                  <div className="bg-black text-white px-3 py-1 font-label-mono text-[11px] font-black uppercase tracking-wider rounded-sm shrink-0">
                     Reconfiguration Advised
                   </div>
                 )}
