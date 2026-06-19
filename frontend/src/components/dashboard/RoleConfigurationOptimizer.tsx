@@ -36,11 +36,7 @@ export const RoleConfigurationOptimizer: React.FC = () => {
         </div>
 
         {/* Quick Metrics */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 border border-outline-variant bg-surface-container-low flex flex-col justify-between rounded-sm">
-            <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">Total Nodes Analyzed</span>
-            <span className="font-data-tabular text-[24px] font-bold text-on-surface mt-2">{roleSuggestions.total_nodes}</span>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="p-4 border border-outline-variant bg-surface-container-low flex flex-col justify-between rounded-sm border-l-4 border-l-[#10B981]">
             <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">Optimal Configurations</span>
             <span className="font-data-tabular text-[24px] font-bold text-[#10B981] mt-2">

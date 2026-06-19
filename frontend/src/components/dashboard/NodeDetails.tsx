@@ -463,22 +463,22 @@ export const NodeDetails: React.FC = () => {
                 {/* Progress bar container */}
                 <div className="relative w-full h-3 bg-surface-container-highest border border-outline-variant rounded-full overflow-visible my-4">
                   {/* Threshold Mark Indicator */}
-                  <div className="absolute left-[90%] top-[-8px] bottom-[-8px] w-0.5 bg-red-600 z-10" title="95th Percentile (Router Threshold)">
+                  <div className="absolute left-[95%] top-[-8px] bottom-[-8px] w-0.5 bg-red-600 z-10" title="95th Percentile (Router Threshold)">
                     <span className="absolute bottom-[16px] left-1/2 -translate-x-1/2 bg-red-600 text-white font-label-mono text-[9px] px-1 py-0.5 rounded-sm whitespace-nowrap font-bold">
                       Router Threshold (Top 5%)
                     </span>
                   </div>
                   
                   {/* Background segments */}
-                  <div className="absolute left-0 right-[10%] h-full bg-[#10B981]/20 rounded-l-full"></div>
-                  <div className="absolute left-[90%] right-0 h-full bg-red-500/20 rounded-r-full"></div>
+                  <div className="absolute left-0 right-[5%] h-full bg-[#10B981]/20 rounded-l-full"></div>
+                  <div className="absolute left-[95%] right-0 h-full bg-red-500/20 rounded-r-full"></div>
 
                   {/* Node Value Cursor */}
                   {(() => {
                     const th = role_threshold || 0.0001;
                     const percentagePosition = betweenness_centrality < th
-                      ? (betweenness_centrality / th) * 90
-                      : 90 + Math.min(((betweenness_centrality - th) / Math.max(1 - th, 0.0001)) * 10, 8);
+                      ? (betweenness_centrality / th) * 95
+                      : 95 + Math.min(((betweenness_centrality - th) / Math.max(1 - th, 0.0001)) * 5, 4);
                     return (
                       <div 
                         className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-on-surface border-2 border-white shadow-md rounded-full z-20 transition-all duration-700 cursor-help"
