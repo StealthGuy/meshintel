@@ -125,12 +125,6 @@ git push
 
 ---
 
-## License
-
-This project is licensed under the [MIT License](LICENSE) (see the [LICENSE](LICENSE) file for details).
-
----
-
 ## AI Usage Disclosure
 
 LLM technologies were employed in this project to accelerate frontend development. Regarding the backend, AI was utilized strictly as a development assistant; all network analysis formulas, metrics calculations, mathematical models, and core logic were carefully selected and/or implemented by the author. Moreover, LLM were used to provide deployment suggestions, which allowed to keep this project 0-cost.
