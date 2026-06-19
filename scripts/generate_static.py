@@ -20,6 +20,7 @@ from backend.analysis.distances import compute_distances
 from backend.analysis.degree_dist import compute_degree_distribution
 from backend.analysis.stats import compute_node_stats
 from backend.analysis.robustness import generate_robustness_plot
+from backend.analysis.roles import annotate_role_suggestions
 
 # --- CONFIGURAZIONE PERCORSI ---
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -64,6 +65,7 @@ def main():
     nodes = parse_nodes(nodes_path)
     edges = parse_edges(edges_path)
     G = build_graph(nodes, edges)
+    annotate_role_suggestions(G)
     G_kcore = reduce_graph_k_core(G, k=2)
     print(f"Grafo: {len(G)} nodi, {G.number_of_edges()} archi")
 
@@ -81,6 +83,51 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "report.json"), "w") as f:
         json.dump(report, f)
     print("  ✓ report.json")
+
+    # Genera roles_suggestions.json
+    hidden_backbones = []
+    under_utilized_routers = []
+    correct_count = 0
+    mismatched_count = 0
+    threshold = 0.0
+
+    for node_id, data in G.nodes(data=True):
+        threshold = data.get('role_threshold', 0.0)
+        mismatch = data.get('role_mismatch', False)
+
+        node_info = {
+            "id": node_id,
+            "long_name": data.get('long_name', 'Unknown'),
+            "role": data.get('role', 'UNKNOWN'),
+            "betweenness_centrality": data.get('betweenness_centrality', 0.0),
+            "suggested_role": data.get('suggested_role', 'CLIENT'),
+            "reason": data.get('role_reason', '')
+        }
+
+        if mismatch:
+            mismatched_count += 1
+            if node_info["suggested_role"] == "ROUTER":
+                hidden_backbones.append(node_info)
+            else:
+                under_utilized_routers.append(node_info)
+        else:
+            correct_count += 1
+
+    hidden_backbones.sort(key=lambda x: x["betweenness_centrality"], reverse=True)
+    under_utilized_routers.sort(key=lambda x: x["betweenness_centrality"])
+
+    suggestions_report = {
+        "threshold": threshold,
+        "hidden_backbones": hidden_backbones,
+        "under_utilized_routers": under_utilized_routers,
+        "total_nodes": len(G),
+        "mismatched_count": mismatched_count,
+        "correct_count": correct_count
+    }
+
+    with open(os.path.join(OUTPUT_DIR, "roles_suggestions.json"), "w") as f:
+        json.dump(suggestions_report, f)
+    print("  ✓ roles_suggestions.json")
 
     # Genera report_mqtt.json per l'analisi con il broker MQTT
     G_mqtt = add_mqtt_broker_to_graph(G)

@@ -21,6 +21,7 @@ from backend.analysis.robustness import generate_robustness_plot
 
 
 from backend.analysis.models import NetworkReport, RobustnessReport
+from backend.analysis.roles import annotate_role_suggestions, SuggestionsReport, SuggestionNode
 
 router = APIRouter()
 
@@ -52,6 +53,7 @@ def load_graphs_if_needed(use_k_core: int = 2):
         nodes = parse_nodes(nodes_path)
         edges = parse_edges(edges_path)
         APP_STATE["graph_orig"] = build_graph(nodes, edges)
+        annotate_role_suggestions(APP_STATE["graph_orig"])
         APP_STATE["graph_kcore"] = reduce_graph_k_core(APP_STATE["graph_orig"], k=use_k_core)
         APP_STATE["graph_mqtt"] = add_mqtt_broker_to_graph(APP_STATE["graph_orig"])
         print(f"Grafo completato: {len(APP_STATE['graph_orig'])} nodi.")
@@ -152,6 +154,52 @@ def get_node_details(node_id: str):
     if node_id not in G:
         raise HTTPException(status_code=404, detail=f"Nodo {node_id} non trovato.")
     return G.nodes[node_id]
+
+@router.get("/roles/suggestions", response_model=SuggestionsReport)
+def get_role_suggestions():
+    load_graphs_if_needed()
+    G = APP_STATE["graph_orig"]
+    
+    hidden_backbones = []
+    under_utilized_routers = []
+    correct_count = 0
+    mismatched_count = 0
+    
+    threshold = 0.0
+    for node_id, data in G.nodes(data=True):
+        threshold = data.get('role_threshold', 0.0)
+        mismatch = data.get('role_mismatch', False)
+        
+        node_info = SuggestionNode(
+            id=node_id,
+            long_name=data.get('long_name', 'Unknown'),
+            role=data.get('role', 'UNKNOWN'),
+            betweenness_centrality=data.get('betweenness_centrality', 0.0),
+            suggested_role=data.get('suggested_role', 'CLIENT'),
+            reason=data.get('role_reason', '')
+        )
+        
+        if mismatch:
+            mismatched_count += 1
+            if node_info.suggested_role == "ROUTER":
+                hidden_backbones.append(node_info)
+            else:
+                under_utilized_routers.append(node_info)
+        else:
+            correct_count += 1
+            
+    # Ordina: hidden_backbones decrescente (più critici prima), under_utilized_routers crescente (meno utili prima)
+    hidden_backbones.sort(key=lambda x: x.betweenness_centrality, reverse=True)
+    under_utilized_routers.sort(key=lambda x: x.betweenness_centrality)
+    
+    return SuggestionsReport(
+        threshold=threshold,
+        hidden_backbones=hidden_backbones,
+        under_utilized_routers=under_utilized_routers,
+        total_nodes=len(G),
+        mismatched_count=mismatched_count,
+        correct_count=correct_count
+    )
 
 @router.post("/refresh")
 def refresh_network_data():

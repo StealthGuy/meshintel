@@ -49,9 +49,19 @@ export const NodeInfoCard: React.FC = () => {
         {/* Role */}
         <div className="flex justify-between items-center border-b border-surface-variant pb-2">
           <span className="font-body-sm text-body-sm text-on-surface-variant">Role</span>
-          <span className="font-body-sm text-body-sm text-on-surface font-medium uppercase tracking-wide">
-            {selectedNodeDetails.role || FALLBACK_VALUE}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="font-body-sm text-body-sm text-on-surface font-medium uppercase tracking-wide">
+              {selectedNodeDetails.role || FALLBACK_VALUE}
+            </span>
+            {selectedNodeDetails.role_mismatch && (
+              <span 
+                className="material-symbols-outlined text-amber-500 text-[14px] cursor-help" 
+                title={`Suggested Role: ${selectedNodeDetails.suggested_role}`}
+              >
+                warning
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Connections (In/Out Degree + HUB Badge con colore originale) */}

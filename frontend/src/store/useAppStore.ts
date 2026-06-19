@@ -85,6 +85,29 @@ interface NodeDetails {
   gateway_node?: GatewayNode;
   last_position?: { latitude: number | string; longitude: number | string; altitude?: number };
   last_device_metric?: DeviceMetric;
+  betweenness_centrality?: number;
+  suggested_role?: string;
+  role_threshold?: number;
+  role_reason?: string;
+  role_mismatch?: boolean;
+}
+
+export interface SuggestionNode {
+  id: string;
+  long_name: string;
+  role: string;
+  betweenness_centrality: number;
+  suggested_role: string;
+  reason: string;
+}
+
+export interface SuggestionsReport {
+  threshold: number;
+  hidden_backbones: SuggestionNode[];
+  under_utilized_routers: SuggestionNode[];
+  total_nodes: number;
+  mismatched_count: number;
+  correct_count: number;
 }
 
 interface RobustnessItem {
@@ -117,6 +140,10 @@ interface AppState {
   robustness: RobustnessReport | null;
   isLoadingRobustness: boolean;
   fetchRobustness: (forceRefresh?: boolean) => Promise<void>;
+
+  roleSuggestions: SuggestionsReport | null;
+  isLoadingRoleSuggestions: boolean;
+  fetchRoleSuggestions: (forceRefresh?: boolean) => Promise<void>;
 
   geoJsonCache: Record<string, any>;
   geoJsonData: any | null;
@@ -263,6 +290,27 @@ export const useAppStore = create<AppState>((set, get) => ({
     } catch (error) {
       console.error('Failed to fetch robustness report', error);
       set({ isLoadingRobustness: false });
+    }
+  },
+
+  roleSuggestions: null,
+  isLoadingRoleSuggestions: false,
+  fetchRoleSuggestions: async (forceRefresh = false) => {
+    const { roleSuggestions, isLoadingRoleSuggestions } = get();
+    
+    if (isLoadingRoleSuggestions) return;
+
+    if (!forceRefresh && roleSuggestions) {
+      return;
+    }
+
+    set({ isLoadingRoleSuggestions: true });
+    try {
+      const data = await networkApi.getRoleSuggestions();
+      set({ roleSuggestions: data, isLoadingRoleSuggestions: false });
+    } catch (error) {
+      console.error('Failed to fetch role suggestions', error);
+      set({ isLoadingRoleSuggestions: false });
     }
   },
 

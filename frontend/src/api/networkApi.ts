@@ -36,4 +36,10 @@ export const networkApi = {
     const response = await axios.get(apiUrl('robustness'));
     return response.data;
   },
+
+  getRoleSuggestions: async () => {
+    const url = isDev ? '/api/roles/suggestions' : '/data/roles_suggestions.json';
+    const response = await axios.get(url);
+    return response.data;
+  },
 };

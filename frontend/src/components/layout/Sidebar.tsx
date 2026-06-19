@@ -98,6 +98,7 @@ export const Sidebar: React.FC = () => {
             useAppStore.getState().fetchReport(true);
             useAppStore.getState().fetchMapData(useAppStore.getState().activeAlgorithm, true);
             useAppStore.getState().fetchRobustness(true);
+            useAppStore.getState().fetchRoleSuggestions(true);
           }}
           className="w-full bg-primary-container text-on-primary font-body-sm text-body-sm font-semibold rounded py-2 flex items-center justify-center gap-2 hover:bg-primary transition-colors cursor-pointer"
         >

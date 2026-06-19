@@ -47,7 +47,8 @@ export const NodeDetails: React.FC = () => {
   const {
     id, short_name, long_name, role, hardware, fw_version, frequency,
     cluster_code, public_key, is_licensed, has_mqtt, last_heard, channel,
-    gateway_node, last_position, last_device_metric
+    gateway_node, last_position, last_device_metric,
+    betweenness_centrality, suggested_role, role_threshold, role_mismatch
   } = selectedNodeDetails;
 
   const dm = last_device_metric;
@@ -368,6 +369,139 @@ export const NodeDetails: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Role Recommendation Optimizer */}
+        {betweenness_centrality != null && (
+          <div className="bg-surface-container-lowest border border-outline-variant flex flex-col">
+            <div className="p-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+              <span className="font-label-mono text-[12px] text-on-surface uppercase">ROLE_RECOMMENDATION_OPTIMIZER</span>
+              <span className="material-symbols-outlined text-[16px] text-outline">verified_user</span>
+            </div>
+            <div className="p-6 flex flex-col gap-6">
+              
+              {/* Status Banner */}
+              <div className={`p-4 border flex flex-col md:flex-row gap-4 items-start md:items-center rounded-sm ${
+                role_mismatch 
+                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-950 dark:text-amber-200' 
+                  : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-955 dark:text-emerald-200'
+              }`}>
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 shrink-0">
+                  <span className="material-symbols-outlined text-[28px]">
+                    {role_mismatch ? 'warning' : 'check_circle'}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-[16px] leading-tight">
+                    {role_mismatch ? 'Configuration Mismatch Detected' : 'Optimal Role Configuration'}
+                  </h4>
+                  <p className="text-[13px] opacity-90 mt-1">
+                    {role_mismatch 
+                      ? `This node is currently configured as ${role}, but its network position suggests it should be set to ${suggested_role}.`
+                      : `The node's configured role (${role}) perfectly matches its topological position in the network.`}
+                  </p>
+                </div>
+                {role_mismatch && (
+                  <div className="bg-amber-500 text-slate-900 px-3 py-1 font-label-mono text-[11px] font-black uppercase tracking-wider rounded-sm shrink-0">
+                    Reconfiguration Advised
+                  </div>
+                )}
+              </div>
+
+              {/* Side-by-side Role Comparison & Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                {/* Current Role Card */}
+                <div className="p-4 border border-outline-variant bg-surface-container-low flex flex-col justify-between h-28">
+                  <div>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider block">Current Role</span>
+                    <span className="font-headline-md text-headline-md text-on-surface font-black uppercase mt-1 block">
+                      {role}
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-outline font-label-mono uppercase tracking-wider font-semibold">Configured on Device</span>
+                </div>
+
+                {/* Suggested Role Card */}
+                <div className={`p-4 border bg-surface-container-low flex flex-col justify-between h-28 ${
+                  role_mismatch ? 'border-amber-500/50 border-l-4 border-l-amber-500' : 'border-outline-variant'
+                }`}>
+                  <div>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider block">Suggested Role</span>
+                    <span className={`font-headline-md text-headline-md font-black uppercase mt-1 block ${
+                      role_mismatch ? 'text-amber-500 font-bold' : 'text-[#10B981] font-bold'
+                    }`}>
+                      {suggested_role}
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-outline font-label-mono uppercase tracking-wider font-semibold">Topology Recommendation</span>
+                </div>
+
+                {/* Betweenness Centrality Score Card */}
+                <div className="p-4 border border-outline-variant bg-surface-container-low flex flex-col justify-between h-28">
+                  <div>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider block">Centrality Score</span>
+                    <span className="font-data-tabular text-[24px] font-bold text-on-surface mt-1 block">
+                      {betweenness_centrality.toFixed(6)}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-outline font-label-mono uppercase tracking-wider font-semibold">
+                    Threshold: {role_threshold ? role_threshold.toFixed(6) : '0.000000'} (Top 10%)
+                  </span>
+                </div>
+
+              </div>
+
+              {/* Centrality Visual Progress Bar */}
+              <div className="border border-outline-variant bg-surface-container-low p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-label-mono text-[11px] text-secondary uppercase tracking-wider">Network Centrality Spectrum</span>
+                  <span className="text-[11px] font-label-mono text-outline font-semibold">
+                    {betweenness_centrality >= (role_threshold || 0) ? 'Top 10% (Router Zone)' : 'Client Zone'}
+                  </span>
+                </div>
+                
+                {/* Progress bar container */}
+                <div className="relative w-full h-3 bg-surface-container-highest border border-outline-variant rounded-full overflow-visible my-4">
+                  {/* Threshold Mark Indicator */}
+                  <div className="absolute left-[90%] top-[-8px] bottom-[-8px] w-0.5 bg-red-600 z-10" title="90th Percentile (Router Threshold)">
+                    <span className="absolute bottom-[16px] left-1/2 -translate-x-1/2 bg-red-600 text-white font-label-mono text-[9px] px-1 py-0.5 rounded-sm whitespace-nowrap font-bold">
+                      Router Threshold (Top 10%)
+                    </span>
+                  </div>
+                  
+                  {/* Background segments */}
+                  <div className="absolute left-0 right-[10%] h-full bg-[#10B981]/20 rounded-l-full"></div>
+                  <div className="absolute left-[90%] right-0 h-full bg-red-500/20 rounded-r-full"></div>
+
+                  {/* Node Value Cursor */}
+                  {(() => {
+                    const th = role_threshold || 0.0001;
+                    const percentagePosition = betweenness_centrality < th
+                      ? (betweenness_centrality / th) * 90
+                      : 90 + Math.min(((betweenness_centrality - th) / Math.max(1 - th, 0.0001)) * 10, 8);
+                    return (
+                      <div 
+                        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-on-surface border-2 border-white shadow-md rounded-full z-20 transition-all duration-700 cursor-help"
+                        style={{ left: `${Math.min(Math.max(percentagePosition, 0.5), 99.5)}%` }}
+                        title={`Your node's betweenness centrality: ${betweenness_centrality.toFixed(6)}`}
+                      >
+                        <div className="absolute top-[16px] left-1/2 -translate-x-1/2 bg-on-surface text-surface-container-lowest font-label-mono text-[9px] px-1 py-0.5 rounded-sm whitespace-nowrap font-bold">
+                          {betweenness_centrality.toFixed(4)}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+                
+                <div className="flex justify-between font-label-mono text-[9px] text-outline uppercase tracking-wider mt-4">
+                  <span>0.0 (Low Transit)</span>
+                  <span>1.0 (Maximum Transit)</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
 
         {/* Network Graph Metrics Box */}
         <div className="bg-surface-container-lowest border border-outline-variant flex flex-col">
