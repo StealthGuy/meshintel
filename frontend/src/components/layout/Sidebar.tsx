@@ -67,6 +67,16 @@ export const Sidebar: React.FC = () => {
           <span className="material-symbols-outlined text-[20px]">destruction</span>
           <span>Attack Simulation</span>
         </NavLink>
+        <a
+          href="https://blog.meshintel.it"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-150"
+        >
+          <span className="material-symbols-outlined text-[20px]">article</span>
+          <span>Reports & Blog</span>
+          <span className="material-symbols-outlined text-[16px] ml-auto">open_in_new</span>
+        </a>
         {location.pathname.startsWith('/node-details') && (
           <NavLink
             to={location.pathname}

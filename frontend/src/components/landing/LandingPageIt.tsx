@@ -264,11 +264,12 @@ export const LandingPageIt: React.FC = () => {
                   <span className="material-symbols-outlined">arrow_forward</span>
                 </button>
               </Link>
-              <div className="w-full sm:w-auto">
-                <button className="w-full sm:w-auto bg-surface-container-high/80 dark:bg-slate-900 text-on-surface-variant/40 dark:text-slate-600 font-mono text-sm font-bold tracking-wider px-8 py-4 rounded border border-outline-variant dark:border-slate-800 shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] dark:shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] scale-[0.97] translate-y-[2px] transition-all cursor-not-allowed pointer-events-none" title="I report saranno disponibili dal 12 Giugno 2026">
-                  REPORT (PRESTO DISPONIBILI)
+              <a href="https://blog.meshintel.it" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-white font-mono text-sm font-bold tracking-wider px-8 py-4 flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98] border border-slate-200 dark:border-slate-800 cursor-pointer">
+                  REPORT & BLOG
+                  <span className="material-symbols-outlined text-[18px]">article</span>
                 </button>
-              </div>
+              </a>
             </div>
           </div>
         </section>
@@ -478,11 +479,11 @@ export const LandingPageIt: React.FC = () => {
                   APRI STRUMENTO
                 </button>
               </Link>
-              <div className="w-full sm:w-auto">
-                <button className="w-full bg-primary-container/30 dark:bg-slate-950/40 border border-white/20 dark:border-slate-800 text-white/30 dark:text-slate-600 font-mono text-sm font-bold tracking-wider px-12 py-5 rounded shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] dark:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] scale-[0.97] translate-y-[2px] transition-all cursor-not-allowed pointer-events-none" title="I report saranno disponibili dal 12 Giugno 2026">
-                  LEGGI I REPORT (PRESTO DISPONIBILE)
+              <a href="https://blog.meshintel.it" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                <button className="w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-white font-mono text-sm font-bold tracking-wider px-12 py-5 transition-all active:scale-[0.98] border border-slate-200 dark:border-slate-800 rounded cursor-pointer">
+                  LEGGI IL BLOG
                 </button>
-              </div>
+              </a>
             </div>
           </div>
         </section>
