@@ -150,3 +150,8 @@
     print-color-adjust: exact;
   }
 }
+
+/* OpenStreetMap Invert to Dark */
+.dark-map-tiles {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}

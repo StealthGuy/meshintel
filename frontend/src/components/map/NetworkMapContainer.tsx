@@ -62,8 +62,9 @@ export const NetworkMapContainer: React.FC = () => {
       >
         {activeTileLayer === 'dark' ? (
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; CARTO | Dati: <a href="https://www.loraitalia.it/" target="_blank" rel="noopener noreferrer">loraitalia.it</a>'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Dati: <a href="https://www.loraitalia.it/" target="_blank" rel="noopener noreferrer">loraitalia.it</a>'
+            className="dark-map-tiles"
           />
         ) : (
           <TileLayer
