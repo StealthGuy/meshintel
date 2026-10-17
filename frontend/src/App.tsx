@@ -3,6 +3,7 @@ import { MainLayout } from './components/layout/MainLayout';
 import { NetworkMapContainer } from './components/map/NetworkMapContainer';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { NodeDetails } from './components/dashboard/NodeDetails';
+import { MyNodePage } from './components/dashboard/MyNodePage';
 import { NetworkRobustness } from './components/dashboard/NetworkRobustness';
 import { LandingPage } from './components/landing/LandingPage';
 import { LandingPageIt } from './components/landing/LandingPageIt';
@@ -20,6 +21,8 @@ function App() {
               <Route path="map" element={<NetworkMapContainer />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="robustness" element={<NetworkRobustness />} />
+              <Route path="role-optimizer" element={<MyNodePage />} />
+              <Route path="my-node" element={<Navigate to="/role-optimizer" replace />} />
               <Route path="node-details/:nodeId" element={<NodeDetails />} />
               <Route path="*" element={<Navigate to="/map" replace />} />
             </Routes>

@@ -53,40 +53,36 @@ export const GeoJsonLayer: React.FC = () => {
       },
     });
 
-    const nodeFeatures = (geoJsonData.features || []).filter(
-      (feature: any) => feature?.properties?.type === 'node',
-    );
-    const maxDegree = Math.max(1, ...nodeFeatures.map((feature: any) => {
-      const properties = feature.properties || {};
-      return Number(properties.in_degree || 0) + Number(properties.out_degree || 0);
-    }));
-    const degreeColor = (degree: number) => {
-      // Scala sequenziale blu → rosso: i nodi più connessi risaltano come hub.
-      const stops = [
-        { at: 0, rgb: [37, 99, 235] },
-        { at: 1, rgb: [220, 38, 38] },
-      ];
-      const t = Math.log1p(degree) / Math.log1p(maxDegree);
-      const upper = stops.findIndex((stop) => stop.at >= t);
-      const right = stops[Math.max(1, upper)];
-      const left = stops[Math.max(0, upper - 1)];
-      const ratio = Math.max(0, Math.min(1, (t - left.at) / (right.at - left.at)));
-      const rgb = left.rgb.map((value, index) => Math.round(value + (right.rgb[index] - value) * ratio));
-      return `rgb(${rgb.join(',')})`;
-    };
-
     const createNodeIcon = (properties: any, zoom: number) => {
-      const commId = properties.community_id;
-      const degree = Number(properties.in_degree || 0) + Number(properties.out_degree || 0);
-      const bgColor = activeAlgorithm === 'raw' ? degreeColor(degree) : properties.color || '#333333';
-      const displayId = activeAlgorithm === 'raw' || commId === -1 || commId === undefined ? '' : commId;
       const baseSize = mapSettings.nodeSize;
       const size = activeAlgorithm === 'raw'
-        ? baseSize
+        ? 22
         : Math.round(Math.min(baseSize * 2.5, baseSize * (1 + Math.max(0, zoom - 6) * 0.13)));
+
+      // Louvain/Leiden keep the original community-colored markers and labels.
+      if (activeAlgorithm !== 'raw') {
+        const commId = properties.community_id;
+        const color = properties.color || '#333333';
+        const displayId = commId === -1 || commId === undefined ? '' : commId;
+        return L.divIcon({
+          className: 'node-icon-container',
+          html: `<div class="node-circle" style="background-color:${color};width:${size}px;height:${size}px">${displayId}</div>`,
+          iconSize: [size, size],
+          iconAnchor: [size / 2, size / 2],
+        });
+      }
+
+      const role = String(properties.role || '').toUpperCase();
+      const isRouter = role.includes('ROUTER') || role.includes('REPEATER') || role.includes('GATEWAY');
+      const isMismatch = properties.role_mismatch === true || properties.role_mismatch === 1 || properties.role_mismatch === 'true';
+      const icon = isRouter
+        ? '<span class="material-symbols-outlined">cell_tower</span>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>';
+      const markerColor = isMismatch ? '#ff3347' : '#39ff14';
+      const statusClass = isMismatch ? 'mesh-node-marker-mismatch' : 'mesh-node-marker-aligned';
       return L.divIcon({
         className: 'node-icon-container',
-        html: `<div class="node-circle" style="background-color:${bgColor};width:${size}px;height:${size}px">${displayId}</div>`,
+        html: `<div class="mesh-node-marker ${statusClass}" style="--node-marker-color:${markerColor};width:${size}px;height:${size}px">${icon}</div>`,
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
       });
@@ -96,10 +92,11 @@ export const GeoJsonLayer: React.FC = () => {
       filter: (feature) => feature?.properties?.type === 'node',
       pointToLayer: (feature, latlng) => {
         const properties = feature.properties || {};
-        const degree = Number(properties.in_degree || 0) + Number(properties.out_degree || 0);
+        const role = properties.role || 'unknown role';
+        const status = properties.role_mismatch ? 'role to review' : 'role aligned';
         return L.marker(latlng, {
           icon: createNodeIcon(properties, map.getZoom()),
-          title: `Grado del nodo: ${degree}`,
+          title: `${properties.long_name || properties.id || 'Node'} · ${role} · ${status}`,
         });
       },
       onEachFeature: (feature, layer) => {

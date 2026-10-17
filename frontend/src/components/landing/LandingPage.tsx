@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ExecutiveSummary } from './ExecutiveSummary';
 
 const calculateTimeLeft = () => {
   const targetDate = new Date('2026-06-20T12:00:00+02:00'); // June 20, 2026 at 12:00:00 GMT+2
@@ -206,16 +207,12 @@ export const LandingPage: React.FC = () => {
             <h1 className="text-5xl sm:text-7xl md:text-8xl leading-tight font-extrabold tracking-tighter text-on-surface dark:text-white mb-4 font-mono">
               MESHINTEL
             </h1>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-500/10 text-amber-500 dark:bg-amber-400/10 dark:text-amber-400 border border-amber-500/20 dark:border-amber-400/20 mb-6 font-mono text-[10px] font-bold tracking-widest uppercase">
-              <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse"></span>
-              ALPHA Version
-            </div>
             <p className="font-sans text-lg sm:text-xl text-secondary dark:text-slate-300 mb-10 max-w-2xl leading-relaxed mx-auto bg-surface/60 dark:bg-slate-950/60 backdrop-blur-[2px] p-4 rounded-lg border border-outline-variant/50 dark:border-slate-900/50">
               The world's first network analysis study on Meshtastic, designed to empower off-grid communication across the Italian mesh network.
             </p>
 
-            {/* Countdown Box */}
-            <div className="mb-10 p-6 sm:p-8 rounded-xl bg-surface-container-low/40 dark:bg-slate-900/50 backdrop-blur-md border border-outline-variant dark:border-slate-900 max-w-xl mx-auto shadow-lg">
+            {/* Obsolete release countdown */}
+            <div className="hidden mb-10 p-6 sm:p-8 rounded-xl bg-surface-container-low/40 dark:bg-slate-900/50 backdrop-blur-md border border-outline-variant dark:border-slate-900 max-w-xl mx-auto shadow-lg">
               <span className="font-mono text-xs text-primary dark:text-blue-500 uppercase tracking-[0.2em] block mb-2 font-semibold">
                 🔔 CODE and REPORTS RELEASE COUNTDOWN
               </span>
@@ -286,20 +283,7 @@ export const LandingPage: React.FC = () => {
           </div>
         </section> */}
 
-        {/* Demo & Telegram Warning Section */}
-        <section className="bg-surface-container-low dark:bg-slate-900/40 border-b border-outline-variant dark:border-slate-900">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center gap-3">
-            <div className="flex items-center justify-center gap-2 font-mono text-xs text-on-surface-variant dark:text-slate-400 text-center flex-wrap">
-              <span className="material-symbols-outlined text-[16px] text-primary dark:text-blue-500 shrink-0">info</span>
-              <span><strong>Meshintel is currently in demo mode.</strong> Please report bugs and share your ideas on our Telegram group:</span>
-              <a href="https://t.me/+W98oFecg2E01OTg0" target="_blank" rel="noopener noreferrer" className="hover:text-primary dark:hover:text-blue-400 underline font-bold flex items-center gap-1">
-                Join the Telegram Group
-
-                <span className="material-symbols-outlined text-[12px] inline">open_in_new</span>
-              </a>
-            </div>
-          </div>
-        </section>
+        <ExecutiveSummary language="en" />
 
         {/* Bento Grid Features Section */}
         <section className="py-24 bg-surface dark:bg-slate-900/10">
@@ -338,8 +322,8 @@ export const LandingPage: React.FC = () => {
               <div className="bg-surface dark:bg-slate-900/30 border border-outline-variant dark:border-slate-900 rounded-lg p-8 flex flex-col justify-between hover:bg-surface-container-low dark:hover:bg-slate-900/60 dark:hover:border-slate-800 transition-all group">
                 <div>
                   <span className="material-symbols-outlined text-primary dark:text-blue-500 mb-6 text-3xl">query_stats</span>
-                  <h3 className="text-lg font-bold font-mono text-on-surface dark:text-white mb-3 uppercase tracking-wide">Core Network Metrics</h3>
-                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">Track the essential health of the Italian mesh. Get instant data on key metrics like network density, diameter, average path length, and active connected components.</p>
+                  <h3 className="text-lg font-bold font-mono text-on-surface dark:text-white mb-3 uppercase tracking-wide">Role Configuration Guidance</h3>
+                  <p className="text-on-surface-variant dark:text-slate-400 text-sm leading-relaxed">We use network centrality to suggest whether a node’s configured role fits its importance in the mesh, helping you choose the role that best reflects how it contributes to the network.</p>
                 </div>
               </div>
               {/* Insight 5 */}

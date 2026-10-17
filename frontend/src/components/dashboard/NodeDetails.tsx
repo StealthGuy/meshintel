@@ -48,7 +48,7 @@ export const NodeDetails: React.FC = () => {
     id, short_name, long_name, role, hardware, fw_version, frequency,
     cluster_code, public_key, is_licensed, has_mqtt, last_heard, channel,
     gateway_node, last_position, last_device_metric,
-    betweenness_centrality, suggested_role, role_threshold, role_mismatch
+    betweenness_centrality, suggested_role, role_mismatch
   } = selectedNodeDetails;
 
   const dm = last_device_metric;
@@ -80,84 +80,54 @@ export const NodeDetails: React.FC = () => {
   const extractedCallsign = callsignMatch ? callsignMatch[1].toUpperCase() : null;
 
   return (
-    <div className={`flex-1 p-6 pt-16 md:pt-6 bg-surface overflow-y-auto overflow-x-hidden w-full transition-all duration-300 min-w-0`}>
+    <div className="min-w-0 w-full flex-1 overflow-x-hidden overflow-y-auto bg-surface p-4 pt-16 transition-all duration-300 sm:p-6 sm:pt-16 md:pt-6">
       <div className="max-w-container-max mx-auto space-y-4 w-full min-w-0">
 
-        {/* Header Identity Banner */}
-        <div className="bg-surface-container-low border border-outline-variant p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative w-full min-w-0">
-          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 w-full md:w-auto min-w-0">
-            {/* Top row on mobile: buttons + title */}
-            <div className="flex items-center gap-3 w-full md:w-auto min-w-0">
-              <button
-                onClick={() => navigate(-1)}
-                className="w-10 h-10 border border-outline-variant hover:bg-surface-container-highest transition-colors flex items-center justify-center text-secondary hover:text-primary cursor-pointer shrink-0"
-                title="Go Back"
-              >
-                <span className="material-symbols-outlined text-[24px]">arrow_back</span>
-              </button>
-              <div className="w-12 h-12 bg-primary flex items-center justify-center text-on-primary shrink-0">
-                <span className="material-symbols-outlined text-[28px]">router</span>
-              </div>
-              <h2 className="font-headline-lg text-[22px] md:text-headline-lg text-on-surface uppercase break-all md:hidden leading-tight flex-1 min-w-0">
-                {fmt(long_name, '') || id}
-              </h2>
-            </div>
-
-            {/* Badges and metadata */}
-            <div className="flex flex-col items-start justify-center min-w-0 w-full md:w-auto">
-              <div className="flex flex-wrap items-center gap-2 mb-1 hidden md:flex min-w-0 w-full">
-                <h2 className="font-headline-lg text-headline-lg text-on-surface uppercase break-all max-w-full xl:max-w-md min-w-0">
+        {/* Node identity */}
+        <header className="rounded-xl border border-outline-variant bg-surface-container-low p-4 sm:p-5">
+          <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+            <button
+              onClick={() => navigate(-1)}
+              className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-outline-variant text-secondary transition-colors hover:bg-surface-container-highest hover:text-primary cursor-pointer"
+              title="Go back"
+              aria-label="Go back"
+            >
+              <span className="material-symbols-outlined text-[20px]">arrow_back</span>
+            </button>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="min-w-0 flex-1 basis-full break-words text-xl font-semibold leading-snug text-on-surface [overflow-wrap:anywhere] sm:text-2xl md:basis-auto">
                   {fmt(long_name, '') || id}
-                </h2>
-                <span className="px-2 py-0.5 bg-outline-variant text-on-surface-variant font-label-mono text-[12px] uppercase border border-outline shrink-0">{fmt(role)}</span>
+                </h1>
+                <span className="inline-flex max-w-full items-center rounded-full border border-outline-variant bg-surface px-2.5 py-1 font-label-mono text-[10px] uppercase tracking-wide text-on-surface-variant break-words [overflow-wrap:anywhere]">{fmt(role)}</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-xs text-on-surface-variant">
+                  {isLoadingNodeDetails ? <span className="h-2 w-2 animate-spin rounded-full border border-primary border-t-transparent" /> : <span className="h-2 w-2 rounded-full bg-emerald-500" />}
+                  {isLoadingNodeDetails ? 'Updating' : 'Observed'}
+                </span>
               </div>
-              {/* Mobile Role Badge */}
-              <div className="md:hidden mb-2 min-w-0">
-                <span className="px-2 py-0.5 bg-outline-variant text-on-surface-variant font-label-mono text-[12px] uppercase border border-outline inline-block break-all">{fmt(role)}</span>
-              </div>
-              <div className="flex flex-wrap items-center gap-2 md:gap-4 font-label-mono text-[12px] text-secondary min-w-0 w-full">
-                <span className="flex items-center gap-1 min-w-0 break-all"><span className="material-symbols-outlined text-[14px] shrink-0">tag</span> {id}</span>
-                <span className="hidden md:inline shrink-0">|</span>
-                <span className="flex items-center gap-1 min-w-0 break-all"><span className="material-symbols-outlined text-[14px] shrink-0">short_text</span> {fmt(short_name)}</span>
-                <span className="hidden md:inline shrink-0">|</span>
-                <span className="flex items-center gap-1 min-w-0 break-all"><span className="material-symbols-outlined text-[14px] shrink-0">cell_tower</span> {fmt(frequency)}</span>
+              <div className="mt-2 flex min-w-0 flex-wrap gap-x-4 gap-y-1 text-xs text-on-surface-variant">
+                <span className="break-all">ID: {id}</span>
+                {short_name && <span>Short name: {short_name}</span>}
+                {frequency && <span>{frequency}</span>}
+                <span>Last heard: {fmtDate(last_heard)}</span>
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto shrink-0 min-w-0">
-            <div className="flex items-center gap-2 px-3 py-1 bg-surface-container-highest border border-outline-variant min-w-0">
-              {isLoadingNodeDetails ? (
-                <div className="w-2 h-2 border-2 border-primary border-t-transparent rounded-full animate-spin shrink-0"></div>
-              ) : (
-                <div className="w-2 h-2 bg-[#10B981] shrink-0"></div>
-              )}
-              <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold truncate">
-                {isLoadingNodeDetails ? 'SYNCHRONIZING...' : 'ONLINE / ACTIVE'}
-              </span>
-            </div>
-            <div className="flex flex-col items-end gap-1 min-w-0">
-              <span className="font-label-mono text-[10px] text-outline uppercase tracking-wider truncate max-w-full">LAST_HEARD: {fmtDate(last_heard)}</span>
-              <span className="font-label-mono text-[9px] text-primary uppercase font-bold flex items-center gap-1 truncate max-w-full">
-                <span className="material-symbols-outlined text-[11px] shrink-0">sync</span>
-                SYNCHRONIZED DAILY
-              </span>
-            </div>
-          </div>
-        </div>
+        </header>
 
         {/* Main Bento Grid */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
 
           {/* Geospatial Column */}
-          <div className="xl:col-span-4 flex flex-col gap-4 h-full order-2 xl:order-1">
+          <div className="order-1 flex h-full flex-col gap-4 xl:col-span-4 xl:order-1">
             <div className="bg-surface-container-lowest border border-outline-variant flex flex-col h-full">
               <div className="p-3 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
-                <span className="font-label-mono text-[12px] text-on-surface uppercase">GEOSPATIAL_DATA</span>
+                <span className="font-label-mono text-[12px] text-on-surface uppercase">Location</span>
                 <span className="material-symbols-outlined text-outline text-[16px]">my_location</span>
               </div>
               <div className="p-4 flex flex-col gap-4 flex-1">
                 {/* Map placeholder */}
-                <div className="w-full flex-1 bg-surface-variant border border-outline-variant relative overflow-hidden">
+                <div className="relative h-64 min-h-64 w-full flex-1 overflow-hidden rounded-lg border border-outline-variant bg-surface-variant xl:min-h-[420px]">
                   {lat && lon ? (
                     <iframe
                       width="100%"
@@ -201,14 +171,14 @@ export const NodeDetails: React.FC = () => {
           </div>
 
           {/* Metrics & System Column */}
-          <div className="xl:col-span-8 flex flex-col gap-4 order-1 xl:order-2">
+          <div className="order-2 flex flex-col gap-4 xl:col-span-8 xl:order-2">
 
             {/* Telemetry Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {/* Battery */}
               <div className="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between h-32">
                 <div className="flex items-center justify-between">
-                  <span className="font-label-mono text-[11px] text-secondary uppercase">BATTERY_LVL</span>
+                  <span className="font-label-mono text-[11px] text-secondary uppercase">Battery</span>
                   <span className="material-symbols-outlined text-outline text-[18px]">battery_full_alt</span>
                 </div>
                 <div className="mt-auto">
@@ -221,7 +191,7 @@ export const NodeDetails: React.FC = () => {
               {/* Channel Util */}
               <div className="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between h-32">
                 <div className="flex items-center justify-between">
-                  <span className="font-label-mono text-[11px] text-secondary uppercase">CH_UTIL</span>
+                  <span className="font-label-mono text-[11px] text-secondary uppercase">Channel use</span>
                   <span className="material-symbols-outlined text-outline text-[18px]">data_usage</span>
                 </div>
                 <div className="mt-auto">
@@ -234,7 +204,7 @@ export const NodeDetails: React.FC = () => {
               {/* Air Util TX */}
               <div className="bg-surface-container-lowest border border-outline-variant p-4 flex flex-col justify-between h-32">
                 <div className="flex items-center justify-between">
-                  <span className="font-label-mono text-[11px] text-secondary uppercase">AIR_TX_UTIL</span>
+                  <span className="font-label-mono text-[11px] text-secondary uppercase">TX airtime</span>
                   <span className="material-symbols-outlined text-outline text-[18px]">wifi_tethering</span>
                 </div>
                 <div className="mt-auto">
@@ -260,7 +230,7 @@ export const NodeDetails: React.FC = () => {
             {/* System Details Panel */}
             <div className="bg-surface-container-lowest border border-outline-variant flex flex-col flex-1">
               <div className="p-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
-                <span className="font-label-mono text-[12px] text-on-surface uppercase">SYSTEM_DIAGNOSTICS</span>
+                <span className="font-label-mono text-[12px] text-on-surface uppercase">Device details</span>
                 <div className="flex items-center gap-1.5">
                   <span className={`material-symbols-outlined text-[14px] ${has_mqtt ? 'text-primary' : 'text-outline'}`}>
                     {has_mqtt ? 'cloud_done' : 'cloud_off'}
@@ -275,14 +245,14 @@ export const NodeDetails: React.FC = () => {
                 {/* Hardware/Firmware Column */}
                 <div className="p-4 flex flex-col gap-4 min-w-0 w-full">
                   <div className="flex flex-col gap-1 border-b border-outline-variant pb-3 min-w-0 w-full">
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">HARDWAR PLATFORM</span>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">Hardware</span>
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2 break-all min-w-0">
                       <span className="material-symbols-outlined text-[16px] text-outline shrink-0">memory</span>
                       <span className="break-all min-w-0">{fmt(hardware)}</span>
                     </span>
                   </div>
                   <div className="flex flex-col gap-1 border-b border-outline-variant pb-3 min-w-0 w-full">
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">FIRMWARE VER</span>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">Firmware</span>
                     <span className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-2 break-all min-w-0">
                       <span className="material-symbols-outlined text-[16px] text-outline shrink-0">terminal</span>
                       <span className="break-all min-w-0">{fw_version || FALLBACK_VALUE}</span>
@@ -366,166 +336,36 @@ export const NodeDetails: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Role Recommendation Optimizer */}
-        {betweenness_centrality != null && (
-          <div className="bg-surface-container-lowest border border-outline-variant flex flex-col">
-            <div className="p-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
-              <span className="font-label-mono text-[12px] text-on-surface uppercase">ROLE_RECOMMENDATION_OPTIMIZER</span>
-              <span className="material-symbols-outlined text-[16px] text-outline">verified_user</span>
-            </div>
-            <div className="p-6 flex flex-col gap-6">
-
-              {/* Status Banner */}
-              <div className={`p-4 border flex flex-col md:flex-row gap-4 items-start md:items-center rounded-sm ${role_mismatch
-                  ? 'bg-[#FEF3C7] border-[#FDE68A] text-black'
-                  : 'bg-[#D1FAE5] border-[#A7F3D0] text-black'
-                }`}>
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-black/5 shrink-0 text-black">
-                  <span className="material-symbols-outlined text-[28px] text-black">
-                    {role_mismatch ? 'info' : 'check_circle'}
-                  </span>
-                </div>
-                <div className="flex-1 text-black">
-                  <h4 className="font-bold text-[16px] leading-tight text-black">
-                    {role_mismatch ? 'Role Reconfiguration Suggestion' : 'Optimal Role Configuration'}
-                  </h4>
-                  <p className="text-[13px] opacity-95 mt-1 text-black">
-                    {role_mismatch
-                      ? `This node is currently configured as ${role}. Based on its topological position, the automatically suggested role is ${suggested_role}.`
-                      : `The node's configured role (${role}) perfectly matches its topological position in the network.`}
-                  </p>
-                </div>
-                {role_mismatch && (
-                  <div className="bg-black text-white px-3 py-1 font-label-mono text-[11px] font-black uppercase tracking-wider rounded-sm shrink-0">
-                    Evaluate Reconfiguration
+              {betweenness_centrality != null && (
+                <div className="border-t border-outline-variant px-4 py-3">
+                  <h3 className="mb-3 text-xs font-semibold text-on-surface-variant">Role & importance</h3>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                    <div className="min-w-0 rounded-lg bg-surface-container-low px-3 py-2">
+                      <span className="block text-[10px] uppercase tracking-wide text-secondary">Current role</span>
+                      <span className="mt-1 block break-words text-sm font-semibold text-on-surface">{fmt(role)}</span>
+                    </div>
+                    <div className={`min-w-0 rounded-lg px-3 py-2 ${role_mismatch ? 'bg-amber-50' : 'bg-surface-container-low'}`}>
+                      <span className="block text-[10px] uppercase tracking-wide text-secondary">Suggested role</span>
+                      <span className={`mt-1 block break-words text-sm font-semibold ${role_mismatch ? 'text-amber-700' : 'text-on-surface'}`}>{fmt(suggested_role)}</span>
+                    </div>
+                    <div className="min-w-0 rounded-lg bg-surface-container-low px-3 py-2">
+                      <span className="block text-[10px] uppercase tracking-wide text-secondary">Centrality score</span>
+                      <span className="mt-1 block text-sm font-semibold tabular-nums text-on-surface">{betweenness_centrality.toFixed(6)}</span>
+                    </div>
                   </div>
-                )}
-              </div>
-
-              {/* Side-by-side Role Comparison & Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                {/* Current Role Card */}
-                <div className="p-4 border border-outline-variant bg-surface-container-low flex flex-col justify-between h-28">
-                  <div>
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider block">Current Role</span>
-                    <span className="font-headline-md text-headline-md text-on-surface font-black uppercase mt-1 block">
-                      {role}
-                    </span>
+                </div>
+              )}
+              <div className="border-t border-outline-variant px-4 py-3">
+                <h3 className="mb-3 text-xs font-semibold text-on-surface-variant">Importance</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="rounded-lg bg-surface-container-low px-3 py-2">
+                    <span className="block text-[10px] uppercase tracking-wide text-secondary">Incoming links</span>
+                    <span className="mt-1 block text-lg font-semibold tabular-nums text-on-surface">{(selectedNodeDetails as any).in_degree ?? FALLBACK_VALUE}</span>
                   </div>
-                  <span className="text-[11px] text-outline font-label-mono uppercase tracking-wider font-semibold">Configured on Device</span>
-                </div>
-
-                {/* Suggested Role Card */}
-                <div className={`p-4 border bg-surface-container-low flex flex-col justify-between h-28 ${role_mismatch ? 'border-amber-500/50 border-l-4 border-l-amber-500' : 'border-outline-variant'
-                  }`}>
-                  <div>
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider block">Suggested Role</span>
-                    <span className={`font-headline-md text-headline-md font-black uppercase mt-1 block ${role_mismatch ? 'text-amber-500 font-bold' : 'text-[#10B981] font-bold'
-                      }`}>
-                      {suggested_role}
-                    </span>
+                  <div className="rounded-lg bg-surface-container-low px-3 py-2">
+                    <span className="block text-[10px] uppercase tracking-wide text-secondary">Outgoing links</span>
+                    <span className="mt-1 block text-lg font-semibold tabular-nums text-on-surface">{(selectedNodeDetails as any).out_degree ?? FALLBACK_VALUE}</span>
                   </div>
-                  <span className="text-[11px] text-outline font-label-mono uppercase tracking-wider font-semibold">Topology Recommendation</span>
-                </div>
-
-                {/* Betweenness Centrality Score Card */}
-                <div className="p-4 border border-outline-variant bg-surface-container-low flex flex-col justify-between h-28">
-                  <div>
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider block">Centrality Score</span>
-                    <span className="font-data-tabular text-[24px] font-bold text-on-surface mt-1 block">
-                      {betweenness_centrality.toFixed(6)}
-                    </span>
-                  </div>
-                  <span className="text-[10px] text-outline font-label-mono uppercase tracking-wider font-semibold">
-                    Threshold: {role_threshold ? role_threshold.toFixed(6) : '0.000000'} (Top 5%)
-                  </span>
-                </div>
-
-              </div>
-
-              {/* Centrality Visual Progress Bar */}
-              <div className="border border-outline-variant bg-surface-container-low p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="font-label-mono text-[11px] text-secondary uppercase tracking-wider">Network Centrality Spectrum</span>
-                  <span className="text-[11px] font-label-mono text-outline font-semibold">
-                    {betweenness_centrality >= (role_threshold || 0) ? 'Top 5% (Router Zone)' : 'Client Zone'}
-                  </span>
-                </div>
-
-                {/* Progress bar container */}
-                <div className="relative w-full h-3 bg-surface-container-highest border border-outline-variant rounded-full overflow-visible my-4">
-                  {/* Threshold Mark Indicator */}
-                  <div className="absolute left-[95%] top-[-8px] bottom-[-8px] w-0.5 bg-red-600 z-10" title="95th Percentile (Router Threshold)">
-                    <span className="absolute bottom-[16px] left-1/2 -translate-x-1/2 bg-red-600 text-white font-label-mono text-[9px] px-1 py-0.5 rounded-sm whitespace-nowrap font-bold">
-                      Router Threshold (Top 5%)
-                    </span>
-                  </div>
-
-                  {/* Background segments */}
-                  <div className="absolute left-0 right-[5%] h-full bg-[#10B981]/20 rounded-l-full"></div>
-                  <div className="absolute left-[95%] right-0 h-full bg-red-500/20 rounded-r-full"></div>
-
-                  {/* Node Value Cursor */}
-                  {(() => {
-                    const th = role_threshold || 0.0001;
-                    const percentagePosition = betweenness_centrality < th
-                      ? (betweenness_centrality / th) * 95
-                      : 95 + Math.min(((betweenness_centrality - th) / Math.max(1 - th, 0.0001)) * 5, 4);
-                    return (
-                      <div
-                        className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-on-surface border-2 border-white shadow-md rounded-full z-20 transition-all duration-700 cursor-help"
-                        style={{ left: `${Math.min(Math.max(percentagePosition, 0.5), 99.5)}%` }}
-                        title={`Your node's betweenness centrality: ${betweenness_centrality.toFixed(6)}`}
-                      >
-                        <div className="absolute top-[16px] left-1/2 -translate-x-1/2 bg-on-surface text-surface-container-lowest font-label-mono text-[9px] px-1 py-0.5 rounded-sm whitespace-nowrap font-bold">
-                          {betweenness_centrality.toFixed(4)}
-                        </div>
-                      </div>
-                    );
-                  })()}
-                </div>
-
-                <div className="flex justify-between font-label-mono text-[9px] text-outline uppercase tracking-wider mt-4">
-                  <span>0.0 (Low Transit)</span>
-                  <span>1.0 (Maximum Transit)</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        )}
-
-        {/* Network Graph Metrics Box */}
-        <div className="bg-surface-container-lowest border border-outline-variant flex flex-col">
-          <div className="p-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
-            <span className="font-label-mono text-[12px] text-on-surface uppercase">NETWORK_GRAPH_METRICS</span>
-            <span className="material-symbols-outlined text-[16px] text-outline">hub</span>
-          </div>
-          <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-surface-container-low border border-outline-variant p-4 flex flex-col justify-between h-24">
-              <div className="flex items-center justify-between">
-                <span className="font-label-mono text-[11px] text-secondary uppercase">IN_DEGREE</span>
-                <span className="material-symbols-outlined text-outline text-[18px]">south_east</span>
-              </div>
-              <div className="mt-auto">
-                <div className="font-data-tabular text-[28px] font-bold text-on-surface leading-none">
-                  {(selectedNodeDetails as any).in_degree ?? FALLBACK_VALUE}
-                </div>
-              </div>
-            </div>
-            <div className="bg-surface-container-low border border-outline-variant p-4 flex flex-col justify-between h-24">
-              <div className="flex items-center justify-between">
-                <span className="font-label-mono text-[11px] text-secondary uppercase">OUT_DEGREE</span>
-                <span className="material-symbols-outlined text-outline text-[18px]">north_east</span>
-              </div>
-              <div className="mt-auto">
-                <div className="font-data-tabular text-[28px] font-bold text-on-surface leading-none">
-                  {(selectedNodeDetails as any).out_degree ?? FALLBACK_VALUE}
                 </div>
               </div>
             </div>
@@ -543,7 +383,7 @@ export const NodeDetails: React.FC = () => {
             <div className="p-3 border-b border-outline-variant flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-[18px] text-secondary group-hover:text-primary transition-colors">share</span>
-                <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold group-hover:text-primary transition-colors">LINKED_GATEWAY_NODE</span>
+                <span className="font-label-mono text-[12px] text-on-surface uppercase font-bold group-hover:text-primary transition-colors">Connected gateway</span>
               </div>
               <span className="material-symbols-outlined text-[18px] text-outline group-hover:text-primary animate-pulse">arrow_forward</span>
             </div>
@@ -582,7 +422,7 @@ export const NodeDetails: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">CH_UTIL</span>
+                    <span className="font-label-mono text-[10px] text-secondary uppercase tracking-wider">Channel use</span>
                     <div className="font-data-tabular text-[13px] text-on-surface font-semibold flex items-center gap-1">
                       <span className="material-symbols-outlined text-[14px] text-outline">data_usage</span>
                       {fmtFloat(gwDm?.channel_utilization, 2, '%')}

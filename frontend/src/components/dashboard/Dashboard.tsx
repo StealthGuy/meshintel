@@ -4,7 +4,6 @@ import { useAppStore } from '../../store/useAppStore';
 import { FALLBACK_VALUE } from '../../utils/formatters';
 import { KpiBentoCard } from './KpiBentoCard';
 import { CssHistogram } from './CssHistogram';
-import { RoleConfigurationOptimizer } from './RoleConfigurationOptimizer';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -13,21 +12,16 @@ export const Dashboard: React.FC = () => {
     fetchReport, 
     setSelectedNodeDetails, 
     useMqttReport, 
-    setUseMqttReport,
-    roleSuggestions,
-    fetchRoleSuggestions
+    setUseMqttReport
   } = useAppStore();
 
   useEffect(() => {
     if (!report) {
       fetchReport();
     }
-    if (!roleSuggestions) {
-      fetchRoleSuggestions();
-    }
-  }, [report, fetchReport, roleSuggestions, fetchRoleSuggestions]);
+  }, [report, fetchReport]);
 
-  if (!report || !roleSuggestions) {
+  if (!report) {
     return (
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -247,9 +241,6 @@ export const Dashboard: React.FC = () => {
             </p>
           </div>
         </section>
-
-        {/* Role Configuration Optimizer */}
-        <RoleConfigurationOptimizer />
 
         {/* Charts & Tables Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { AlgorithmSelector } from '../dashboard/AlgorithmSelector';
-import { MetricsGrid } from '../dashboard/MetricsGrid';
 import { useAppStore } from '../../store/useAppStore';
 
 export const Sidebar: React.FC = () => {
@@ -40,6 +39,19 @@ export const Sidebar: React.FC = () => {
         >
           <span className="material-symbols-outlined text-[20px]">graph_3</span>
           <span>Network Topology</span>
+        </NavLink>
+        <NavLink
+          to="/role-optimizer"
+          onClick={handleNavClick}
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 mx-2 mb-1 rounded font-semibold transition-colors duration-150 ` +
+            (isActive
+              ? `bg-white dark:bg-slate-900 border-l-2 border-blue-800 dark:border-blue-500 text-blue-800 dark:text-blue-400`
+              : `text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800`)
+          }
+        >
+          <span className="material-symbols-outlined text-[20px]">verified_user</span>
+          <span>Role Optimizer</span>
         </NavLink>
         <NavLink
           to="/dashboard"
@@ -94,11 +106,9 @@ export const Sidebar: React.FC = () => {
         )}
       </div>
 
-      {/* Custom Analyst Content */}
       {isMapView && (
-        <div className="px-4 py-4 flex flex-col gap-6 bg-surface-container-lowest">
+        <div className="px-4 py-4 bg-surface-container-lowest">
           <AlgorithmSelector />
-          <MetricsGrid />
         </div>
       )}
 

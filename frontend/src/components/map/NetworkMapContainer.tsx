@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { useLocation, useNavigate } from 'react-router-dom';
 import L from 'leaflet';
 import { NodeInfoCard } from './NodeInfoCard';
 import { GeoJsonLayer } from './GeoJsonLayer';
@@ -12,8 +13,10 @@ const ITALY_BOUNDS: L.LatLngBoundsExpression = [
 ];
 
 export const NetworkMapContainer: React.FC = () => {
-  const { activeTileLayer, setActiveTileLayer, fetchMapData, activeAlgorithm, isLoadingMap, isSidebarOpen } = useAppStore();
+  const { activeTileLayer, setActiveTileLayer, fetchMapData, activeAlgorithm, isLoadingMap, isSidebarOpen, geoJsonData, setSelectedNodeDetails, setActiveAlgorithm } = useAppStore();
   const [map, setMap] = useState<L.Map | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Only fetch if we don't have data yet. 
@@ -22,6 +25,31 @@ export const NetworkMapContainer: React.FC = () => {
       fetchMapData(activeAlgorithm);
     }
   }, [fetchMapData, activeAlgorithm]);
+
+  useEffect(() => {
+    const targetId = new URLSearchParams(location.search).get('node');
+    if (!targetId || !map || !geoJsonData) return;
+    if (activeAlgorithm !== 'raw') {
+      setActiveAlgorithm('raw');
+      return;
+    }
+
+    const feature = geoJsonData.features?.find((item: any) =>
+      item?.properties?.type === 'node' && String(item.id ?? item.properties?.id) === targetId,
+    );
+    if (!feature) return;
+
+    setSelectedNodeDetails({
+      ...feature.properties,
+      id: String(feature.id ?? feature.properties?.id ?? targetId),
+      long_name: feature.properties?.long_name || targetId,
+    });
+    const coordinates = feature.geometry?.coordinates;
+    if (Array.isArray(coordinates) && coordinates.length >= 2) {
+      map.flyTo([coordinates[1], coordinates[0]], Math.max(map.getZoom(), 15), { duration: 1 });
+    }
+    navigate('/map', { replace: true });
+  }, [location.search, map, geoJsonData, activeAlgorithm, setActiveAlgorithm, setSelectedNodeDetails, navigate]);
 
   useEffect(() => {
     if (map) {
