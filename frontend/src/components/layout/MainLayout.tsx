@@ -10,7 +10,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { isSidebarOpen, toggleSidebar } = useAppStore();
 
   return (
-    <div className="bg-background text-on-background min-h-screen print:min-h-fit flex overflow-hidden print:overflow-visible print:block dark">
+    <div className="fixed inset-0 bg-background text-on-background h-[100dvh] w-full min-h-0 print:static print:min-h-fit flex overflow-hidden print:overflow-visible print:block dark">
       {/* Floating Toggle Button */}
       <button
         onClick={toggleSidebar}
@@ -32,7 +32,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         />
       )}
 
-      <main className={`transition-all duration-300 ease-in-out ml-0 ${isSidebarOpen ? 'md:ml-64' : ''} print:ml-0 flex-1 h-screen print:h-auto relative bg-black flex flex-col print:block`}>
+      <main className={`transition-all duration-300 ease-in-out ml-0 ${isSidebarOpen ? 'md:ml-64' : ''} print:ml-0 flex-1 h-[100dvh] min-h-0 overflow-hidden print:h-auto relative bg-black flex flex-col print:block`}>
         {/* <TopBar /> */}
         {children}
       </main>

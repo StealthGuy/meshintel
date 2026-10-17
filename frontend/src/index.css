@@ -139,6 +139,34 @@
   transform: scale(2.3);
 }
 
+/* Marker clusters on the topology map */
+.node-cluster {
+  background: rgba(37, 99, 235, 0.22);
+  border: 1px solid rgba(96, 165, 250, 0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.12);
+}
+
+.node-cluster-count {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #1d4ed8;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  font: 700 11px/1 Inter, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.node-cluster-medium .node-cluster-count { background: #1e40af; }
+.node-cluster-large .node-cluster-count { background: #172554; }
+
 @media print {
   @page {
     size: A4 portrait;
