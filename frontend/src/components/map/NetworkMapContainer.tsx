@@ -160,7 +160,7 @@ export const NetworkMapContainer: React.FC = () => {
 
       {/* Center Focus Placeholder */}
       {isLoadingMap && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 bg-black/50 backdrop-blur-sm">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30 bg-black/50 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-2 opacity-80">
             <span className="material-symbols-outlined text-blue-500 text-4xl animate-spin" style={{ fontVariationSettings: "'wght' 200" }}>sync</span>
             <div className="flex flex-col items-center">

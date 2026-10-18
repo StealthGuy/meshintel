@@ -78,7 +78,7 @@ export const GeoJsonLayer: React.FC = () => {
       const icon = isRouter
         ? '<span class="material-symbols-outlined">cell_tower</span>'
         : '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>';
-      const markerColor = isMismatch ? '#ff3347' : '#39ff14';
+      const markerColor = isMismatch ? '#ff3347' : '#4f7cac';
       const statusClass = isMismatch ? 'mesh-node-marker-mismatch' : 'mesh-node-marker-aligned';
       return L.divIcon({
         className: 'node-icon-container',

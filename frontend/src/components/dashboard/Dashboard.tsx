@@ -271,7 +271,7 @@ export const Dashboard: React.FC = () => {
 
             <div className="h-64 shrink-0">
               <CssHistogram
-                title="Distance Distribution"
+                title="Hop Distance Distribution"
                 icon="route"
                 data={Object.values(distances.distribution || {})}
                 badgeText={`AVG PATH: ${distances.avg_path_length ? distances.avg_path_length.toFixed(2) : FALLBACK_VALUE}`}

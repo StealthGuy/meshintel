@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AlgorithmSelector } from '../dashboard/AlgorithmSelector';
 import { useAppStore } from '../../store/useAppStore';
 
@@ -15,14 +15,14 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <nav className={`fixed left-0 top-0 bottom-0 flex flex-col bg-slate-50 dark:bg-slate-950 font-sans text-sm antialiased tracking-tight h-screen w-64 border-r border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800 shadow-none z-50 transition-transform duration-300 ease-in-out print:hidden ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+    <nav className={`fixed left-0 top-0 bottom-0 flex flex-col bg-slate-50 dark:bg-slate-950 font-sans text-sm antialiased tracking-tight h-[100dvh] w-64 border-r border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800 shadow-none z-50 transition-transform duration-300 ease-in-out print:hidden ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       {/* Header */}
       <div className="p-4 flex items-center gap-3 shrink-0">
         <div className="w-8 h-8 shrink-0"></div> {/* Spacer for the floating button */}
-        <div className="flex flex-col">
+        <Link to="/" className="flex flex-col rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Go to Meshintel home">
           <span className="text-lg font-mono font-black tracking-[0.2em] text-slate-900 dark:text-white uppercase leading-tight">MESHINTEL</span>
           <span className="text-[10px] font-mono tracking-widest text-slate-500 uppercase">NETWORK ANALYST v1.0</span>
-        </div>
+        </Link>
       </div>
 
       {/* Navigation Tabs */}
@@ -112,7 +112,7 @@ export const Sidebar: React.FC = () => {
         </div>
       )}
 
-      <div className="p-4 shrink-0 flex flex-col gap-2">
+      <div className="shrink-0 flex flex-col gap-2 px-4 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         <button
           onClick={() => {
             useAppStore.getState().fetchReport(true);

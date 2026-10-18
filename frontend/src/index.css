@@ -118,7 +118,7 @@
   border: 2px solid #f8fafc;
   border-radius: 50%;
   background: var(--node-marker-color);
-  color: #052e16;
+  color: #fff;
   box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8), 0 0 10px color-mix(in srgb, var(--node-marker-color) 65%, transparent);
   transition: transform 120ms ease, box-shadow 120ms ease;
 }
